@@ -11,6 +11,7 @@ import java.util.Map.Entry;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -47,9 +48,10 @@ public class UUIDFinder
 			uuids.put(entry.getKey(), entry.getValue().toString());
 	}
 	
-	public void saveUUIDs() throws IOException
+	public void saveUUIDs() throws FileNotFoundException, IOException, InvalidConfigurationException
 	{
 		YamlConfiguration players = new YamlConfiguration();
+		players.load(file);
 		for (Entry<String, String> entry : uuids.entrySet())
 			players.set(entry.getKey(), entry.getValue());
 		
@@ -72,6 +74,18 @@ public class UUIDFinder
 				return Bukkit.getPlayer(UUID.fromString(entry.getKey()));
 		
 		return null;
+	}
+	
+	public OfflinePlayer getOfflinePlayer(String player)
+	{
+		if (!uuids.containsValue(player))
+			return null;
+		
+		for (Entry<String, String> entry : uuids.entrySet())
+			if (entry.getValue().equals(player))
+				return Bukkit.getOfflinePlayer(UUID.fromString(entry.getKey()));
+		
+		return getPlayer(player);
 	}
 	
 	public void addPlayer(Player player)
