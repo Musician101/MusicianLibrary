@@ -85,7 +85,7 @@ public class UUIDFinder
 			if (entry.getValue().equals(player))
 				return Bukkit.getOfflinePlayer(UUID.fromString(entry.getKey()));
 		
-		return getPlayer(player);
+		return null;
 	}
 	
 	public void addPlayer(Player player)
