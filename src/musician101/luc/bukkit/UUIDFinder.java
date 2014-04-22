@@ -1,4 +1,4 @@
-package musician101.bukkit;
+package musician101.luc.bukkit;
 
 import java.io.BufferedWriter;
 import java.io.File;
