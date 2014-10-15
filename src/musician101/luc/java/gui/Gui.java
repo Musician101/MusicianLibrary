@@ -1,10 +1,13 @@
-package musician101.luc.gui;
+package musician101.luc.java.gui;
 
 import java.awt.Dimension;
+import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -13,6 +16,23 @@ import javax.swing.table.TableModel;
 
 public class Gui
 {
+	@SuppressWarnings("serial")
+	public static class Button extends JButton
+	{
+		public Button(String text, int x, int y, int w, int h)
+		{
+			this(text, x, y, w, h, null);
+		}
+		
+		public Button(String text, int x, int y, int w, int h, ActionListener listener)
+		{
+			super(text);
+			setBounds(x, y, w, h);
+			if (listener != null)
+				addActionListener(listener);
+		}
+	}
+	
 	@SuppressWarnings({ "serial", "rawtypes" })
 	public static class ComboBox extends JComboBox
 	{
@@ -33,6 +53,16 @@ public class Gui
 		{
 			for (Object item : items)
 				addItem(item);
+		}
+	}
+	
+	@SuppressWarnings("serial")
+	public static class Label extends JLabel
+	{
+		public Label(String text, int x, int y, int w, int h)
+		{
+			super(text);
+			setBounds(x, y, w, h);
 		}
 	}
 	
