@@ -2,9 +2,9 @@ package musician101.luc.bukkit.command;
 
 import java.util.List;
 
-import org.bukkit.entity.Player;
+import org.bukkit.command.CommandSender;
 
-public interface ICommand
+public interface ISubCommand
 {
 	String getName();
 	
@@ -16,5 +16,5 @@ public interface ICommand
 	
 	List<String> getAliases();
 	
-	void execute(Player player, List<String> args) throws Exception;
+	void execute(CommandSender sender, List<String> args) throws Exception;
 }

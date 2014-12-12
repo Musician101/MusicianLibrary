@@ -8,6 +8,10 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -19,6 +23,13 @@ public class Gui
 	@SuppressWarnings("serial")
 	public static class Button extends JButton
 	{
+		public Button(int x, int y, int w, int h, ActionListener listener)
+		{
+			super();
+			setBounds(x, y, w, h);
+			addActionListener(listener);
+		}
+		
 		public Button(String text, int x, int y, int w, int h)
 		{
 			this(text, x, y, w, h, null);
@@ -59,10 +70,11 @@ public class Gui
 	@SuppressWarnings("serial")
 	public static class Label extends JLabel
 	{
-		public Label(String text, int x, int y, int w, int h)
+		public Label(String text, int x, int y)
 		{
 			super(text);
-			setBounds(x, y, w, h);
+			setBounds(x, y, 0, 0);
+			setSize(getPreferredSize());
 		}
 	}
 	
@@ -83,6 +95,13 @@ public class Gui
 			super(table);
 			setBounds(x, y, w, h);
 		}
+		
+		@SuppressWarnings("rawtypes")
+		public ScrollPane(JList list, int x, int y, int w, int h)
+		{
+			super(list);
+			setBounds(x, y, w, h);
+		}
 	}
 	
 	@SuppressWarnings("serial")
@@ -101,6 +120,41 @@ public class Gui
 		public TextField(int x, int y, int w, int h)
 		{
 			setBounds(x, y, w, h);
+		}
+	}
+	
+	@SuppressWarnings("serial")
+	public static class MenuBar extends JMenuBar
+	{
+		public MenuBar(int w, int h, List<Menu> menus)
+		{
+			super();
+			setBounds(0, 0, w, h);
+			for (Menu menu : menus)
+				add(menu);
+		}
+	}
+	
+	@SuppressWarnings("serial")
+	public static class Menu extends JMenu
+	{
+		public Menu(String name, List<MenuItem> items)
+		{
+			super();
+			setText(name);
+			for (MenuItem item : items)
+				add(item);
+		}
+	}
+	
+	@SuppressWarnings("serial")
+	public static class MenuItem extends JMenuItem
+	{
+		public MenuItem(String name, ActionListener listener)
+		{
+			super();
+			setText(name);
+			addActionListener(listener);
 		}
 	}
 }
