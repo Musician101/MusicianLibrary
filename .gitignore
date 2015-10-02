@@ -29,3 +29,4 @@ local.properties
 .buildpath
 /target
 src/musician101/luc/bukkit/location/Region.java
+lib/

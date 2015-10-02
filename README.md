@@ -1,4 +1,4 @@
-Musician101's Library of Useful Classes
+Common
 ===================
 
-Just a library of various classes I use to help make coding easier.
+A group of common classes used for my various projects.

@@ -1,4 +1,4 @@
-package musician101.luc.bukkit;
+package musician101.common.minecraft.spigot;
 
 import java.io.BufferedWriter;
 import java.io.File;

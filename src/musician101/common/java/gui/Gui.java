@@ -1,4 +1,4 @@
-package musician101.luc.java.gui;
+package musician101.common.java.gui;
 
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
