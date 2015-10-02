@@ -1,4 +1,4 @@
-package musician101.common.minecraft.forge;
+package musician101.common.java.minecraft.forge;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
@@ -8,7 +8,6 @@ import net.minecraft.util.IChatComponent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public abstract class AbstractForgeCommand extends CommandBase

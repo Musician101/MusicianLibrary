@@ -1,4 +1,4 @@
-package musician101.common.minecraft.spigot;
+package musician101.common.java.minecraft.spigot;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;

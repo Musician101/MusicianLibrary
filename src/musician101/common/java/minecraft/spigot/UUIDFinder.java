@@ -1,4 +1,4 @@
-package musician101.common.minecraft.spigot;
+package musician101.common.java.minecraft.spigot;
 
 import java.io.BufferedWriter;
 import java.io.File;
