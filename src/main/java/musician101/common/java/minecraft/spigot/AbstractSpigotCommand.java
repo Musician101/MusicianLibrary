@@ -20,16 +20,16 @@ public abstract class AbstractSpigotCommand
     String playerOnly;
     String usage;
 
-    protected AbstractSpigotCommand(String name, String description, String usage, int minArgs, String permission, boolean isPlayerOnly, String noPermission, String playerOnly)
+    protected AbstractSpigotCommand(String name, String description, List<String> usage, int minArgs, String permission, boolean isPlayerOnly, String noPermission, String playerOnly)
     {
         this(name, description, usage, minArgs, permission, isPlayerOnly, noPermission, playerOnly, new ArrayList<>());
     }
 
-	protected AbstractSpigotCommand(String name, String description, String usage, int minArgs, String permission, boolean isPlayerOnly, String noPermission, String playerOnly, List<AbstractSpigotCommand> subCommands)
+	protected AbstractSpigotCommand(String name, String description, List<String> usage, int minArgs, String permission, boolean isPlayerOnly, String noPermission, String playerOnly, List<AbstractSpigotCommand> subCommands)
 	{
 		this.name = name;
         this.description = description;
-        this.usage = usage;
+        this.usage = parseUsage(usage);
         this.minArgs = minArgs;
         this.isPlayerOnly = isPlayerOnly;
 		this.permission = permission;
@@ -45,7 +45,8 @@ public abstract class AbstractSpigotCommand
             usage += " " + ChatColor.RESET + usageList.get(1);
 
         if (usageList.size() > 2)
-            usage += " " + ChatColor.AQUA + usageList.get(2);
+            for (int x = 2; x > usageList.size() - 1; x++)
+                usage += " " + ChatColor.GREEN + usageList.get(x);
 
         return usage;
     }
@@ -74,12 +75,21 @@ public abstract class AbstractSpigotCommand
         return isPlayerOnly;
     }
 
+    protected boolean minArgsMet(CommandSender sender, int args, String message)
+    {
+        if (args >= getMinArgs())
+            return true;
+
+        sender.sendMessage(message);
+        return false;
+    }
+
     public int getMinArgs()
     {
         return minArgs;
     }
 
-    protected List<AbstractSpigotCommand> getSubCommands()
+    public List<AbstractSpigotCommand> getSubCommands()
     {
         return subCommands;
     }
@@ -101,7 +111,7 @@ public abstract class AbstractSpigotCommand
 
     public String getCommandHelpInfo()
     {
-        return getUsage()  + " " + ChatColor.GREEN + getDescription();
+        return getUsage()  + " " + ChatColor.AQUA + getDescription();
     }
 
 	public String getPermission()
