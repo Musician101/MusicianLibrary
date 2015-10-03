@@ -1,4 +1,4 @@
-package musician101.common.java.minecraft.spigot;
+package musician101.common.java.minecraft.spigot.command;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -20,12 +20,12 @@ public abstract class AbstractSpigotCommand
     String playerOnly;
     String usage;
 
-    protected AbstractSpigotCommand(String name, String description, List<String> usage, int minArgs, String permission, boolean isPlayerOnly, String noPermission, String playerOnly)
+    protected AbstractSpigotCommand(String name, String description, List<CommandArgument> usage, int minArgs, String permission, boolean isPlayerOnly, String noPermission, String playerOnly)
     {
         this(name, description, usage, minArgs, permission, isPlayerOnly, noPermission, playerOnly, new ArrayList<>());
     }
 
-	protected AbstractSpigotCommand(String name, String description, List<String> usage, int minArgs, String permission, boolean isPlayerOnly, String noPermission, String playerOnly, List<AbstractSpigotCommand> subCommands)
+	protected AbstractSpigotCommand(String name, String description, List<CommandArgument> usage, int minArgs, String permission, boolean isPlayerOnly, String noPermission, String playerOnly, List<AbstractSpigotCommand> subCommands)
 	{
 		this.name = name;
         this.description = description;
@@ -38,15 +38,15 @@ public abstract class AbstractSpigotCommand
         this.subCommands = subCommands;
 	}
 
-    private static String parseUsage(List<String> usageList)
+    private static String parseUsage(List<CommandArgument> usageList)
     {
-        String usage = ChatColor.GRAY + usageList.get(0);
+        String usage = ChatColor.GRAY + usageList.get(0).toString();
         if (usageList.size() > 1)
-            usage += " " + ChatColor.RESET + usageList.get(1);
+            usage += " " + ChatColor.RESET + usageList.get(1).toString();
 
         if (usageList.size() > 2)
             for (int x = 2; x > usageList.size() - 1; x++)
-                usage += " " + ChatColor.GREEN + usageList.get(x);
+                usage += " " + ChatColor.GREEN + usageList.get(x).toString();
 
         return usage;
     }
