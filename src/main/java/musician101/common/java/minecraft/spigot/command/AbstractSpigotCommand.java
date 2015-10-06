@@ -1,12 +1,11 @@
 package musician101.common.java.minecraft.spigot.command;
 
-import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public abstract class AbstractSpigotCommand
 {
@@ -25,18 +24,18 @@ public abstract class AbstractSpigotCommand
         this(name, description, usage, minArgs, permission, isPlayerOnly, noPermission, playerOnly, new ArrayList<>());
     }
 
-	protected AbstractSpigotCommand(String name, String description, List<CommandArgument> usage, int minArgs, String permission, boolean isPlayerOnly, String noPermission, String playerOnly, List<AbstractSpigotCommand> subCommands)
-	{
-		this.name = name;
+    protected AbstractSpigotCommand(String name, String description, List<CommandArgument> usage, int minArgs, String permission, boolean isPlayerOnly, String noPermission, String playerOnly, List<AbstractSpigotCommand> subCommands)
+    {
+        this.name = name;
         this.description = description;
         this.usage = parseUsage(usage);
         this.minArgs = minArgs;
         this.isPlayerOnly = isPlayerOnly;
-		this.permission = permission;
+        this.permission = permission;
         this.noPermission = noPermission;
         this.playerOnly = playerOnly;
         this.subCommands = subCommands;
-	}
+    }
 
     private static String parseUsage(List<CommandArgument> usageList)
     {
@@ -111,13 +110,13 @@ public abstract class AbstractSpigotCommand
 
     public String getCommandHelpInfo()
     {
-        return getUsage()  + " " + ChatColor.AQUA + getDescription();
+        return getUsage() + " " + ChatColor.AQUA + getDescription();
     }
 
-	public String getPermission()
-	{
-		return permission;
-	}
+    public String getPermission()
+    {
+        return permission;
+    }
 
     protected String[] moveArguments(String[] args)
     {

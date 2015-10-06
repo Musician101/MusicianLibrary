@@ -1,9 +1,8 @@
 package musician101.common.java.minecraft.spigot.command;
 
-import org.bukkit.ChatColor;
-
 import java.util.Arrays;
 import java.util.List;
+import org.bukkit.ChatColor;
 
 public class CommandArgument
 {
