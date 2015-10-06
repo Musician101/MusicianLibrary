@@ -4,6 +4,8 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 
 import java.util.ArrayList;
@@ -53,6 +55,11 @@ public abstract class AbstractForgeCommand extends CommandBase
     public boolean isUsernameIndex(String[] args, int index)
     {
         return false;
+    }
+
+    public ChatComponentText getCommandHelpInfo()
+    {
+        return new ChatComponentText(usage + " " + EnumChatFormatting.AQUA + description);
     }
 
     public int getMinArgs()
