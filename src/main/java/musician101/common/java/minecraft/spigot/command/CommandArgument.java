@@ -7,8 +7,8 @@ import java.util.List;
 
 public class CommandArgument
 {
-    private String name;
     private final List<Syntax> syntaxes;
+    private String name;
 
     public CommandArgument(AbstractSpigotCommand command)
     {
