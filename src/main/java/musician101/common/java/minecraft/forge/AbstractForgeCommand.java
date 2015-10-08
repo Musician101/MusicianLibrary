@@ -14,19 +14,19 @@ import java.util.List;
 
 public abstract class AbstractForgeCommand extends CommandBase
 {
-    boolean isPlayerOnly;
-    int minArgs;
-    List<AbstractForgeCommand> subCommands;
-    String description;
-    String name;
-    String usage;
+    private final boolean isPlayerOnly;
+    private final int minArgs;
+    private final List<AbstractForgeCommand> subCommands;
+    private final String description;
+    private final String name;
+    private final String usage;
 
-    public AbstractForgeCommand(String name, String description, String usage, int minArgs, boolean isPlayerOnly)
+    protected AbstractForgeCommand(String name, String description, String usage, int minArgs, boolean isPlayerOnly)
     {
         this(name, usage, description, minArgs, isPlayerOnly, new ArrayList<>());
     }
 
-    public AbstractForgeCommand(String name, String description, String usage, int minArgs, boolean isPlayerOnly, List<AbstractForgeCommand> subCommands)
+    protected AbstractForgeCommand(String name, String description, String usage, int minArgs, boolean isPlayerOnly, List<AbstractForgeCommand> subCommands)
     {
         this.name = name;
         this.description = description;

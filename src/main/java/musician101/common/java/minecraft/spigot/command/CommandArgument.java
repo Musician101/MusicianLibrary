@@ -7,8 +7,8 @@ import java.util.List;
 
 public class CommandArgument
 {
-    String name;
-    List<Syntax> syntaxes;
+    private String name;
+    private final List<Syntax> syntaxes;
 
     public CommandArgument(AbstractSpigotCommand command)
     {
@@ -52,6 +52,7 @@ public class CommandArgument
         return name;
     }
 
+    @SuppressWarnings("UnnecessaryEnumModifier")
     public static enum Syntax
     {
         LITERAL,

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class ListUtil<E> extends ArrayList<E>
 {
+    @SafeVarargs
     public ListUtil(E... items)
     {
         super();

@@ -34,7 +34,7 @@ public class Gui
             this(text, x, y, w, h, null);
         }
 
-        public Button(String text, int x, int y, int w, int h, ActionListener listener)
+        public Button(String text, int x, int y, int w, int h, @SuppressWarnings("SameParameterValue") ActionListener listener)
         {
             super(text);
             setBounds(x, y, w, h);
@@ -61,8 +61,7 @@ public class Gui
         @SuppressWarnings("unchecked")
         public void addAll(List<Object> items)
         {
-            for (Object item : items)
-                addItem(item);
+            items.forEach(this::addItem);
         }
     }
 
@@ -129,8 +128,7 @@ public class Gui
         {
             super();
             setBounds(0, 0, w, h);
-            for (Menu menu : menus)
-                add(menu);
+            menus.forEach(this::add);
         }
     }
 
@@ -141,8 +139,7 @@ public class Gui
         {
             super();
             setText(name);
-            for (MenuItem item : items)
-                add(item);
+            items.forEach(this::add);
         }
     }
 

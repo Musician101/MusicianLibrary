@@ -10,15 +10,15 @@ import java.util.List;
 
 public abstract class AbstractSpigotCommand
 {
-    boolean isPlayerOnly;
-    int minArgs;
-    List<AbstractSpigotCommand> subCommands;
-    String description;
-    String name;
-    String noPermission;
-    String permission;
-    String playerOnly;
-    String usage;
+    private final boolean isPlayerOnly;
+    private final int minArgs;
+    private final List<AbstractSpigotCommand> subCommands;
+    private final String description;
+    private final String name;
+    private final String noPermission;
+    private final String permission;
+    private final String playerOnly;
+    private final String usage;
 
     protected AbstractSpigotCommand(String name, String description, List<CommandArgument> usage, int minArgs, String permission, boolean isPlayerOnly, String noPermission, String playerOnly)
     {
