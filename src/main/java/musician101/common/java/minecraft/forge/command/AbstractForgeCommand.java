@@ -1,4 +1,4 @@
-package musician101.common.java.minecraft.forge;
+package musician101.common.java.minecraft.forge.command;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
