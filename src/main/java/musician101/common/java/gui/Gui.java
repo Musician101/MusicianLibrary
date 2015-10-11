@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.List;
 
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class Gui
 {
     @SuppressWarnings("serial")

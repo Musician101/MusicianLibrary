@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class AbstractSpigotCommand
 {
     private final boolean isPlayerOnly;

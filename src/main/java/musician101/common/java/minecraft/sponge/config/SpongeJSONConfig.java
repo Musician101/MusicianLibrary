@@ -10,8 +10,10 @@ import org.spongepowered.api.service.persistence.SerializationService;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked", "unused"})
 public class SpongeJSONConfig extends JSONConfig
 {
     public SpongeJSONConfig()
@@ -43,5 +45,15 @@ public class SpongeJSONConfig extends JSONConfig
     public void setItemStack(String key, ItemStack itemStack)
     {
         put(key, itemStack.toContainer().toString());
+    }
+
+    public List<ItemStack> getItemStackList(SerializationService ss, String key)
+    {
+        return getList(key).stream().map(object -> ss.getBuilder(ItemStack.class).get().build(new MemoryDataContainer().set(DataQuery.of(), object)).get()).collect(Collectors.toList());
+    }
+
+    public void setItemStackList(String key, List<ItemStack> list)
+    {
+        put(key, list.stream().map(itemStack -> itemStack.toContainer().toString()));
     }
 }

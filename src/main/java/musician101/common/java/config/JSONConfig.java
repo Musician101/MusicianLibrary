@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@SuppressWarnings({"unchecked", "SameParameterValue"})
+@SuppressWarnings({"unchecked", "SameParameterValue", "WeakerAccess", "unused"})
 public class JSONConfig extends JSONObject
 {
     public JSONConfig()

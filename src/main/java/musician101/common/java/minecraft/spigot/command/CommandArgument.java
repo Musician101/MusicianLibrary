@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 import java.util.Arrays;
 import java.util.List;
 
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class CommandArgument
 {
     private final List<Syntax> syntaxes;
