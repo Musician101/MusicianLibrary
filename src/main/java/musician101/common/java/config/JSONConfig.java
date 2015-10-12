@@ -103,4 +103,9 @@ public class JSONConfig extends JSONObject
     {
         return containsKey(key) ? getString(key) : defaultValue;
     }
+
+    public void set(String key, Object value)
+    {
+        put(key, value);
+    }
 }
