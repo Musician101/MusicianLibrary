@@ -1,5 +1,6 @@
 package musician101.common.java.config;
 
+import java.util.HashMap;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -65,21 +66,81 @@ public class JSONConfig extends JSONObject
         return (JSONConfig) get(key);
     }
 
-    public <E> List<E> getList(String key)
+    public List getList(String key)
     {
-        List<E> list = new ArrayList<>();
+        List list = new ArrayList<>();
         JSONArray jsonArray = (JSONArray) get(key);
-        jsonArray.forEach(o -> list.add((E) o));
+        jsonArray.forEach(list::add);
+        return list;
+    }
+
+    public List getList(String key, List defaultValue)
+    {
+        return containsKey(key) ? getList(key) : defaultValue;
+    }
+
+    public List<String> getStringList(String key)
+    {
+        List<String> list = new ArrayList<>();
+        getList(key).forEach(object -> list.add(object.toString()));
+        return list;
+    }
+
+    public List<String> getStringList(String key, List<String> defaultValue)
+    {
+        return containsKey(key) ? getStringList(key) : defaultValue;
+    }
+
+    public List<Double> getDoubleList(String key)
+    {
+        List<Double> list = new ArrayList<>();
+        getStringList(key).forEach(string -> list.add(Double.parseDouble(string)));
+        return list;
+    }
+
+    public List<Double> getDoubleList(String key, List<Double> defaultValue)
+    {
+        return containsKey(key) ? getDoubleList(key) : defaultValue;
+    }
+
+    public List<Integer> getIntegerList(String key)
+    {
+        List<Integer> list = new ArrayList<>();
+        getStringList(key).forEach(string -> list.add(Integer.parseInt(string)));
+        return list;
+    }
+
+    public List<Integer> getIntegerList(String key, List<Integer> defaultValue)
+    {
+        return containsKey(key) ? getIntegerList(key) : defaultValue;
+    }
+
+    public List<Map<String, Object>> getMapList(String key)
+    {
+        List<Map<String, Object>> list = new ArrayList<>();
+        getList(key).forEach(object -> {
+            Map objectMap = (Map) object;
+            Map<String, Object> map = new HashMap<>();
+            for (Object obj : objectMap.entrySet())
+                map.put(obj.toString(), objectMap.get(obj));
+
+            list.add(map);
+        });
 
         return list;
     }
 
-    public <K, V> Map<K, V> getMap(String key)
+    public Map<String, Object> getMap(String key)
     {
-        return (Map<K, V>) get(key);
+        Map objectMap = (Map) get(key);
+        Map<String, Object> map = new HashMap<>();
+        for (Object object : objectMap.entrySet())
+            map.put(object.toString(), objectMap.get(object));
+
+        return map;
     }
 
-    public <K, V> Map<K, V> getMap(String key, Map<K, V> defaultValue)
+    public Map<String, Object> getMap(String key, Map<String, Object> defaultValue)
     {
         return containsKey(key) ? getMap(key) : defaultValue;
     }

@@ -58,7 +58,7 @@ public class SpongeJSONConfig extends JSONConfig
 
     public List<ItemStack> getItemStackList(String key)
     {
-        return getList(key).stream().map(object -> getDataView(object, ItemStack.class).get()).collect(Collectors.toList());
+        return getStringList(key).stream().map(object -> getDataView(object, ItemStack.class).get()).collect(Collectors.toList());
     }
 
     public void setItemStackList(String key, List<ItemStack> list)
@@ -68,7 +68,7 @@ public class SpongeJSONConfig extends JSONConfig
 
     public List<PotionEffect> getPotionEffectsList(String key)
     {
-        return getList(key).stream().map(object -> getDataView(object, PotionEffect.class).get()).collect(Collectors.toList());
+        return getStringList(key).stream().map(object -> getDataView(object, PotionEffect.class).get()).collect(Collectors.toList());
     }
 
     public void setPotionEffectsList(String key, List<PotionEffect> list)
