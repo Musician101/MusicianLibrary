@@ -6,6 +6,7 @@ import javax.annotation.Nonnull;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Texts;
+import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.util.command.CommandCallable;
 import org.spongepowered.api.util.command.CommandSource;
 
@@ -16,10 +17,10 @@ public abstract class AbstractSpongeCommand implements CommandCallable
     List<AbstractSpongeCommand> subCommands;
     String name;
     String permission;
-    String usage;
     Text description;
     Text noPermission;
     Text playerOnly;
+    Text usage;
 
     @Override
     public boolean testPermission(@Nonnull CommandSource source)
@@ -50,14 +51,47 @@ public abstract class AbstractSpongeCommand implements CommandCallable
     @Override
     public Optional<? extends Text> getHelp(@Nonnull CommandSource source)
     {
-        Texts.of();
-        return Optional.of();
+        return Optional.of(Texts.join(Texts.of(" "), new Text[]{usage, description}));
     }
 
     @Nonnull
     @Override
     public Text getUsage(@Nonnull CommandSource source)
     {
-        return null;
+        return usage;
+    }
+
+    public int getMinArgs()
+    {
+        return minArgs;
+    }
+
+    public List<AbstractSpongeCommand> getSubCommands()
+    {
+        return subCommands;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public String getPermission()
+    {
+        return permission;
+    }
+
+    protected boolean minArgsMet(CommandSource source, int args, String message)
+    {
+        if (args >= getMinArgs())
+            return true;
+
+        source.sendMessage(Texts.of(message));
+        return false;
+    }
+
+    protected String[] splitArgs(String arguments)
+    {
+        return arguments.split("\\s");
     }
 }
