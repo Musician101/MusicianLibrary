@@ -1,26 +1,46 @@
 package musician101.common.java.minecraft.sponge.command;
 
-import java.util.List;
-import java.util.Optional;
-import javax.annotation.Nonnull;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Texts;
-import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.util.command.CommandCallable;
 import org.spongepowered.api.util.command.CommandSource;
 
+import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+@SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class AbstractSpongeCommand implements CommandCallable
 {
-    boolean isPlayerOnly;
-    int minArgs;
-    List<AbstractSpongeCommand> subCommands;
-    String name;
-    String permission;
-    Text description;
-    Text noPermission;
-    Text playerOnly;
-    Text usage;
+    private final boolean isPlayerOnly;
+    private final int minArgs;
+    private final List<AbstractSpongeCommand> subCommands;
+    private final String name;
+    private final String permission;
+    private final Text description;
+    private final Text noPermission;
+    private final Text playerOnly;
+    private final Text usage;
+
+    public AbstractSpongeCommand(String name, Text description, List<Text> arguments, int minArgs, String permission, boolean isPlayerOnly, Text noPermission, Text playerOnly)
+    {
+        this(name, description, arguments, minArgs, permission, isPlayerOnly, noPermission, playerOnly, new ArrayList<>());
+    }
+
+    public AbstractSpongeCommand(String name, Text description, List<Text> arguments, int minArgs, String permission, boolean isPlayerOnly, Text noPermission, Text playerOnly, List<AbstractSpongeCommand> subCommands)
+    {
+        this.name = name;
+        this.description = description;
+        this.usage = Texts.join(Texts.of(" "), arguments.toArray(new Text[arguments.size()]));
+        this.minArgs = minArgs;
+        this.permission = permission;
+        this.isPlayerOnly = isPlayerOnly;
+        this.noPermission = noPermission;
+        this.playerOnly = playerOnly;
+        this.subCommands = subCommands;
+    }
 
     @Override
     public boolean testPermission(@Nonnull CommandSource source)
