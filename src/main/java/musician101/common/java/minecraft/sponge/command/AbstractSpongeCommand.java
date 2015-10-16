@@ -43,6 +43,23 @@ public abstract class AbstractSpongeCommand implements CommandCallable
         this.subCommands = subCommands;
     }
 
+    @Nonnull
+    @Override
+    public List<String> getSuggestions(@Nonnull CommandSource source, @Nonnull String arguments)
+    {
+        String[] args = splitArgs(arguments);
+        List<String> list = new ArrayList<>();
+        for (AbstractSpongeCommand command : subCommands)
+        {
+            if (args.length == 0)
+                list.add(command.getName());
+            if (command.getName().startsWith(args[args.length - 1]))
+                list.add(command.getName());
+        }
+
+        return list;
+    }
+
     @Override
     public boolean testPermission(@Nonnull CommandSource source)
     {
