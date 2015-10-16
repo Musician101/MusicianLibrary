@@ -1,16 +1,14 @@
 package musician101.common.java.minecraft.sponge.command;
 
-import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.Texts;
-import org.spongepowered.api.text.format.TextColor;
-import org.spongepowered.api.util.command.CommandCallable;
-import org.spongepowered.api.util.command.CommandSource;
-
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javax.annotation.Nonnull;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.Texts;
+import org.spongepowered.api.util.command.CommandCallable;
+import org.spongepowered.api.util.command.CommandSource;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class AbstractSpongeCommand implements CommandCallable
@@ -133,8 +131,17 @@ public abstract class AbstractSpongeCommand implements CommandCallable
         return arguments.split("\\s");
     }
 
-    protected Text parseText(String content, TextColor color)
+    protected String moveArguments(String[] arguments)
     {
-        return Texts.builder(content).color(color).build();
+        StringBuilder sb = new StringBuilder();
+        for (String arg : arguments)
+        {
+            if (sb.length() == 0)
+                sb.append(arg);
+            else
+                sb.append(" ").append(arg);
+        }
+
+        return sb.toString();
     }
 }
