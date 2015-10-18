@@ -1,5 +1,6 @@
 package musician101.common.java.minecraft.sponge.command;
 
+import org.spongepowered.api.text.Text.Literal;
 import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.util.command.CommandException;
 import org.spongepowered.api.util.command.CommandResult;
@@ -15,7 +16,7 @@ public class SpongeHelpCommand extends AbstractSpongeCommand
 
     public SpongeHelpCommand(AbstractSpongeCommand mainCommand, CommandSource source)
     {
-        super("help", Texts.builder("Display help info for ").append(mainCommand.getUsage(source)).build(), Arrays.asList(mainCommand.getUsage(source), Texts.of("help")), 1, "", false, null, null);
+        super("help", Texts.builder("Display help info for ").append(mainCommand.getUsage(source)).build(), Arrays.asList(new SpongeCommandArgument(((Literal) mainCommand.getUsage(source)).getContent()), new SpongeCommandArgument("help")), 1, "", false, null, null);
         this.mainCommand = mainCommand;
     }
 
