@@ -21,12 +21,12 @@ public abstract class AbstractSpigotCommand
     private final String playerOnly;
     private final String usage;
 
-    protected AbstractSpigotCommand(String name, String description, List<CommandArgument> usage, int minArgs, String permission, boolean isPlayerOnly, String noPermission, String playerOnly)
+    protected AbstractSpigotCommand(String name, String description, List<SpigotCommandArgument> usage, int minArgs, String permission, boolean isPlayerOnly, String noPermission, String playerOnly)
     {
         this(name, description, usage, minArgs, permission, isPlayerOnly, noPermission, playerOnly, new ArrayList<>());
     }
 
-    protected AbstractSpigotCommand(String name, String description, List<CommandArgument> usage, int minArgs, String permission, boolean isPlayerOnly, String noPermission, String playerOnly, List<AbstractSpigotCommand> subCommands)
+    protected AbstractSpigotCommand(String name, String description, List<SpigotCommandArgument> usage, int minArgs, String permission, boolean isPlayerOnly, String noPermission, String playerOnly, List<AbstractSpigotCommand> subCommands)
     {
         this.name = name;
         this.description = description;
@@ -39,7 +39,7 @@ public abstract class AbstractSpigotCommand
         this.subCommands = subCommands;
     }
 
-    private static String parseUsage(List<CommandArgument> usageList)
+    private static String parseUsage(List<SpigotCommandArgument> usageList)
     {
         String usage = ChatColor.GRAY + usageList.get(0).toString();
         if (usageList.size() > 1)

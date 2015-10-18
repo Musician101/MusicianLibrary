@@ -1,15 +1,17 @@
 package musician101.common.java.minecraft.sponge.command;
 
-import java.util.Arrays;
-import javax.annotation.Nonnull;
 import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.util.command.CommandException;
 import org.spongepowered.api.util.command.CommandResult;
 import org.spongepowered.api.util.command.CommandSource;
 
+import javax.annotation.Nonnull;
+import java.util.Arrays;
+
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class SpongeHelpCommand extends AbstractSpongeCommand
 {
-    AbstractSpongeCommand mainCommand;
+    private final AbstractSpongeCommand mainCommand;
 
     public SpongeHelpCommand(AbstractSpongeCommand mainCommand, CommandSource source)
     {
