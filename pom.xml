@@ -73,9 +73,9 @@
         <dependency>
             <groupId>net.minecraftforge</groupId>
             <artifactId>forge</artifactId>
-            <version>1.8-11.14.3.1450</version>
+            <version>1.8-11.14.4.1563</version>
             <scope>system</scope>
-            <systemPath>${basedir}/lib/forgeSrc-1.8-11.14.3.1450.jar</systemPath>
+            <systemPath>${basedir}/lib/forgeSrc-1.8-11.14.4.1563.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
