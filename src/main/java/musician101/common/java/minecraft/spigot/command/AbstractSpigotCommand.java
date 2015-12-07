@@ -39,7 +39,7 @@ public abstract class AbstractSpigotCommand
         this.subCommands = subCommands;
     }
 
-    private static String parseUsage(List<SpigotCommandArgument> usageList)
+    private String parseUsage(List<SpigotCommandArgument> usageList)
     {
         String usage = ChatColor.GRAY + usageList.get(0).toString();
         if (usageList.size() > 1)
