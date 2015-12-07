@@ -22,19 +22,32 @@ public abstract class AbstractForgeCommand extends CommandBase
     private final String name;
     private final String usage;
 
-    protected AbstractForgeCommand(String name, String description, String usage, int minArgs, boolean isPlayerOnly)
+    protected AbstractForgeCommand(String name, String description, List<ForgeCommandArgument> usage, int minArgs, boolean isPlayerOnly)
     {
-        this(name, usage, description, minArgs, isPlayerOnly, new ArrayList<>());
+        this(name, description,usage , minArgs, isPlayerOnly, new ArrayList<>());
     }
 
-    protected AbstractForgeCommand(String name, String description, String usage, int minArgs, boolean isPlayerOnly, List<AbstractForgeCommand> subCommands)
+    protected AbstractForgeCommand(String name, String description, List<ForgeCommandArgument> usage, int minArgs, boolean isPlayerOnly, List<AbstractForgeCommand> subCommands)
     {
         this.name = name;
         this.description = description;
-        this.usage = usage;
+        this.usage = parseUsage(usage);
         this.minArgs = minArgs;
         this.isPlayerOnly = isPlayerOnly;
         this.subCommands = subCommands;
+    }
+
+    private String parseUsage(List<ForgeCommandArgument> usageList)
+    {
+        String usage = EnumChatFormatting.GRAY + usageList.get(0).toString();
+        if (usageList.size() > 1)
+            usage += " " + EnumChatFormatting.RESET + usageList.get(1).toString();
+
+        if (usageList.size() > 2)
+            for (int x = 2; x > usageList.size() - 1; x++)
+                usage += " " + EnumChatFormatting.GREEN + usageList.get(x).toString();
+
+        return usage;
     }
 
     @Override
