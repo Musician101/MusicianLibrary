@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@SuppressWarnings({"unchecked", "SameParameterValue", "WeakerAccess", "unused"})
+@SuppressWarnings("unchecked")
 public class JSONConfig extends JSONObject
 {
     public JSONConfig()

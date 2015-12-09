@@ -5,7 +5,6 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.text.format.TextStyles;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
 public class SpongeCommandArgument extends AbstractCommandArgument
 {
     public SpongeCommandArgument(String name)

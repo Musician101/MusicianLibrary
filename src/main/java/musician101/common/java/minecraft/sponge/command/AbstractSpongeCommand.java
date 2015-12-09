@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class AbstractSpongeCommand implements CommandCallable
 {
     private final boolean isPlayerOnly;

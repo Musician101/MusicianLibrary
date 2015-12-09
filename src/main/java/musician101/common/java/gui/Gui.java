@@ -17,10 +17,8 @@ import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.List;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
 public class Gui
 {
-    @SuppressWarnings("serial")
     public static class Button extends JButton
     {
         public Button(int x, int y, int w, int h, ActionListener listener)
@@ -35,7 +33,7 @@ public class Gui
             this(text, x, y, w, h, null);
         }
 
-        public Button(String text, int x, int y, int w, int h, @SuppressWarnings("SameParameterValue") ActionListener listener)
+        public Button(String text, int x, int y, int w, int h, ActionListener listener)
         {
             super(text);
             setBounds(x, y, w, h);
@@ -44,29 +42,25 @@ public class Gui
         }
     }
 
-    @SuppressWarnings({"serial", "rawtypes"})
-    public static class ComboBox extends JComboBox
+    public static class ComboBox<E> extends JComboBox<E>
     {
-        @SuppressWarnings("unchecked")
-        public ComboBox(Object[] items, int x, int y, int w, int h)
+        public ComboBox(E[] items, int x, int y, int w, int h)
         {
             super(items);
             setBounds(x, y, w, h);
         }
 
-        public void addAll(Object[] items)
+        public void addAll(E[] items)
         {
             addAll(Arrays.asList(items));
         }
 
-        @SuppressWarnings("unchecked")
-        public void addAll(List<Object> items)
+        public void addAll(List<E> items)
         {
             items.forEach(this::addItem);
         }
     }
 
-    @SuppressWarnings("serial")
     public static class Label extends JLabel
     {
         public Label(String text, int x, int y)
@@ -77,7 +71,6 @@ public class Gui
         }
     }
 
-    @SuppressWarnings("serial")
     public static class Panel extends JPanel
     {
         public Panel(int w, int h)
@@ -86,7 +79,6 @@ public class Gui
         }
     }
 
-    @SuppressWarnings("serial")
     public static class ScrollPane extends JScrollPane
     {
         public ScrollPane(Table table, int x, int y, int w, int h)
@@ -95,7 +87,6 @@ public class Gui
             setBounds(x, y, w, h);
         }
 
-        @SuppressWarnings("rawtypes")
         public ScrollPane(JList list, int x, int y, int w, int h)
         {
             super(list);
@@ -103,7 +94,6 @@ public class Gui
         }
     }
 
-    @SuppressWarnings("serial")
     public static class Table extends JTable
     {
         public Table(TableModel model)
@@ -113,7 +103,6 @@ public class Gui
         }
     }
 
-    @SuppressWarnings("serial")
     public static class TextField extends JTextField
     {
         public TextField(int x, int y, int w, int h)
@@ -122,7 +111,6 @@ public class Gui
         }
     }
 
-    @SuppressWarnings("serial")
     public static class MenuBar extends JMenuBar
     {
         public MenuBar(int w, int h, List<Menu> menus)
@@ -133,7 +121,6 @@ public class Gui
         }
     }
 
-    @SuppressWarnings("serial")
     public static class Menu extends JMenu
     {
         public Menu(String name, List<MenuItem> items)
@@ -144,7 +131,6 @@ public class Gui
         }
     }
 
-    @SuppressWarnings("serial")
     public static class MenuItem extends JMenuItem
     {
         public MenuItem(String name, ActionListener listener)

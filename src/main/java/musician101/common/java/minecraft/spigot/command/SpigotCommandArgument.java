@@ -3,7 +3,6 @@ package musician101.common.java.minecraft.spigot.command;
 import musician101.common.java.minecraft.command.AbstractCommandArgument;
 import org.bukkit.ChatColor;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
 public class SpigotCommandArgument extends AbstractCommandArgument
 {
     public SpigotCommandArgument(String name)

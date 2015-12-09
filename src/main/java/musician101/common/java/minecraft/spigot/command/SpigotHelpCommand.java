@@ -4,7 +4,6 @@ import java.util.Arrays;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-@SuppressWarnings({"unused", "WeakerAccess"})
 public class SpigotHelpCommand extends AbstractSpigotCommand
 {
     private final AbstractSpigotCommand mainCommand;

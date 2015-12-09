@@ -9,7 +9,6 @@ import org.spongepowered.api.util.command.CommandSource;
 import javax.annotation.Nonnull;
 import java.util.Arrays;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
 public class SpongeHelpCommand extends AbstractSpongeCommand
 {
     private final AbstractSpongeCommand mainCommand;

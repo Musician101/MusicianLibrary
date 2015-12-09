@@ -31,7 +31,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@SuppressWarnings({"unchecked", "SameParameterValue", "WeakerAccess", "unused"})
 public class SpigotJSONConfig extends JSONConfig
 {
     public SpigotJSONConfig()
@@ -467,7 +466,6 @@ public class SpigotJSONConfig extends JSONConfig
         setGeneralItemMeta(meta, metaJson);
     }
 
-    @SuppressWarnings("UnusedReturnValue")
     private SpigotJSONConfig getGeneralItemMeta(ItemMeta im, SpigotJSONConfig metaJson)
     {
         if (metaJson.containsKey("displayName"))
