@@ -6,8 +6,8 @@ import org.spongepowered.api.data.DataQuery;
 import org.spongepowered.api.data.DataSerializable;
 import org.spongepowered.api.data.MemoryDataContainer;
 import org.spongepowered.api.item.inventory.ItemStack;
-import org.spongepowered.api.potion.PotionEffect;
-import org.spongepowered.api.service.persistence.SerializationManager;
+import org.spongepowered.api.effect.potion.PotionEffect;
+import org.spongepowered.api.data.DataManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,17 +17,17 @@ import java.util.stream.Collectors;
 
 public class SpongeJSONConfig extends JSONConfig
 {
-    SerializationManager sm;
+    DataManager dm;
 
     public SpongeJSONConfig()
     {
         super();
     }
 
-    public SpongeJSONConfig(SerializationManager sm)
+    public SpongeJSONConfig(DataManager dm)
     {
         this();
-        this.sm = sm;
+        this.dm = dm;
     }
 
     public static SpongeJSONConfig load(File file) throws IOException, ParseException
@@ -82,11 +82,11 @@ public class SpongeJSONConfig extends JSONConfig
 
     private <T extends DataSerializable> Optional<T> getDataView(Object object, Class<T> clazz)
     {
-        return sm.getBuilder(clazz).get().build(new MemoryDataContainer().set(DataQuery.of(), get(object)));
+        return dm.getBuilder(clazz).get().build(new MemoryDataContainer().set(DataQuery.of(), get(object)));
     }
 
     private <T extends DataSerializable> Optional<T> getDataView(String key, Class<T> clazz)
     {
-        return sm.getBuilder(clazz).get().build(new MemoryDataContainer().set(DataQuery.of(), get(key)));
+        return dm.getBuilder(clazz).get().build(new MemoryDataContainer().set(DataQuery.of(), get(key)));
     }
 }
