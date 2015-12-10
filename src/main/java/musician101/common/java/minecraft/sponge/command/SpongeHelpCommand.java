@@ -2,9 +2,9 @@ package musician101.common.java.minecraft.sponge.command;
 
 import org.spongepowered.api.text.Text.Literal;
 import org.spongepowered.api.text.Texts;
-import org.spongepowered.api.util.command.CommandException;
-import org.spongepowered.api.util.command.CommandResult;
-import org.spongepowered.api.util.command.CommandSource;
+import org.spongepowered.api.command.CommandException;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
