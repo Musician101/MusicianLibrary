@@ -1,5 +1,6 @@
 package musician101.common.java.minecraft.forge.command;
 
+import java.util.Arrays;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.EnumChatFormatting;
 
@@ -9,7 +10,7 @@ public class ForgeHelpCommand extends AbstractForgeCommand
 
     public ForgeHelpCommand(AbstractForgeCommand mainCommand)
     {
-        super("help", "Display help for " + EnumChatFormatting.getTextWithoutFormattingCodes(mainCommand.getCommandUsage(null)), mainCommand.getCommandUsage(null) + "help", 0, false);
+        super("help", "Display help for " + EnumChatFormatting.getTextWithoutFormattingCodes(mainCommand.getCommandUsage(null)), Arrays.asList(new ForgeCommandArgument(mainCommand.getCommandUsage(null)), new ForgeCommandArgument("help")), 0, false);
         this.mainCommand = mainCommand;
     }
 
