@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("unchecked")
 public class SpongeJSONConfig extends JSONConfig
 {
     DataManager dm;
@@ -27,6 +28,11 @@ public class SpongeJSONConfig extends JSONConfig
     public SpongeJSONConfig(DataManager dm)
     {
         this();
+        this.dm = dm;
+    }
+
+    public void setDataManager(DataManager dm)
+    {
         this.dm = dm;
     }
 
