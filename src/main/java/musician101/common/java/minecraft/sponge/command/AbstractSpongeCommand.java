@@ -23,15 +23,15 @@ public abstract class AbstractSpongeCommand implements CommandCallable
     private final Text playerOnly;
     private final Text usage;
 
-    public AbstractSpongeCommand(String name, Text description, List<SpongeCommandArgument> arguments, int minArgs, String permission, boolean isPlayerOnly, Text noPermission, Text playerOnly)
+    public AbstractSpongeCommand(String name, String description, List<SpongeCommandArgument> arguments, int minArgs, String permission, boolean isPlayerOnly, Text noPermission, Text playerOnly)
     {
         this(name, description, arguments, minArgs, permission, isPlayerOnly, noPermission, playerOnly, new ArrayList<>());
     }
 
-    public AbstractSpongeCommand(String name, Text description, List<SpongeCommandArgument> arguments, int minArgs, String permission, boolean isPlayerOnly, Text noPermission, Text playerOnly, List<AbstractSpongeCommand> subCommands)
+    public AbstractSpongeCommand(String name, String description, List<SpongeCommandArgument> arguments, int minArgs, String permission, boolean isPlayerOnly, Text noPermission, Text playerOnly, List<AbstractSpongeCommand> subCommands)
     {
         this.name = name;
-        this.description = description;
+        this.description = Texts.of(description);
         this.usage = parseUsage(arguments);
         this.minArgs = minArgs;
         this.permission = permission;

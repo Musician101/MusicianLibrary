@@ -15,7 +15,7 @@ public class SpongeHelpCommand extends AbstractSpongeCommand
 
     public SpongeHelpCommand(AbstractSpongeCommand mainCommand, CommandSource source)
     {
-        super("help", Texts.builder("Display help info for ").append(mainCommand.getUsage(source)).build(), Arrays.asList(new SpongeCommandArgument(((Literal) mainCommand.getUsage(source)).getContent()), new SpongeCommandArgument("help")), 1, "", false, null, null);
+        super("help", "Display help info for " + mainCommand.getUsage(source), Arrays.asList(new SpongeCommandArgument(((Literal) mainCommand.getUsage(source)).getContent()), new SpongeCommandArgument("help")), 1, "", false, null, null);
         this.mainCommand = mainCommand;
     }
 
