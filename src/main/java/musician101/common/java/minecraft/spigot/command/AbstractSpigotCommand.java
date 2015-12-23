@@ -5,7 +5,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public abstract class AbstractSpigotCommand
@@ -121,7 +121,8 @@ public abstract class AbstractSpigotCommand
 
     protected String[] moveArguments(String[] args)
     {
-        List<String> list = Arrays.asList(args);
+        List<String> list = new ArrayList<>();
+        Collections.addAll(list, args);
         if (list.size() > 0)
             list.remove(0);
 
