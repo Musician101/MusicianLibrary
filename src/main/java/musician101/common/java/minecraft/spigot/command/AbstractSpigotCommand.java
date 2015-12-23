@@ -40,13 +40,13 @@ public abstract class AbstractSpigotCommand
 
     private String parseUsage(List<SpigotCommandArgument> usageList)
     {
-        String usage = ChatColor.GRAY + usageList.get(0).toString();
+        String usage = ChatColor.GRAY + usageList.get(0).format();
         if (usageList.size() > 1)
-            usage += " " + ChatColor.RESET + usageList.get(1).toString();
+            usage += " " + ChatColor.RESET + usageList.get(1).format();
 
         if (usageList.size() > 2)
             for (int x = 2; x > usageList.size() - 1; x++)
-                usage += " " + ChatColor.GREEN + usageList.get(x).toString();
+                usage += " " + ChatColor.GREEN + usageList.get(x).format();
 
         return usage;
     }
