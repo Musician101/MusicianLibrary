@@ -23,8 +23,7 @@ public class SpongeHelpCommand extends AbstractSpongeCommand
     @Override
     public CommandResult process(@Nonnull CommandSource source, @Nonnull String arguments) throws CommandException
     {
-        source.sendMessage(Texts.of());
-        source.sendMessage(mainCommand.getUsage(source));
+        source.sendMessage(Texts.of(mainCommand.getUsage(source), mainCommand.getShortDescription(source)));
         mainCommand.getSubCommands().forEach(command -> source.sendMessage(command.getHelp(source).get()));
         return CommandResult.success();
     }
