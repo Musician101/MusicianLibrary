@@ -2,7 +2,7 @@ package musician101.common.java.util;
 
 public class Utils
 {
-    public boolean isInteger(String string)
+    public static boolean isInteger(String string)
     {
         if (string == null)
             return false;
