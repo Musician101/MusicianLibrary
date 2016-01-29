@@ -75,8 +75,8 @@ public class UUIDUtils
 
     public static class MinecraftProfile
     {
-        String name;
-        UUID uuid;
+        private final String name;
+        private final UUID uuid;
 
         public MinecraftProfile(UUID uuid, String name)
         {
