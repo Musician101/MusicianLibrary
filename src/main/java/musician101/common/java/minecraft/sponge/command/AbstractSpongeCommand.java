@@ -2,7 +2,6 @@ package musician101.common.java.minecraft.sponge.command;
 
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.command.CommandCallable;
 import org.spongepowered.api.command.CommandSource;
 
@@ -31,7 +30,7 @@ public abstract class AbstractSpongeCommand implements CommandCallable
     public AbstractSpongeCommand(String name, String description, List<SpongeCommandArgument> arguments, int minArgs, String permission, boolean isPlayerOnly, Text noPermission, Text playerOnly, List<AbstractSpongeCommand> subCommands)
     {
         this.name = name;
-        this.description = Texts.of(description);
+        this.description = Text.of(description);
         this.usage = parseUsage(arguments);
         this.minArgs = minArgs;
         this.permission = permission;
@@ -45,7 +44,7 @@ public abstract class AbstractSpongeCommand implements CommandCallable
     {
         List<Text> textList = new ArrayList<>();
         arguments.forEach(argument -> textList.add(argument.format()));
-        return Texts.join(Texts.of(" "), textList.toArray(new Text[arguments.size()]));
+        return Text.joinWith(Text.of(" "), textList);
     }
 
     @Nonnull
@@ -94,7 +93,7 @@ public abstract class AbstractSpongeCommand implements CommandCallable
     @Override
     public Optional<? extends Text> getHelp(@Nonnull CommandSource source)
     {
-        return Optional.of(Texts.join(Texts.of(" "), new Text[]{usage, description}));
+        return Optional.of(Text.joinWith(Text.of(" "), usage, description));
     }
 
     @Nonnull
