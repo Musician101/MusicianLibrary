@@ -7,11 +7,13 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.bukkit.plugin.java.JavaPlugin;
 
-public abstract class AbstractSpigotCommand
+public abstract class AbstractSpigotCommand<Plugin extends JavaPlugin>
 {
     private final boolean isPlayerOnly;
     private final int minArgs;
+    protected Plugin plugin;
     private final List<AbstractSpigotCommand> subCommands;
     private final String description;
     private final String name;
@@ -20,13 +22,14 @@ public abstract class AbstractSpigotCommand
     private final String playerOnly;
     private final String usage;
 
-    protected AbstractSpigotCommand(String name, String description, List<SpigotCommandArgument> usage, int minArgs, String permission, boolean isPlayerOnly, String noPermission, String playerOnly)
+    protected AbstractSpigotCommand(Plugin plugin, String name, String description, List<SpigotCommandArgument> usage, int minArgs, String permission, boolean isPlayerOnly, String noPermission, String playerOnly)
     {
-        this(name, description, usage, minArgs, permission, isPlayerOnly, noPermission, playerOnly, new ArrayList<>());
+        this(plugin, name, description, usage, minArgs, permission, isPlayerOnly, noPermission, playerOnly, new ArrayList<>());
     }
 
-    protected AbstractSpigotCommand(String name, String description, List<SpigotCommandArgument> usage, int minArgs, String permission, boolean isPlayerOnly, String noPermission, String playerOnly, List<AbstractSpigotCommand> subCommands)
+    protected AbstractSpigotCommand(Plugin plugin, String name, String description, List<SpigotCommandArgument> usage, int minArgs, String permission, boolean isPlayerOnly, String noPermission, String playerOnly, List<AbstractSpigotCommand> subCommands)
     {
+        this.plugin = plugin;
         this.name = name;
         this.description = description;
         this.usage = parseUsage(usage);
