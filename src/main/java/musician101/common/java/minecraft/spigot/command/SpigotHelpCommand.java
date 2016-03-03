@@ -18,6 +18,7 @@ public class SpigotHelpCommand<Plugin extends JavaPlugin> extends AbstractSpigot
     @Override
     public boolean onCommand(CommandSender sender, String... args)
     {
+        sender.sendMessage(ChatColor.GREEN + "===== " + ChatColor.RESET + plugin.getName() + " v" + plugin.getDescription().getVersion() + ChatColor.GREEN + " =====");
         sender.sendMessage(mainCommand.getCommandHelpInfo());
         mainCommand.getSubCommands().forEach(command -> sender.sendMessage(command.getCommandHelpInfo()));
         return true;

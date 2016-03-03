@@ -14,7 +14,7 @@ public abstract class AbstractSpigotCommand<Plugin extends JavaPlugin>
     private final boolean isPlayerOnly;
     private final int minArgs;
     protected Plugin plugin;
-    private final List<AbstractSpigotCommand> subCommands;
+    private final List<AbstractSpigotCommand<Plugin>> subCommands;
     private final String description;
     private final String name;
     private final String noPermission;
@@ -27,7 +27,7 @@ public abstract class AbstractSpigotCommand<Plugin extends JavaPlugin>
         this(plugin, name, description, usage, minArgs, permission, isPlayerOnly, noPermission, playerOnly, new ArrayList<>());
     }
 
-    protected AbstractSpigotCommand(Plugin plugin, String name, String description, List<SpigotCommandArgument> usage, int minArgs, String permission, boolean isPlayerOnly, String noPermission, String playerOnly, List<AbstractSpigotCommand> subCommands)
+    protected AbstractSpigotCommand(Plugin plugin, String name, String description, List<SpigotCommandArgument> usage, int minArgs, String permission, boolean isPlayerOnly, String noPermission, String playerOnly, List<AbstractSpigotCommand<Plugin>> subCommands)
     {
         this.plugin = plugin;
         this.name = name;
@@ -92,7 +92,7 @@ public abstract class AbstractSpigotCommand<Plugin extends JavaPlugin>
         return minArgs;
     }
 
-    public List<AbstractSpigotCommand> getSubCommands()
+    public List<AbstractSpigotCommand<Plugin>> getSubCommands()
     {
         return subCommands;
     }
