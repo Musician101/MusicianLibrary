@@ -13,7 +13,7 @@ public abstract class AbstractSpigotCommand<Plugin extends JavaPlugin>
 {
     private final boolean isPlayerOnly;
     private final int minArgs;
-    protected Plugin plugin;
+    protected final Plugin plugin;
     private final List<AbstractSpigotCommand<Plugin>> subCommands;
     private final String description;
     private final String name;
