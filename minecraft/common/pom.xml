@@ -39,7 +39,7 @@
                 <artifactId>maven-deploy-plugin</artifactId>
                 <version>2.8.1</version>
                 <configuration>
-                    <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/mvn-repo</altDeploymentRepository>
+                    <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/common-repo</altDeploymentRepository>
                 </configuration>
             </plugin>
             <plugin>
@@ -49,8 +49,8 @@
                 <configuration>
                     <message>Maven artifacts for ${project.version}</message>
                     <noJekyll>true</noJekyll>
-                    <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
-                    <branch>refs/heads/mvn-repo</branch>
+                    <outputDirectory>${project.build.directory}/mccommon-repo</outputDirectory>
+                    <branch>refs/heads/mccommon-repo</branch>
                     <includes>
                         <include>**/*</include>
                     </includes>
@@ -81,7 +81,7 @@
         <repository>
             <id>internal.repo</id>
             <name>Temp Staging Repo</name>
-            <url>file://${project.build.directory}/mvn-repo</url>
+            <url>file://${project.build.directory}/mccommon-repo</url>
         </repository>
     </distributionManagement>
 </project>
