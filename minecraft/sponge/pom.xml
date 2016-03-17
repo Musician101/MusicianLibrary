@@ -1,19 +1,17 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>musician101</groupId>
-    <artifactId>common</artifactId>
-    <version>2.0-SNAPSHOT</version>
-    <name>Common</name>
-    <description>A group of common classes used for my various projects.</description>
-    <packaging>pom</packaging>
+    <groupId>musician101.common.minecraft</groupId>
+    <artifactId>sponge</artifactId>
+    <name>Sponge</name>
+    <description>Sponge utility library.</description>
 
-    <modules>
-        <module>java</module>
-        <module>minecraft/common</module>
-        <module>minecraft/spigot</module>
-        <module>minecraft/sponge</module>
-    </modules>
+    <parent>
+        <groupId>musician101</groupId>
+        <artifactId>common</artifactId>
+        <version>2.0-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
 
     <properties>
         <github.global.server>github</github.global.server>
@@ -27,6 +25,14 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <finalName>MusicianLibrary-Sponge</finalName>
                 </configuration>
             </plugin>
             <plugin>
@@ -60,8 +66,49 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.3</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <artifactSet>
+                                <includes>
+                                    <include>musician101.common.java.minecraft:common</include>
+                                </includes>
+                            </artifactSet>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.spongepowered</groupId>
+            <artifactId>spongeapi</artifactId>
+            <version>3.1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>musician101.common.java.minecraft</groupId>
+            <artifactId>common</artifactId>
+            <version>2.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+    <repositories>
+        <repository>
+            <id>SpongePowered</id>
+            <url>https://repo.spongepowered.org/maven/</url>
+        </repository>
+    </repositories>
 
     <distributionManagement>
         <repository>
