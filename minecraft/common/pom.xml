@@ -49,7 +49,7 @@
                 <configuration>
                     <message>Maven artifacts for ${project.version}</message>
                     <noJekyll>true</noJekyll>
-                    <outputDirectory>${project.build.directory}/mccommon-repo</outputDirectory>
+                    <outputDirectory>${project.build.directory}/common-repo</outputDirectory>
                     <branch>refs/heads/mccommon-repo</branch>
                     <includes>
                         <include>**/*</include>
@@ -81,7 +81,7 @@
         <repository>
             <id>internal.repo</id>
             <name>Temp Staging Repo</name>
-            <url>file://${project.build.directory}/mccommon-repo</url>
+            <url>file://${project.build.directory}/common-repo</url>
         </repository>
     </distributionManagement>
 </project>
