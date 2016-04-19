@@ -13,10 +13,6 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <properties>
-        <github.global.server>github</github.global.server>
-    </properties>
-
     <build>
         <plugins>
             <plugin>
@@ -35,45 +31,6 @@
                     <finalName>MusicianLibrary-Java</finalName>
                 </configuration>
             </plugin>
-            <plugin>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <version>2.8.1</version>
-                <configuration>
-                    <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/java-repo</altDeploymentRepository>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>com.github.github</groupId>
-                <artifactId>site-maven-plugin</artifactId>
-                <version>0.12</version>
-                <configuration>
-                    <message>Maven artifacts for ${project.version}</message>
-                    <noJekyll>true</noJekyll>
-                    <outputDirectory>${project.build.directory}/java-repo</outputDirectory>
-                    <branch>refs/heads/java-repo</branch>
-                    <includes>
-                        <include>**/*</include>
-                    </includes>
-                    <repositoryName>Common</repositoryName>
-                    <repositoryOwner>Musician101</repositoryOwner>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>site</goal>
-                        </goals>
-                        <phase>deploy</phase>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
-
-    <distributionManagement>
-        <repository>
-            <id>internal.repo</id>
-            <name>Temp Staging Repo</name>
-            <url>file://${project.build.directory}/java-repo</url>
-        </repository>
-    </distributionManagement>
 </project>
