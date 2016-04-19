@@ -1,11 +1,13 @@
 package musician101.common.java.minecraft.spigot.command;
 
 import java.util.Arrays;
+
+import musician101.common.java.minecraft.spigot.AbstractSpigotPlugin;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class SpigotHelpCommand<Plugin extends JavaPlugin> extends AbstractSpigotCommand<Plugin>
+public class SpigotHelpCommand<Plugin extends AbstractSpigotPlugin> extends AbstractSpigotCommand<Plugin>
 {
     private final AbstractSpigotCommand<Plugin> mainCommand;
 

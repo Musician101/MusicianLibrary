@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>musician101.common.java.minecraft</groupId>
-    <artifactId>common</artifactId>
+    <artifactId>mccommon</artifactId>
     <name>Minecraft Common</name>
     <description>An abstraction layer for my Spigot and Sponge modules.</description>
 

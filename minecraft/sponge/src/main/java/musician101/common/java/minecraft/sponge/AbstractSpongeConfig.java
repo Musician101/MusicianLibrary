@@ -1,7 +1,9 @@
-package musician101.common.java.minecraft.sponge.config;
+package musician101.common.java.minecraft.sponge;
 
 import musician101.common.java.minecraft.config.AbstractConfig;
 import org.slf4j.Logger;
+import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 
 import java.io.File;
 

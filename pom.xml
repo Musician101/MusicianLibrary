@@ -10,7 +10,7 @@
 
     <modules>
         <module>java</module>
-        <module>minecraft/common</module>
+        <module>minecraft/mccommon</module>
         <module>minecraft/spigot</module>
         <module>minecraft/sponge</module>
     </modules>
