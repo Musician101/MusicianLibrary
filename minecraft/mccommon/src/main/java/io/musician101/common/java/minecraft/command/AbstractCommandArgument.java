@@ -3,7 +3,7 @@ package io.musician101.common.java.minecraft.command;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class AbstractCommandArgument
+public abstract class AbstractCommandArgument<M>
 {
     protected final List<Syntax> syntaxList;
     protected String name;
@@ -22,7 +22,9 @@ public abstract class AbstractCommandArgument
         this.name = name;
     }
 
-    protected enum Syntax
+    public abstract M format();
+
+    public enum Syntax
     {
         LITERAL,
         MULTIPLE,

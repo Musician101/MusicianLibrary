@@ -1,9 +1,9 @@
 package io.musician101.common.java.minecraft.spigot.command;
 
-import io.musician101.common.java.minecraft.AbstractCommandArgument;
+import io.musician101.common.java.minecraft.command.AbstractCommandArgument;
 import org.bukkit.ChatColor;
 
-public class SpigotCommandArgument extends AbstractCommandArgument
+public class SpigotCommandArgument extends AbstractCommandArgument<String>
 {
     public SpigotCommandArgument(String name)
     {
@@ -15,6 +15,7 @@ public class SpigotCommandArgument extends AbstractCommandArgument
         super(name, syntaxes);
     }
 
+    @Override
     public String format()
     {
         String name = this.name;

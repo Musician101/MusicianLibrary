@@ -4,15 +4,13 @@ import io.musician101.common.java.minecraft.AbstractConfig;
 
 import java.io.File;
 
-public abstract class AbstractSpigotConfig<Plugin extends AbstractSpigotPlugin> extends AbstractConfig
+public abstract class AbstractSpigotConfig<P extends AbstractSpigotPlugin> extends AbstractConfig<P>
 {
     protected boolean updateCheck;
-    protected final Plugin plugin;
 
-    protected AbstractSpigotConfig(Plugin plugin)
+    protected AbstractSpigotConfig(P plugin)
     {
-        super(new File(plugin.getDataFolder(), "config.yml"));
-        this.plugin = plugin;
+        super(plugin, new File(plugin.getDataFolder(), "config.yml"));
     }
 
     public boolean isUpdateCheckEnabled()

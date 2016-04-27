@@ -17,10 +17,15 @@ import java.util.UUID;
 
 public class UUIDUtils
 {
+    private UUIDUtils()
+    {
+
+    }
+
     public static Map<String, UUID> getUUIDs(List<String> names) throws IOException
     {
         Map<String, UUID> map = new HashMap<>();
-        int requests = (int) Math.ceil(names.size() / 100);
+        int requests = (int) Math.ceil(names.size() / 100D);
         for (int i = 0; i < requests; i++)
         {
             URL url = new URL("https://api.mojang.com/profiles/minecraft");

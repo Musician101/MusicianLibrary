@@ -1,10 +1,10 @@
 package io.musician101.common.java.minecraft.sponge.command;
 
-import io.musician101.common.java.minecraft.AbstractCommandArgument;
+import io.musician101.common.java.minecraft.command.AbstractCommandArgument;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextStyles;
 
-public class SpongeCommandArgument extends AbstractCommandArgument
+public class SpongeCommandArgument extends AbstractCommandArgument<Text>
 {
     public SpongeCommandArgument(String name)
     {
@@ -16,6 +16,7 @@ public class SpongeCommandArgument extends AbstractCommandArgument
         super(name, syntaxes);
     }
 
+    @Override
     public Text format()
     {
         Text name = Text.of(this.name);

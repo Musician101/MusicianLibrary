@@ -5,13 +5,10 @@ import org.slf4j.Logger;
 
 import java.io.File;
 
-public abstract class AbstractSpongeConfig extends AbstractConfig
+public abstract class AbstractSpongeConfig<P> extends AbstractConfig<P>
 {
-    protected final Logger logger;
-
-    protected AbstractSpongeConfig(File configFile, Logger logger)
+    protected AbstractSpongeConfig(P plugin, File configFile)
     {
-        super(configFile);
-        this.logger = logger;
+        super(plugin, configFile);
     }
 }

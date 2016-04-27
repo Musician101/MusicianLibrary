@@ -19,6 +19,11 @@ import java.util.List;
 
 public class Gui
 {
+    private Gui()
+    {
+
+    }
+
     public static class Button extends JButton
     {
         public Button(int x, int y, int w, int h, ActionListener listener)

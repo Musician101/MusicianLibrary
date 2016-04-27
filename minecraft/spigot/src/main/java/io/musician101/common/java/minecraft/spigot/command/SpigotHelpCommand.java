@@ -6,13 +6,13 @@ import io.musician101.common.java.minecraft.spigot.AbstractSpigotPlugin;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-public class SpigotHelpCommand<Plugin extends AbstractSpigotPlugin> extends AbstractSpigotCommand<Plugin>
+public class SpigotHelpCommand<P extends AbstractSpigotPlugin> extends AbstractSpigotCommand<P>
 {
-    private final AbstractSpigotCommand<Plugin> mainCommand;
+    private final AbstractSpigotCommand<P> mainCommand;
 
-    public SpigotHelpCommand(Plugin plugin, AbstractSpigotCommand<Plugin> mainCommand)
+    public SpigotHelpCommand(P plugin, AbstractSpigotCommand<P> mainCommand)
     {
-        super(plugin, "help", "Display help info for " + ChatColor.stripColor(mainCommand.getUsage()), Arrays.asList(new SpigotCommandArgument(ChatColor.stripColor(mainCommand.getUsage())), new SpigotCommandArgument("help")), 1, "", false, "", "");
+        super(plugin, "help", "Display help info for " + ChatColor.stripColor(mainCommand.getUsage().getUsage()), new SpigotCommandUsage(Arrays.asList(new SpigotCommandArgument(ChatColor.stripColor(mainCommand.getUsage().getUsage())), new SpigotCommandArgument("help")), 1), new SpigotCommandPermissions("", false, "", ""));
         this.mainCommand = mainCommand;
     }
 

@@ -8,10 +8,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
 
-public class AbstractSpigotPlugin<Plugin extends AbstractSpigotPlugin<Plugin, Config>, Config extends AbstractSpigotConfig<Plugin>> extends JavaPlugin
+public class AbstractSpigotPlugin<P extends AbstractSpigotPlugin<P, C>, C extends AbstractSpigotConfig<P>> extends JavaPlugin
 {
-    protected Config config;
-    protected List<AbstractSpigotCommand<Plugin>> commands;
+    protected C config;
+    protected List<AbstractSpigotCommand<P>> commands;
 
     protected void versionCheck(int pluginNumber)
     {
@@ -34,12 +34,12 @@ public class AbstractSpigotPlugin<Plugin extends AbstractSpigotPlugin<Plugin, Co
             getLogger().info("Update is disabled");
     }
 
-    public Config getPluginConfig()
+    public C getPluginConfig()
     {
         return config;
     }
 
-    public List<AbstractSpigotCommand<Plugin>> getCommands()
+    public List<AbstractSpigotCommand<P>> getCommands()
     {
         return commands;
     }
