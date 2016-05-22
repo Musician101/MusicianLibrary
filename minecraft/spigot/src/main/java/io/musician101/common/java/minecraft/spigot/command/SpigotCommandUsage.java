@@ -5,8 +5,10 @@ import org.bukkit.ChatColor;
 
 import java.util.List;
 
+@SuppressWarnings("WeakerAccess")
 public class SpigotCommandUsage extends AbstractCommandUsage<String, SpigotCommandArgument>
 {
+    @SuppressWarnings("unused")
     public SpigotCommandUsage(List<SpigotCommandArgument> arguments)
     {
         super(arguments);

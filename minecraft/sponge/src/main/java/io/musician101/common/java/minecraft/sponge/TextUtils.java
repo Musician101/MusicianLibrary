@@ -3,8 +3,14 @@ package io.musician101.common.java.minecraft.sponge;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
+@SuppressWarnings("unused")
 public class TextUtils
 {
+    private TextUtils()
+    {
+
+    }
+
     public static Text aquaText(String content)
     {
         return Text.builder(content).color(TextColors.AQUA).build();

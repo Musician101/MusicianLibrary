@@ -7,12 +7,15 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import java.lang.reflect.Type;
-import java.util.UUID;
 import io.musician101.common.java.minecraft.uuid.UUIDUtils.MinecraftProfile;
 
+import java.lang.reflect.Type;
+import java.util.UUID;
+
+@SuppressWarnings("WeakerAccess")
 public class MinecraftProfileTypeAdapter implements JsonDeserializer<MinecraftProfile>, JsonSerializer<MinecraftProfile>
 {
+    @SuppressWarnings("unused")
     Gson gson = new Gson();
 
     @Override

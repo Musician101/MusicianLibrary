@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class Gui
 {
     private Gui()
@@ -24,7 +25,7 @@ public class Gui
 
     }
 
-    public static class Button extends JButton
+    public static class Button extends JButton//NOSONAR
     {
         public Button(int x, int y, int w, int h, ActionListener listener)
         {
@@ -38,7 +39,7 @@ public class Gui
             this(text, x, y, w, h, null);
         }
 
-        public Button(String text, int x, int y, int w, int h, ActionListener listener)
+        public Button(String text, int x, int y, int w, int h, ActionListener listener)//NOSONAR
         {
             super(text);
             setBounds(x, y, w, h);
@@ -60,7 +61,7 @@ public class Gui
             addAll(Arrays.asList(items));
         }
 
-        public void addAll(List<E> items)
+        public void addAll(List<E> items)//NOSONAR
         {
             items.forEach(this::addItem);
         }
@@ -99,7 +100,7 @@ public class Gui
         }
     }
 
-    public static class Table extends JTable
+    public static class Table extends JTable//NOSONAR
     {
         public Table(TableModel model)
         {
@@ -108,7 +109,7 @@ public class Gui
         }
     }
 
-    public static class TextField extends JTextField
+    public static class TextField extends JTextField//NOSONAR
     {
         public TextField(int x, int y, int w, int h)
         {
@@ -126,7 +127,7 @@ public class Gui
         }
     }
 
-    public static class Menu extends JMenu
+    public static class Menu extends JMenu//NOSONAR
     {
         public Menu(String name, List<MenuItem> items)
         {
@@ -136,7 +137,7 @@ public class Gui
         }
     }
 
-    public static class MenuItem extends JMenuItem
+    public static class MenuItem extends JMenuItem//NOSONAR
     {
         public MenuItem(String name, ActionListener listener)
         {

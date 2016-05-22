@@ -2,16 +2,22 @@ package io.musician101.common.java.minecraft;
 
 import java.io.File;
 
-public abstract class AbstractConfig<P>
+@SuppressWarnings("WeakerAccess")
+public abstract class AbstractConfig
 {
-    protected final P plugin;
+    protected boolean updateCheck;
     protected final File configFile;
 
-    protected AbstractConfig(P plugin, File configFile)
+    protected AbstractConfig(File configFile)
     {
-        this.plugin = plugin;
         this.configFile = configFile;
     }
 
+    public boolean isUpdateCheckEnabled()
+    {
+        return updateCheck;
+    }
+
+    @SuppressWarnings("unused")
     public abstract void reload();
 }

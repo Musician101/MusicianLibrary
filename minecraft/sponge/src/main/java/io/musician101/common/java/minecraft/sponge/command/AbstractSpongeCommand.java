@@ -11,16 +11,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class AbstractSpongeCommand<P> extends AbstractCommand<P, Text, SpongeCommandUsage, SpongeCommandArgument, SpongeCommandPermissions, AbstractSpongeCommand<P>, CommandSource> implements CommandCallable
+@SuppressWarnings({"unused", "WeakerAccess"})
+public abstract class AbstractSpongeCommand extends AbstractCommand<Text, SpongeCommandUsage, SpongeCommandPermissions, AbstractSpongeCommand, CommandSource> implements CommandCallable
 {
-    public AbstractSpongeCommand(P plugin, String name, Text description, SpongeCommandUsage usage, SpongeCommandPermissions permissions)
+    public AbstractSpongeCommand(String name, Text description, SpongeCommandUsage usage, SpongeCommandPermissions permissions)
     {
-        this(plugin, name, description, usage, permissions, new ArrayList<>());
+        this(name, description, usage, permissions, new ArrayList<>());
     }
 
-    public AbstractSpongeCommand(P plugin, String name, Text description, SpongeCommandUsage usage, SpongeCommandPermissions permissions, List<AbstractSpongeCommand<P>> subCommands)
+    public AbstractSpongeCommand(String name, Text description, SpongeCommandUsage usage, SpongeCommandPermissions permissions, List<AbstractSpongeCommand> subCommands)
     {
-        super(plugin, name, description, usage, permissions, subCommands);
+        super(name, description, usage, permissions, subCommands);
     }
 
     @Nonnull
@@ -84,6 +85,7 @@ public abstract class AbstractSpongeCommand<P> extends AbstractCommand<P, Text, 
         return name;
     }
 
+    @Override
     protected boolean minArgsMet(CommandSource source, int args, Text message)
     {
         if (args >= usage.getMinArgs())

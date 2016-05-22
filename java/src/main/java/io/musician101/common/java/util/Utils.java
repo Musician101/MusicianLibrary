@@ -1,8 +1,14 @@
 package io.musician101.common.java.util;
 
+@SuppressWarnings("unused")
 public class Utils
 {
-    public static boolean isInteger(String string)
+    private Utils()
+    {
+
+    }
+
+    public static boolean isInteger(String string)//NOSONAR
     {
         if (string == null)
             return false;

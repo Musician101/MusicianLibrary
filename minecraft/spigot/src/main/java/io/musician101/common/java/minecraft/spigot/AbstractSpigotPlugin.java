@@ -1,17 +1,21 @@
 package io.musician101.common.java.minecraft.spigot;
 
+import io.musician101.common.java.minecraft.AbstractConfig;
 import io.musician101.common.java.minecraft.spigot.command.AbstractSpigotCommand;
 import net.gravitydevelopment.updater.Updater;
 import net.gravitydevelopment.updater.Updater.UpdateResult;
 import net.gravitydevelopment.updater.Updater.UpdateType;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
 
-public class AbstractSpigotPlugin<P extends AbstractSpigotPlugin<P, C>, C extends AbstractSpigotConfig<P>> extends JavaPlugin
+@SuppressWarnings({"WeakerAccess", "unused"})
+public class AbstractSpigotPlugin<C extends AbstractConfig> extends JavaPlugin
 {
     protected C config;
-    protected List<AbstractSpigotCommand<P>> commands;
+    protected List<AbstractSpigotCommand> commands;
 
     protected void versionCheck(int pluginNumber)
     {
@@ -34,12 +38,22 @@ public class AbstractSpigotPlugin<P extends AbstractSpigotPlugin<P, C>, C extend
             getLogger().info("Update is disabled");
     }
 
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String... args)
+    {
+        for (AbstractSpigotCommand cmd : commands)
+            if (command.getName().equalsIgnoreCase(cmd.getName()))
+                return cmd.onCommand(sender, args);
+
+        return false;
+    }
+
     public C getPluginConfig()
     {
         return config;
     }
 
-    public List<AbstractSpigotCommand<P>> getCommands()
+    public List<AbstractSpigotCommand> getCommands()
     {
         return commands;
     }

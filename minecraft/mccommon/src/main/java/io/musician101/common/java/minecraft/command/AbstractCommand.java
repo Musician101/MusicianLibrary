@@ -2,18 +2,17 @@ package io.musician101.common.java.minecraft.command;
 
 import java.util.List;
 
-public abstract class AbstractCommand<I, M, U extends AbstractCommandUsage<M, A>, A extends AbstractCommandArgument<M>, P extends AbstractCommandPermissions<M>, C extends AbstractCommand<I, M, U, A, P, C, S>, S>
+@SuppressWarnings("WeakerAccess")
+public abstract class AbstractCommand<M, U extends AbstractCommandUsage, P extends AbstractCommandPermissions, C extends AbstractCommand, S>
 {
-    protected final I plugin;
     protected final List<C> subCommands;
     protected final M description;
     protected final P permissions;
     protected final String name;
     protected final U usage;
 
-    protected AbstractCommand(I plugin, String name, M description, U usage, P permissions, List<C> subCommands)
+    protected AbstractCommand(String name, M description, U usage, P permissions, List<C> subCommands)
     {
-        this.plugin = plugin;
         this.name = name;
         this.description = description;
         this.usage = usage;
@@ -21,6 +20,7 @@ public abstract class AbstractCommand<I, M, U extends AbstractCommandUsage<M, A>
         this.subCommands = subCommands;
     }
 
+    @SuppressWarnings("unused")
     protected abstract boolean minArgsMet(S source, int argsLength, M message);
 
     public U getUsage()

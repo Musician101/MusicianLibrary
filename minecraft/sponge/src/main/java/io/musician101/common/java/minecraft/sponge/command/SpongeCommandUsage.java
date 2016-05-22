@@ -6,8 +6,10 @@ import org.spongepowered.api.text.Text;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("WeakerAccess")
 public class SpongeCommandUsage extends AbstractCommandUsage<Text, SpongeCommandArgument>
 {
+    @SuppressWarnings("unused")
     public SpongeCommandUsage(List<SpongeCommandArgument> arguments)
     {
         super(arguments);

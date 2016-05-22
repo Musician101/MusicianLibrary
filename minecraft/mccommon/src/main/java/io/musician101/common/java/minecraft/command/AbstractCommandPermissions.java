@@ -1,5 +1,6 @@
 package io.musician101.common.java.minecraft.command;
 
+@SuppressWarnings("unused")
 public class AbstractCommandPermissions<M>
 {
     private boolean isPlayerOnly;

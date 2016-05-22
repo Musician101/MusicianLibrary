@@ -4,6 +4,7 @@ import io.musician101.common.java.minecraft.command.AbstractCommandArgument;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextStyles;
 
+@SuppressWarnings("WeakerAccess")
 public class SpongeCommandArgument extends AbstractCommandArgument<Text>
 {
     public SpongeCommandArgument(String name)
@@ -11,6 +12,7 @@ public class SpongeCommandArgument extends AbstractCommandArgument<Text>
         super(name);
     }
 
+    @SuppressWarnings("unused")
     public SpongeCommandArgument(String name, Syntax... syntaxes)
     {
         super(name, syntaxes);

@@ -1,7 +1,6 @@
 package io.musician101.common.java.minecraft.spigot.command;
 
 import io.musician101.common.java.minecraft.command.AbstractCommand;
-import io.musician101.common.java.minecraft.spigot.AbstractSpigotPlugin;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -10,16 +9,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class AbstractSpigotCommand<P extends AbstractSpigotPlugin> extends AbstractCommand<P, String, SpigotCommandUsage, SpigotCommandArgument, SpigotCommandPermissions, AbstractSpigotCommand<P>, CommandSender>
+@SuppressWarnings({"unused", "WeakerAccess"})
+public abstract class AbstractSpigotCommand extends AbstractCommand<String, SpigotCommandUsage, SpigotCommandPermissions, AbstractSpigotCommand, CommandSender>
 {
-    protected AbstractSpigotCommand(P plugin, String name, String description, SpigotCommandUsage usage, SpigotCommandPermissions permissions)
+    protected AbstractSpigotCommand(String name, String description, SpigotCommandUsage usage, SpigotCommandPermissions permissions)
     {
-        this(plugin, name, description, usage, permissions, new ArrayList<>());
+        this(name, description, usage, permissions, new ArrayList<>());
     }
 
-    protected AbstractSpigotCommand(P plugin, String name, String description, SpigotCommandUsage usage, SpigotCommandPermissions permissions, List<AbstractSpigotCommand<P>> subCommands)
+    protected AbstractSpigotCommand(String name, String description, SpigotCommandUsage usage, SpigotCommandPermissions permissions, List<AbstractSpigotCommand> subCommands)
     {
-        super(plugin, name, description, usage, permissions, subCommands);
+        super(name, description, usage, permissions, subCommands);
     }
 
     public abstract boolean onCommand(CommandSender sender, String... args);

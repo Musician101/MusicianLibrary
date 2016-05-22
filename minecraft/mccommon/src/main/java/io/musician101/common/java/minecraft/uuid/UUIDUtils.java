@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class UUIDUtils
 {
     private UUIDUtils()

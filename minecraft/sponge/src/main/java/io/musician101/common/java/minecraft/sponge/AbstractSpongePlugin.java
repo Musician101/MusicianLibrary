@@ -1,22 +1,17 @@
 package io.musician101.common.java.minecraft.sponge;
 
-import org.slf4j.Logger;
+import io.musician101.common.java.minecraft.AbstractConfig;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 
-public abstract class AbstractSpongePlugin<Config extends AbstractSpongeConfig>
+@SuppressWarnings({"unused", "WeakerAccess"})
+public abstract class AbstractSpongePlugin<C extends AbstractConfig>
 {
-    public Config config;
-    public Logger logger;
+    protected C config;
 
     public abstract void onServerStart(GameStartedServerEvent event);
 
-    public Config getConfig()
+    public C getConfig()
     {
         return config;
-    }
-
-    public Logger getLogger()
-    {
-        return logger;
     }
 }
