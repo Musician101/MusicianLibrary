@@ -13,8 +13,10 @@ processResources {
     }
 }
 
+//noinspection GroovyMissingReturnStatement
 shadowJar {
     dependencies {
+        //noinspection GroovyAssignabilityCheck
         include(dependency(':musicianlibrary-common'))
     }
 }

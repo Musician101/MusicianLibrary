@@ -1,5 +1,5 @@
 name: MusicianLibrary-Spigot
-main: io.musician101.common.java.minecraft.spigot.SpigotMusicianLibrary
+main: io.musician101.musicianlibrary.java.minecraft.spigot.SpigotMusicianLibrary
 version: ${project.version}
 description: Change from creative and survival
 authors: [Musician101]
