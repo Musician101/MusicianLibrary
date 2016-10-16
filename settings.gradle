@@ -1,0 +1,4 @@
+rootProject.name = 'musicianlibrary'
+
+include 'musicianlibrary-common', 'musicianlibrary-java', 'musicianlibrary-spigot', 'musicianlibrary-sponge'
+

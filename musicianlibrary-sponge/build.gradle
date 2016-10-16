@@ -1,0 +1,20 @@
+plugins {
+    id 'org.spongepowered.plugin' version '0.7'
+}
+
+dependencies {
+    compile project(':musicianlibrary-common')
+    compile 'org.spongepowered:spongeapi:4.1.0-SNAPSHOT'
+}
+
+processResources {
+    from('src/main/resources') {
+        expand 'version': project.version
+    }
+}
+
+shadowJar {
+    dependencies {
+        include(dependency(':musicianlibrary-common'))
+    }
+}
