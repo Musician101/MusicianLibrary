@@ -1,0 +1,6 @@
+install {
+    repositories.mavenInstaller {
+        pom.groupId = project.group.toString() + '.' + project.pluginName.toString().toLowerCase()
+        pom.artifactId = 'java'
+    }
+}

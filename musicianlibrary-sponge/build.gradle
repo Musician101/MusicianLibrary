@@ -20,3 +20,10 @@ shadowJar {
         include(dependency(':musicianlibrary-common'))
     }
 }
+
+install {
+    repositories.mavenInstaller {
+        pom.groupId = project.group.toString() + '.' + project.pluginName.toString().toLowerCase() + '.java.minecraft'
+        pom.artifactId = 'sponge'
+    }
+}
