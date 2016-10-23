@@ -10,7 +10,7 @@ import org.spongepowered.api.plugin.Plugin;
 @Plugin(id = SpongeMusicianLibrary.ID, name = "Musician Library - Sponge", authors = {"Musician101"}, version = "3.0-SNAPSHOT", description = "A library used to house common classes across multiple projects.")
 public class SpongeMusicianLibrary extends AbstractSpongePlugin<AbstractConfig>
 {
-    static final String ID = "io.musician101.common.java.minecraft.sponge";
+    static final String ID = "sponge_musician_library";
 
     @Override
     public void preInit(GamePreInitializationEvent event)//NOSONAR
