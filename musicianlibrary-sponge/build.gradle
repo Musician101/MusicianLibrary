@@ -2,9 +2,18 @@ plugins {
     id 'org.spongepowered.plugin' version '0.7'
 }
 
+//temp dependency
+repositories {
+    maven {
+        url 'https://jitpack.io'
+    }
+}
+
 dependencies {
     compile project(':musicianlibrary-common')
-    compile 'org.spongepowered:spongeapi:4.1.0-SNAPSHOT'
+    //compile 'org.spongepowered:spongeapi:5.1.0-SNAPSHOT'
+    //temp dependency
+    compile 'com.github.SpongePowered:SpongeAPI:stable-5.1.0-SNAPSHOT'
 }
 
 processResources {

@@ -5,6 +5,8 @@ import org.spongepowered.api.command.CommandCallable;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ public abstract class AbstractSpongeCommand extends AbstractCommand<Text, Sponge
 
     @Nonnull
     @Override
-    public List<String> getSuggestions(@Nonnull CommandSource source, @Nonnull String arguments)
+    public List<String> getSuggestions(@Nonnull CommandSource source, @Nonnull String arguments, Location<World> targetPosition)
     {
         String[] args = splitArgs(arguments);
         List<String> list = new ArrayList<>();
@@ -61,14 +63,14 @@ public abstract class AbstractSpongeCommand extends AbstractCommand<Text, Sponge
 
     @Nonnull
     @Override
-    public Optional<? extends Text> getShortDescription(@Nonnull CommandSource source)
+    public Optional<Text> getShortDescription(@Nonnull CommandSource source)
     {
         return Optional.of(description);
     }
 
     @Nonnull
     @Override
-    public Optional<? extends Text> getHelp(@Nonnull CommandSource source)
+    public Optional<Text> getHelp(@Nonnull CommandSource source)
     {
         return Optional.of(Text.joinWith(Text.of(" "), usage.getUsage(), description));
     }

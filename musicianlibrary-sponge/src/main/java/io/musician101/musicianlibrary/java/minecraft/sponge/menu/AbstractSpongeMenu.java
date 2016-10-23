@@ -13,7 +13,7 @@ import org.spongepowered.api.event.item.inventory.ClickInventoryEvent;
 import org.spongepowered.api.event.item.inventory.InteractInventoryEvent.Close;
 import org.spongepowered.api.event.network.ClientConnectionEvent.Disconnect;
 import org.spongepowered.api.item.Enchantments;
-import org.spongepowered.api.item.inventory.Inventory;
+import org.spongepowered.api.item.inventory.Container;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.item.inventory.Slot;
 import org.spongepowered.api.item.inventory.property.SlotIndex;
@@ -104,7 +104,7 @@ public class AbstractSpongeMenu extends AbstractMenu<Close, OrderedInventory, Sp
     @Override
     public void onQuit(Disconnect event)
     {
-        Optional<Inventory> invOptional = event.getTargetEntity().getOpenInventory();
+        Optional<Container> invOptional = event.getTargetEntity().getOpenInventory();
         if (!invOptional.isPresent())
             return;
 
