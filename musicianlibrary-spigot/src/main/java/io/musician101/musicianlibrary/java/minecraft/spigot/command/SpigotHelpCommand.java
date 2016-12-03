@@ -4,9 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Arrays;
 
-@SuppressWarnings("unused")
 public class SpigotHelpCommand<P extends JavaPlugin> extends AbstractSpigotCommand
 {
     private final AbstractSpigotCommand mainCommand;
@@ -14,7 +12,7 @@ public class SpigotHelpCommand<P extends JavaPlugin> extends AbstractSpigotComma
 
     public SpigotHelpCommand(P plugin, AbstractSpigotCommand mainCommand)
     {
-        super("help", "Display help info for " + ChatColor.stripColor(mainCommand.getUsage().getUsage()), new SpigotCommandUsage(Arrays.asList(new SpigotCommandArgument(ChatColor.stripColor(mainCommand.getUsage().getUsage())), new SpigotCommandArgument("help")), 1), new SpigotCommandPermissions("", false, "", ""));
+        super("help", "Display help info for " + ChatColor.stripColor(mainCommand.getUsage().getUsage()), new SpigotCommandUsage(new SpigotCommandArgument(ChatColor.stripColor(mainCommand.getUsage().getUsage())), new SpigotCommandArgument("help")), new SpigotCommandPermissions("", false, "", ""));
         this.plugin = plugin;
         this.mainCommand = mainCommand;
     }

@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
+
 public class UUIDUtils
 {
     private UUIDUtils()
@@ -79,7 +79,7 @@ public class UUIDUtils
         return getNames(Collections.singletonList(uuid)).get(uuid);
     }
 
-    @SuppressWarnings("unused")
+
     public static class MinecraftProfile
     {
         private final String name;

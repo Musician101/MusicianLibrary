@@ -2,7 +2,7 @@ package io.musician101.musicianlibrary.java.minecraft;
 
 import java.io.File;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
+
 public abstract class AbstractConfig
 {
     protected boolean updateCheck;
@@ -18,6 +18,6 @@ public abstract class AbstractConfig
         return updateCheck;
     }
 
-    @SuppressWarnings("unused")
+
     public abstract void reload();
 }

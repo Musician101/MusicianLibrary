@@ -12,10 +12,10 @@ import io.musician101.musicianlibrary.java.minecraft.uuid.UUIDUtils.MinecraftPro
 import java.lang.reflect.Type;
 import java.util.UUID;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
+
 public class MinecraftProfileTypeAdapter implements JsonDeserializer<MinecraftProfile>, JsonSerializer<MinecraftProfile>
 {
-    @SuppressWarnings("unused")
+
     Gson gson = new Gson();
 
     @Override

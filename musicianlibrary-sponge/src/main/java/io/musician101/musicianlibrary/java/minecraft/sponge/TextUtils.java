@@ -3,7 +3,7 @@ package io.musician101.musicianlibrary.java.minecraft.sponge;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
-@SuppressWarnings({"unused", "WeakerAccess"})
+
 public class TextUtils
 {
     private TextUtils()

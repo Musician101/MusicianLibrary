@@ -9,7 +9,7 @@ import org.bukkit.WorldCreator;
 
 import java.util.Map;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
+
 public class SpigotRegion extends AbstractRegion<Location>
 {
     private String worldName = "";

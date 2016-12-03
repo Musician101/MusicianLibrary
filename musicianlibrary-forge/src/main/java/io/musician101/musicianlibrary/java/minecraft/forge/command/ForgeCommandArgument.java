@@ -1,18 +1,16 @@
-package io.musician101.musicianlibrary.java.minecraft.spigot.command;
+package io.musician101.musicianlibrary.java.minecraft.forge.command;
 
 import io.musician101.musicianlibrary.java.minecraft.command.AbstractCommandArgument;
-import org.bukkit.ChatColor;
+import net.minecraft.util.text.TextFormatting;
 
-
-public class SpigotCommandArgument extends AbstractCommandArgument<String>
+public class ForgeCommandArgument extends AbstractCommandArgument<String>
 {
-    public SpigotCommandArgument(String name)
+    public ForgeCommandArgument(String name)
     {
         super(name);
     }
 
-
-    public SpigotCommandArgument(String name, Syntax... syntaxes)
+    public ForgeCommandArgument(String name, Syntax... syntaxes)
     {
         super(name, syntaxes);
     }
@@ -22,7 +20,7 @@ public class SpigotCommandArgument extends AbstractCommandArgument<String>
     {
         String name = this.name;
         if (syntaxList.contains(Syntax.REPLACE))
-            name = ChatColor.ITALIC + name;
+            name = TextFormatting.ITALIC + name;
 
         if (syntaxList.contains(Syntax.MULTIPLE))
             name = name + "...";

@@ -2,18 +2,9 @@ plugins {
     id 'org.spongepowered.plugin' version '0.7'
 }
 
-//temp dependency
-repositories {
-    maven {
-        url 'https://jitpack.io'
-    }
-}
-
 dependencies {
     compile project(':musicianlibrary-common')
-    //compile 'org.spongepowered:spongeapi:5.1.0-SNAPSHOT'
-    //temp dependency
-    compile 'com.github.SpongePowered:SpongeAPI:stable-5.1.0-SNAPSHOT'
+    compile 'org.spongepowered:spongeapi:5.1.0-SNAPSHOT'
 }
 
 processResources {
@@ -22,17 +13,8 @@ processResources {
     }
 }
 
-//noinspection GroovyMissingReturnStatement
 shadowJar {
     dependencies {
-        //noinspection GroovyAssignabilityCheck
         include(dependency(':musicianlibrary-common'))
-    }
-}
-
-install {
-    repositories.mavenInstaller {
-        pom.groupId = project.group.toString() + '.' + project.pluginName.toString().toLowerCase() + '.java.minecraft'
-        pom.artifactId = 'sponge'
     }
 }

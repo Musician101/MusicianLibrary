@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-@SuppressWarnings({"unused", "WeakerAccess"})
+
 public class MySQLHandler
 {
     private Connection connection;

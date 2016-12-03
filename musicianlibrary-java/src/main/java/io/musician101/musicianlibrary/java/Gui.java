@@ -17,7 +17,7 @@ import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.List;
 
-@SuppressWarnings({"unused", "WeakerAccess"})
+
 public class Gui
 {
     private Gui()
@@ -25,7 +25,7 @@ public class Gui
 
     }
 
-    @SuppressWarnings("unused")
+
     public static class Button extends JButton//NOSONAR
     {
         public Button(int x, int y, int w, int h, ActionListener listener)
@@ -49,7 +49,7 @@ public class Gui
         }
     }
 
-    @SuppressWarnings("unused")
+
     public static class ComboBox<E> extends JComboBox<E>
     {
         public ComboBox(E[] items, int x, int y, int w, int h)
@@ -69,7 +69,7 @@ public class Gui
         }
     }
 
-    @SuppressWarnings("unused")
+
     public static class Label extends JLabel
     {
         public Label(String text, int x, int y)
@@ -80,7 +80,7 @@ public class Gui
         }
     }
 
-    @SuppressWarnings("unused")
+
     public static class Panel extends JPanel
     {
         public Panel(int w, int h)
@@ -89,7 +89,7 @@ public class Gui
         }
     }
 
-    @SuppressWarnings("unused")
+
     public static class ScrollPane extends JScrollPane
     {
         public ScrollPane(Table table, int x, int y, int w, int h)
@@ -105,7 +105,7 @@ public class Gui
         }
     }
 
-    @SuppressWarnings("unused")
+
     public static class Table extends JTable//NOSONAR
     {
         public Table(TableModel model)
@@ -115,7 +115,7 @@ public class Gui
         }
     }
 
-    @SuppressWarnings("unused")
+
     public static class TextField extends JTextField//NOSONAR
     {
         public TextField(int x, int y, int w, int h)
@@ -124,7 +124,7 @@ public class Gui
         }
     }
 
-    @SuppressWarnings("unused")
+
     public static class MenuBar extends JMenuBar
     {
         public MenuBar(int w, int h, List<Menu> menus)
@@ -135,7 +135,7 @@ public class Gui
         }
     }
 
-    @SuppressWarnings("unused")
+
     public static class Menu extends JMenu//NOSONAR
     {
         public Menu(String name, List<MenuItem> items)
@@ -146,7 +146,7 @@ public class Gui
         }
     }
 
-    @SuppressWarnings("unused")
+
     public static class MenuItem extends JMenuItem//NOSONAR
     {
         public MenuItem(String name, ActionListener listener)

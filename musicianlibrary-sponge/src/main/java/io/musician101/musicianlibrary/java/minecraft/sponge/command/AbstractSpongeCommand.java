@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@SuppressWarnings({"unused", "WeakerAccess"})
+
 public abstract class AbstractSpongeCommand extends AbstractCommand<Text, SpongeCommandUsage, SpongeCommandPermissions, AbstractSpongeCommand, CommandSource> implements CommandCallable
 {
     public AbstractSpongeCommand(String name, Text description, SpongeCommandUsage usage, SpongeCommandPermissions permissions)

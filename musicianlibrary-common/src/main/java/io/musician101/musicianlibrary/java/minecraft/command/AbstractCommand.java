@@ -2,7 +2,7 @@ package io.musician101.musicianlibrary.java.minecraft.command;
 
 import java.util.List;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
+
 public abstract class AbstractCommand<M, U extends AbstractCommandUsage, P extends AbstractCommandPermissions, C extends AbstractCommand, S>
 {
     protected final List<C> subCommands;
@@ -20,7 +20,7 @@ public abstract class AbstractCommand<M, U extends AbstractCommandUsage, P exten
         this.subCommands = subCommands;
     }
 
-    @SuppressWarnings("unused")
+
     protected abstract boolean minArgsMet(S source, int argsLength, M message);
 
     public U getUsage()

@@ -9,7 +9,7 @@ import org.spongepowered.api.world.World;
 import java.util.Map;
 import java.util.Optional;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
+
 public class SpongeRegion extends AbstractRegion<Location<World>>
 {
     private String worldName = "";

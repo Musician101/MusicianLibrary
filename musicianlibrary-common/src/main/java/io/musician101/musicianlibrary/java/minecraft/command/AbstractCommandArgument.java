@@ -3,7 +3,7 @@ package io.musician101.musicianlibrary.java.minecraft.command;
 import java.util.Arrays;
 import java.util.List;
 
-@SuppressWarnings("unused")
+
 public abstract class AbstractCommandArgument<M>
 {
     protected final List<Syntax> syntaxList;

@@ -8,7 +8,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
 
-@SuppressWarnings({"WeakerAccess", "unused", "CanBeFinal"})
 public class AbstractSpigotPlugin<C extends AbstractConfig> extends JavaPlugin
 {
     protected C config;

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@SuppressWarnings({"unused", "WeakerAccess"})
+
 public abstract class AbstractSpigotCommand extends AbstractCommand<String, SpigotCommandUsage, SpigotCommandPermissions, AbstractSpigotCommand, CommandSender>
 {
     protected AbstractSpigotCommand(String name, String description, SpigotCommandUsage usage, SpigotCommandPermissions permissions)
@@ -22,7 +22,6 @@ public abstract class AbstractSpigotCommand extends AbstractCommand<String, Spig
         super(name, description, usage, permissions, subCommands);
     }
 
-    @SuppressWarnings("SameReturnValue")
     public abstract boolean onCommand(CommandSender sender, String... args);
 
     protected boolean canSenderUseCommand(CommandSender sender)

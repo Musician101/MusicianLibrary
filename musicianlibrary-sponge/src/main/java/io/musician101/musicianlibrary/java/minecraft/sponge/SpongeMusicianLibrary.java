@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.plugin.Plugin;
 
-@SuppressWarnings("WeakerAccess")
 @Plugin(id = SpongeMusicianLibrary.ID, name = "Musician Library - Sponge", authors = {"Musician101"}, version = "3.0-SNAPSHOT", description = "A library used to house common classes across multiple projects.")
 public class SpongeMusicianLibrary extends AbstractSpongePlugin<AbstractConfig>
 {
