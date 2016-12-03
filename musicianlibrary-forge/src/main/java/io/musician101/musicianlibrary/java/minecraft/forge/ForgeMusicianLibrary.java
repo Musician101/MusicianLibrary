@@ -6,8 +6,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.Logger;
 
 @Mod(modid = ForgeMusicianLibrary.MOD_ID, name = ForgeMusicianLibrary.MOD_NAME, version = ForgeMusicianLibrary.VERSION)
-public class ForgeMusicianLibrary
-{
+public class ForgeMusicianLibrary {
 
     public static final String MOD_ID = "forgemusicianlibrary";
     public static final String MOD_NAME = "forgemusicianlibrary";
@@ -15,8 +14,7 @@ public class ForgeMusicianLibrary
     private Logger logger;
 
     @EventHandler
-    public void preInit(FMLPreInitializationEvent event)
-    {
+    public void preInit(FMLPreInitializationEvent event) {
         //TODO need message to alert of api loading, need TextComponent utils
         logger = event.getModLog();
         logger.info("MusicianLibrary " + VERSION + " for Forge");

@@ -5,10 +5,8 @@ import java.util.List;
 import java.util.stream.Collector;
 
 
-public class Utils
-{
-    private Utils()
-    {
+public class Utils {
+    private Utils() {
 
     }
 
@@ -22,16 +20,14 @@ public class Utils
             return false;
 
         int i = 0;
-        if (string.charAt(0) == '-')
-        {
+        if (string.charAt(0) == '-') {
             if (length == 1)
                 return false;
 
             i = 1;
         }
 
-        for (; i < length; i++)
-        {
+        for (; i < length; i++) {
             char c = string.charAt(i);
             if (c < '0' || c > '9')
                 return false;
@@ -40,8 +36,7 @@ public class Utils
         return true;
     }
 
-    public static <T> Collector<T, List<T>, T> singletonCollector()
-    {
+    public static <T> Collector<T, List<T>, T> singletonCollector() {
         return Collector.of(ArrayList::new, List::add,
                 (left, right) -> {
                     left.addAll(right);

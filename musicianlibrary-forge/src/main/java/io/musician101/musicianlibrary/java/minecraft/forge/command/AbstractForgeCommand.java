@@ -13,17 +13,16 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.ITextComponent;
 
-public abstract class AbstractForgeCommand<M> extends CommandBase
-{
-    private final List<AbstractForgeCommand> subCommands = new ArrayList<>();
+public abstract class AbstractForgeCommand<M> extends CommandBase {
     protected final M modInstance;
     private final String description;
     private final String name;
+    private final List<AbstractForgeCommand> subCommands = new ArrayList<>();
     private final ForgeCommandUsage usage;
-    private TriConsumer<MinecraftServer, ICommandSender, List<String>> triConsumer = (server, sender, args) -> {};//NOSONAR
+    private TriConsumer<MinecraftServer, ICommandSender, List<String>> triConsumer = (server, sender, args) -> {
+    };//NOSONAR
 
-    protected AbstractForgeCommand(M modInstance, String name, String description, ForgeCommandUsage usage)
-    {
+    protected AbstractForgeCommand(M modInstance, String name, String description, ForgeCommandUsage usage) {
         this.modInstance = modInstance;
         this.name = name;
         this.description = description;
@@ -31,56 +30,15 @@ public abstract class AbstractForgeCommand<M> extends CommandBase
         build();
     }
 
-    protected void addArgument(AbstractForgeCommand command)
-    {
+    protected void addArgument(AbstractForgeCommand command) {
         subCommands.add(command);
-    }
-
-    protected void setConsumer(TriConsumer<MinecraftServer, ICommandSender, List<String>> triConsumer)
-    {
-        this.triConsumer = triConsumer;
-    }
-
-    protected boolean minArgsMet(ICommandSender sender, int argsLength, ITextComponent message)
-    {
-        if (argsLength >= usage.getMinArgs())
-            return true;
-
-        sender.sendMessage(message);
-        return false;
     }
 
     protected abstract void build();
 
-    @Nonnull
     @Override
-    public String getName()
-    {
-        return name;
-    }
-
-    @Nonnull
-    @Override
-    public String getUsage(@Nonnull ICommandSender sender)
-    {
-        return usage.getUsage();
-    }
-
-    public String getCommandHelpInfo(ICommandSender sender)
-    {
-        return getUsage(sender) + description;
-    }
-
-    public List<AbstractForgeCommand> getSubCommands()
-    {
-        return subCommands;
-    }
-
-    @Override
-    public void execute(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args) throws CommandException
-    {
-        if (args.length > 0)
-        {
+    public void execute(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args) throws CommandException {
+        if (args.length > 0) {
             if ("help".equalsIgnoreCase(args[0]))
                 new ForgeHelpCommand<>(modInstance, sender, this).execute(server, sender, moveArguments(args));
             else
@@ -91,13 +49,44 @@ public abstract class AbstractForgeCommand<M> extends CommandBase
             triConsumer.accept(server, sender, Arrays.asList(moveArguments(args)));
     }
 
-    protected String[] moveArguments(String[] args)
-    {
+    public String getCommandHelpInfo(ICommandSender sender) {
+        return getUsage(sender) + description;
+    }
+
+    @Nonnull
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    public List<AbstractForgeCommand> getSubCommands() {
+        return subCommands;
+    }
+
+    @Nonnull
+    @Override
+    public String getUsage(@Nonnull ICommandSender sender) {
+        return usage.getUsage();
+    }
+
+    protected boolean minArgsMet(ICommandSender sender, int argsLength, ITextComponent message) {
+        if (argsLength >= usage.getMinArgs())
+            return true;
+
+        sender.sendMessage(message);
+        return false;
+    }
+
+    protected String[] moveArguments(String[] args) {
         List<String> list = new ArrayList<>();
         Collections.addAll(list, args);
         if (!list.isEmpty())
             list.remove(0);
 
         return list.toArray(new String[list.size()]);
+    }
+
+    protected void setConsumer(TriConsumer<MinecraftServer, ICommandSender, List<String>> triConsumer) {
+        this.triConsumer = triConsumer;
     }
 }

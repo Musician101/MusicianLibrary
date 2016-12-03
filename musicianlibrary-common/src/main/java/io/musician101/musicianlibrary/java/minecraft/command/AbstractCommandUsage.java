@@ -3,29 +3,26 @@ package io.musician101.musicianlibrary.java.minecraft.command;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class AbstractCommandUsage<M, A extends AbstractCommandArgument>
-{
+public abstract class AbstractCommandUsage<M, A extends AbstractCommandArgument> {
     private final int minArgs;
     private final M usage;
 
-    protected AbstractCommandUsage(A... arguments)
-    {
+    @SafeVarargs
+    protected AbstractCommandUsage(A... arguments) {
         this(0, arguments);
     }
 
-    protected AbstractCommandUsage(int minArgs, A... arguments)
-    {
+    @SafeVarargs
+    protected AbstractCommandUsage(int minArgs, A... arguments) {
         this.usage = parseUsage(Arrays.asList(arguments));
         this.minArgs = minArgs;
     }
 
-    public int getMinArgs()
-    {
+    public int getMinArgs() {
         return minArgs;
     }
 
-    public M getUsage()
-    {
+    public M getUsage() {
         return usage;
     }
 

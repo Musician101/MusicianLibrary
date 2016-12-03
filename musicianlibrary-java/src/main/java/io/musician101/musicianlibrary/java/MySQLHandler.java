@@ -7,17 +7,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 
-public class MySQLHandler
-{
-    private Connection connection;
+public class MySQLHandler {
     private final String database;
     private final String hostname;
     private final String password;
     private final String port;
     private final String user;
+    private Connection connection;
 
-    public MySQLHandler(String database, String hostname, String password, String port, String user)
-    {
+    public MySQLHandler(String database, String hostname, String password, String port, String user) {
         this.connection = null;
         this.database = database;
         this.hostname = hostname;
@@ -26,27 +24,23 @@ public class MySQLHandler
         this.user = user;
     }
 
-    private Connection openConnection() throws ClassNotFoundException, SQLException
-    {
-        Class.forName("com.mysql.jdbc.Drive");
-        connection = DriverManager.getConnection("jdbc:mysql://" + hostname + ":" + port + "/" + database, user, password);
-        return connection;
-    }
-
-    private boolean checkConnection()
-    {
+    private boolean checkConnection() {
         return connection != null;
     }
 
-    public Connection getConnection()
-    {
+    public void closeConnection() throws SQLException {
+        if (connection != null)
+            connection.close();
+    }
+
+    public Connection getConnection() {
         return connection;
     }
 
-    public void closeConnection() throws SQLException
-    {
-        if (connection != null)
-            connection.close();
+    private Connection openConnection() throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.jdbc.Drive");
+        connection = DriverManager.getConnection("jdbc:mysql://" + hostname + ":" + port + "/" + database, user, password);
+        return connection;
     }
 
     public ResultSet querySQL(String query) throws ClassNotFoundException, SQLException//NOSONAR

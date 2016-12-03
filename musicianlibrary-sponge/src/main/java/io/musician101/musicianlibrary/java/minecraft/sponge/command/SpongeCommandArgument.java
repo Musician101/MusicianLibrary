@@ -5,22 +5,18 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextStyles;
 
 
-public class SpongeCommandArgument extends AbstractCommandArgument<Text>
-{
-    public SpongeCommandArgument(String name)
-    {
+public class SpongeCommandArgument extends AbstractCommandArgument<Text> {
+    public SpongeCommandArgument(String name) {
         super(name);
     }
 
 
-    public SpongeCommandArgument(String name, Syntax... syntaxes)
-    {
+    public SpongeCommandArgument(String name, Syntax... syntaxes) {
         super(name, syntaxes);
     }
 
     @Override
-    public Text format()
-    {
+    public Text format() {
         Text name = Text.of(this.name);
         if (syntaxList.contains(Syntax.MULTIPLE))
             name = Text.builder().append(name, Text.of("...")).build();

@@ -5,10 +5,8 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.inventory.ItemStack;
 
 @SuppressWarnings("WeakerAccess")
-public class SpongeClickEvent extends ClickEvent<ItemStack, Player>
-{
-    public SpongeClickEvent(Player player, ItemStack itemStack, int slot)
-    {
+public class SpongeClickEvent extends ClickEvent<ItemStack, Player> {
+    public SpongeClickEvent(Player player, ItemStack itemStack, int slot) {
         super(player, itemStack, slot);
     }
 }

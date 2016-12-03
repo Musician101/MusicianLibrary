@@ -4,21 +4,17 @@ import io.musician101.musicianlibrary.java.minecraft.command.AbstractCommandUsag
 import java.util.List;
 import net.minecraft.util.text.TextFormatting;
 
-public class ForgeCommandUsage extends AbstractCommandUsage<String, ForgeCommandArgument>
-{
-    public ForgeCommandUsage(ForgeCommandArgument... arguments)
-    {
+public class ForgeCommandUsage extends AbstractCommandUsage<String, ForgeCommandArgument> {
+    public ForgeCommandUsage(ForgeCommandArgument... arguments) {
         super(arguments);
     }
 
-    public ForgeCommandUsage(int minArgs, ForgeCommandArgument... arguments)
-    {
+    public ForgeCommandUsage(int minArgs, ForgeCommandArgument... arguments) {
         super(minArgs, arguments);
     }
 
     @Override
-    protected String parseUsage(List<ForgeCommandArgument> arguments)
-    {
+    protected String parseUsage(List<ForgeCommandArgument> arguments) {
         StringBuilder sb = new StringBuilder();
         sb.append(TextFormatting.GRAY).append(arguments.get(0).format());
         if (arguments.size() > 1)

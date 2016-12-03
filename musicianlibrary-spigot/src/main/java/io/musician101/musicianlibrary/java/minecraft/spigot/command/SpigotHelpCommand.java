@@ -5,21 +5,18 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
-public class SpigotHelpCommand<P extends JavaPlugin> extends AbstractSpigotCommand
-{
+public class SpigotHelpCommand<P extends JavaPlugin> extends AbstractSpigotCommand {
     private final AbstractSpigotCommand mainCommand;
     private final P plugin;
 
-    public SpigotHelpCommand(P plugin, AbstractSpigotCommand mainCommand)
-    {
+    public SpigotHelpCommand(P plugin, AbstractSpigotCommand mainCommand) {
         super("help", "Display help info for " + ChatColor.stripColor(mainCommand.getUsage().getUsage()), new SpigotCommandUsage(new SpigotCommandArgument(ChatColor.stripColor(mainCommand.getUsage().getUsage())), new SpigotCommandArgument("help")), new SpigotCommandPermissions("", false, "", ""));
         this.plugin = plugin;
         this.mainCommand = mainCommand;
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, String... args)
-    {
+    public boolean onCommand(CommandSender sender, String... args) {
         sender.sendMessage(ChatColor.GREEN + "===== " + ChatColor.RESET + plugin.getName() + " v" + plugin.getDescription().getVersion() + ChatColor.GREEN + " =====");
         sender.sendMessage(mainCommand.getCommandHelpInfo());
         mainCommand.getSubCommands().forEach(command -> sender.sendMessage(command.getCommandHelpInfo()));

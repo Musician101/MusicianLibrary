@@ -1,6 +1,8 @@
 package io.musician101.musicianlibrary.java.minecraft.spigot.menu;
 
 import io.musician101.musicianlibrary.java.minecraft.AbstractMenu;
+import java.util.Arrays;
+import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -17,28 +19,21 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Arrays;
-import java.util.UUID;
-
 @SuppressWarnings({"WeakerAccess", "unused"})
-public class AbstractSpigotMenu extends AbstractMenu<InventoryCloseEvent, Inventory, SpigotClickEventHandler, InventoryClickEvent, PlayerQuitEvent, ItemStack> implements Listener
-{
-    protected AbstractSpigotMenu(JavaPlugin plugin, Inventory inv, SpigotClickEventHandler handler)
-    {
+public class AbstractSpigotMenu extends AbstractMenu<InventoryCloseEvent, Inventory, SpigotClickEventHandler, InventoryClickEvent, PlayerQuitEvent, ItemStack> implements Listener {
+    protected AbstractSpigotMenu(JavaPlugin plugin, Inventory inv, SpigotClickEventHandler handler) {
         super(inv, handler);
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @Override
-    protected void destroy()
-    {
+    protected void destroy() {
         HandlerList.unregisterAll(this);
     }
 
     @EventHandler
     @Override
-    public void onClick(InventoryClickEvent event)
-    {
+    public void onClick(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player))
             return;
 
@@ -63,8 +58,7 @@ public class AbstractSpigotMenu extends AbstractMenu<InventoryCloseEvent, Invent
 
     @EventHandler
     @Override
-    public void onClose(InventoryCloseEvent event)
-    {
+    public void onClose(InventoryCloseEvent event) {
         if (!(event.getPlayer() instanceof Player))
             return;
 
@@ -75,44 +69,37 @@ public class AbstractSpigotMenu extends AbstractMenu<InventoryCloseEvent, Invent
 
     @EventHandler
     @Override
-    public void onQuit(PlayerQuitEvent event)
-    {
+    public void onQuit(PlayerQuitEvent event) {
         if (inv.equals(event.getPlayer().getOpenInventory().getTopInventory()))
             destroy();
     }
 
     @Override
-    public void open(UUID uuid)
-    {
+    public void open(UUID uuid) {
         Bukkit.getPlayer(uuid).openInventory(inv);
     }
 
     @Override
-    public void setOption(int slot, ItemStack itemStack)
-    {
+    public void setOption(int slot, ItemStack itemStack) {
         setOption(slot, itemStack, " ");
     }
 
     @Override
-    public void setOption(int slot, ItemStack itemStack, String name)
-    {
+    public void setOption(int slot, ItemStack itemStack, String name) {
         setOption(slot, itemStack, name, new String[0]);
     }
 
     @Override
-    public void setOption(int slot, ItemStack itemStack, String name, String... description)
-    {
+    public void setOption(int slot, ItemStack itemStack, String name, String... description) {
         setOption(slot, itemStack, name, false, description);
     }
 
     @Override
-    public void setOption(int slot, ItemStack itemStack, String name, boolean willGlow, String... description)
-    {
+    public void setOption(int slot, ItemStack itemStack, String name, boolean willGlow, String... description) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(name);
         itemMeta.setLore(Arrays.asList(description));
-        if (willGlow)
-        {
+        if (willGlow) {
             itemMeta.addEnchant(Enchantment.ARROW_DAMAGE, 1, true);
             itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         }

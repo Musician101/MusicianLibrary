@@ -1,6 +1,8 @@
 package io.musician101.musicianlibrary.java.minecraft.spigot.menu;
 
 import io.musician101.musicianlibrary.java.minecraft.menu.AbstractBookMenu;
+import java.util.List;
+import java.util.function.BiConsumer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -14,21 +16,59 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.List;
-import java.util.function.BiConsumer;
-
-public class SpigotBookMenu<J extends JavaPlugin> extends AbstractBookMenu<ItemStack, J, Player, Integer, PlayerInteractEvent, InventoryClickEvent, PlayerDropItemEvent, PlayerEditBookEvent> implements Listener
-{
-    public SpigotBookMenu(Player player, ItemStack book, BiConsumer<Player, List<String>> biConsumer)
-    {
+public class SpigotBookMenu<J extends JavaPlugin> extends AbstractBookMenu<ItemStack, J, Player, Integer, PlayerInteractEvent, InventoryClickEvent, PlayerDropItemEvent, PlayerEditBookEvent> implements Listener {
+    public SpigotBookMenu(Player player, ItemStack book, BiConsumer<Player, List<String>> biConsumer) {
         super(player, book, biConsumer);
     }
 
+    @EventHandler
     @Override
-    protected void start(J plugin)
-    {
-        try
-        {
+    public void bookInteract(PlayerInteractEvent event) {
+        if (player.getUniqueId().equals(event.getPlayer().getUniqueId()) && event.hasItem() && isSameBook(event.getItem()))
+            Bukkit.getScheduler().cancelTask(taskId);
+    }
+
+    @EventHandler
+    @Override
+    public void clickBook(InventoryClickEvent event) {
+        if (event.getWhoClicked() instanceof Player) {
+            Player player = (Player) event.getWhoClicked();
+            if (player.getUniqueId().equals(this.player.getUniqueId()) && isSameBook(event.getCurrentItem()))
+                event.setCancelled(true);
+        }
+    }
+
+    @Override
+    protected void close() {
+        HandlerList.unregisterAll(this);
+    }
+
+    @EventHandler
+    @Override
+    public void closeBook(PlayerEditBookEvent event) {
+        if (player.getUniqueId().equals(event.getPlayer().getUniqueId())) {
+            ItemStack itemStack = new ItemStack(Material.BOOK_AND_QUILL);
+            itemStack.setItemMeta(event.getPreviousBookMeta());
+            if (isSameBook(itemStack))
+                biConsumer.accept(player, event.getNewBookMeta().getPages());
+        }
+    }
+
+    @EventHandler
+    @Override
+    public void dropBook(PlayerDropItemEvent event) {
+        if (player.getUniqueId().equals(event.getPlayer().getUniqueId()) && isSameBook(event.getItemDrop().getItemStack()))
+            event.setCancelled(true);
+    }
+
+    @Override
+    protected boolean isSameBook(ItemStack book) {
+        return book.getType() == this.book.getType() && book.getItemMeta().equals(this.book.getItemMeta());
+    }
+
+    @Override
+    protected void start(J plugin) {
+        try {
             heldItem = player.getInventory().getItemInMainHand();
             player.getInventory().setItemInMainHand(book);
             Bukkit.getPluginManager().registerEvents(this, plugin);
@@ -37,59 +77,6 @@ public class SpigotBookMenu<J extends JavaPlugin> extends AbstractBookMenu<ItemS
         catch (Exception e)//NOSONAR
         {
             e.printStackTrace();
-        }
-    }
-
-    @Override
-    protected void close()
-    {
-        HandlerList.unregisterAll(this);
-    }
-
-    @Override
-    protected boolean isSameBook(ItemStack book)
-    {
-        return book.getType() == this.book.getType() && book.getItemMeta().equals(this.book.getItemMeta());
-    }
-
-    @EventHandler
-    @Override
-    public void bookInteract(PlayerInteractEvent event)
-    {
-        if (player.getUniqueId().equals(event.getPlayer().getUniqueId()) && event.hasItem() && isSameBook(event.getItem()))
-            Bukkit.getScheduler().cancelTask(taskId);
-    }
-
-    @EventHandler
-    @Override
-    public void clickBook(InventoryClickEvent event)
-    {
-        if (event.getWhoClicked() instanceof Player)
-        {
-            Player player = (Player) event.getWhoClicked();
-            if (player.getUniqueId().equals(this.player.getUniqueId()) && isSameBook(event.getCurrentItem()))
-                event.setCancelled(true);
-        }
-    }
-
-    @EventHandler
-    @Override
-    public void dropBook(PlayerDropItemEvent event)
-    {
-        if (player.getUniqueId().equals(event.getPlayer().getUniqueId()) && isSameBook(event.getItemDrop().getItemStack()))
-            event.setCancelled(true);
-    }
-
-    @EventHandler
-    @Override
-    public void closeBook(PlayerEditBookEvent event)
-    {
-        if (player.getUniqueId().equals(event.getPlayer().getUniqueId()))
-        {
-            ItemStack itemStack = new ItemStack(Material.BOOK_AND_QUILL);
-            itemStack.setItemMeta(event.getPreviousBookMeta());
-            if (isSameBook(itemStack))
-                biConsumer.accept(player, event.getNewBookMeta().getPages());
         }
     }
 }

@@ -1,25 +1,20 @@
 package io.musician101.musicianlibrary.java.minecraft.spigot.command;
 
 import io.musician101.musicianlibrary.java.minecraft.command.AbstractCommandUsage;
+import java.util.List;
 import org.bukkit.ChatColor;
 
-import java.util.List;
-
-public class SpigotCommandUsage extends AbstractCommandUsage<String, SpigotCommandArgument>
-{
-    public SpigotCommandUsage(SpigotCommandArgument... arguments)
-    {
+public class SpigotCommandUsage extends AbstractCommandUsage<String, SpigotCommandArgument> {
+    public SpigotCommandUsage(SpigotCommandArgument... arguments) {
         super(arguments);
     }
 
-    public SpigotCommandUsage(int minArgs, SpigotCommandArgument... arguments)
-    {
+    public SpigotCommandUsage(int minArgs, SpigotCommandArgument... arguments) {
         super(minArgs, arguments);
     }
 
     @Override
-    protected String parseUsage(List<SpigotCommandArgument> arguments)
-    {
+    protected String parseUsage(List<SpigotCommandArgument> arguments) {
         StringBuilder sb = new StringBuilder();
         sb.append(ChatColor.GRAY).append(arguments.get(0).format());
         if (arguments.size() > 1)

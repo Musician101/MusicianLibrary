@@ -1,6 +1,10 @@
 package io.musician101.musicianlibrary.java.minecraft.spigot.menu;
 
 import io.musician101.musicianlibrary.java.minecraft.menu.AbstractChestMenu;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.function.BiConsumer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,23 +18,15 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.function.BiConsumer;
-
-public abstract class AbstractSpigotChestMenu<J extends JavaPlugin> extends AbstractChestMenu<BiConsumer<Player, ClickType>, Inventory, J, Player, ItemStack, InventoryDragEvent, InventoryClickEvent, InventoryCloseEvent> implements Listener
-{
+public abstract class AbstractSpigotChestMenu<J extends JavaPlugin> extends AbstractChestMenu<BiConsumer<Player, ClickType>, Inventory, J, Player, ItemStack, InventoryDragEvent, InventoryClickEvent, InventoryCloseEvent> implements Listener {
     private static final String SERVER_VERSION = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
-    private static Method handleInventoryCloseEvent;
-    private static Method getHandle;
-    private static Field defaultContainer;
     private static Field activeContainer;
+    private static Field defaultContainer;
+    private static Method getHandle;
+    private static Method handleInventoryCloseEvent;
 
-    static
-    {
-        try
-        {
+    static {
+        try {
             final Class<?> entityHuman = Class.forName("net.minecraft.server." + SERVER_VERSION + ".EntityHuman");
             handleInventoryCloseEvent = Class.forName("org.bukkit.craftbukkit." + SERVER_VERSION + ".event.CraftEventFactory")
                     .getDeclaredMethod("handleInventoryCloseEvent", entityHuman);
@@ -38,29 +34,53 @@ public abstract class AbstractSpigotChestMenu<J extends JavaPlugin> extends Abst
             defaultContainer = entityHuman.getDeclaredField("defaultContainer");
             activeContainer = entityHuman.getDeclaredField("activeContainer");
         }
-        catch (ClassNotFoundException | NoSuchMethodException | NoSuchFieldException ex)
-        {
+        catch (ClassNotFoundException | NoSuchMethodException | NoSuchFieldException ex) {
             ex.printStackTrace();
         }
     }
 
-    protected AbstractSpigotChestMenu(Player player, int size, String name, J plugin)
-    {
+    protected AbstractSpigotChestMenu(Player player, int size, String name, J plugin) {
         this(player, size, name, plugin, false);
     }
 
-    protected AbstractSpigotChestMenu(Player player, int size, String name, J plugin, boolean manualOpen)
-    {
+    protected AbstractSpigotChestMenu(Player player, int size, String name, J plugin, boolean manualOpen) {
         super(Bukkit.createInventory(player, size, name), player);
-        if(!manualOpen)
+        if (!manualOpen)
             open(plugin);
     }
 
     @Override
-    protected void open(J plugin)
-    {
-        try
-        {
+    protected void close() {
+        onClose();
+        HandlerList.unregisterAll(this);
+    }
+
+    @EventHandler
+    @Override
+    public void onInventoryClick(InventoryClickEvent e) {
+        if (e.getInventory().getName().equals(inventory.getName()) && e.getInventory().getHolder().equals(player)) {
+            e.setCancelled(true);
+            if (buttons.containsKey(e.getRawSlot()))
+                buttons.get(e.getRawSlot()).accept((Player) e.getWhoClicked(), e.getClick());
+        }
+    }
+
+    @EventHandler
+    @Override
+    public void onInventoryClose(InventoryCloseEvent e) {
+        if (e.getInventory().getName().equals(inventory.getName()) && e.getInventory().getHolder().equals(player))
+            close();
+    }
+
+    @EventHandler
+    @Override
+    public void onInventoryItemDrag(InventoryDragEvent e) {
+        e.setCancelled(e.getInventory().getName().equals(inventory.getName()) && e.getInventory().getHolder().equals(player));
+    }
+
+    @Override
+    protected void open(J plugin) {
+        try {
             inventory.clear();
             build();
 
@@ -72,56 +92,19 @@ public abstract class AbstractSpigotChestMenu<J extends JavaPlugin> extends Abst
             Bukkit.getPluginManager().registerEvents(this, plugin);
             onOpen();
         }
-        catch (IllegalAccessException | InvocationTargetException ex)
-        {
+        catch (IllegalAccessException | InvocationTargetException ex) {
             ex.printStackTrace();
         }
     }
 
     @Override
-    protected void close()
-    {
-        onClose();
-        HandlerList.unregisterAll(this);
-    }
-
-    @Override
-    protected void set(int slot, ItemStack stack)
-    {
-        inventory.setItem(slot, stack);
-    }
-
-    @Override
-    protected void set(int slot, ItemStack stack, BiConsumer<Player, ClickType> consumer)
-    {
+    protected void set(int slot, ItemStack stack, BiConsumer<Player, ClickType> consumer) {
         set(slot, stack);
         buttons.put(slot, consumer);
     }
 
-    @EventHandler
     @Override
-    public void onInventoryItemDrag(InventoryDragEvent e)
-    {
-        e.setCancelled(e.getInventory().getName().equals(inventory.getName()) && e.getInventory().getHolder().equals(player));
-    }
-
-    @EventHandler
-    @Override
-    public void onInventoryClick(InventoryClickEvent e)
-    {
-        if (e.getInventory().getName().equals(inventory.getName()) && e.getInventory().getHolder().equals(player))
-        {
-            e.setCancelled(true);
-            if (buttons.containsKey(e.getRawSlot()))
-                buttons.get(e.getRawSlot()).accept((Player) e.getWhoClicked(), e.getClick());
-        }
-    }
-
-    @EventHandler
-    @Override
-    public void onInventoryClose(InventoryCloseEvent e)
-    {
-        if (e.getInventory().getName().equals(inventory.getName()) && e.getInventory().getHolder().equals(player))
-            close();
+    protected void set(int slot, ItemStack stack) {
+        inventory.setItem(slot, stack);
     }
 }

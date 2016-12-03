@@ -1,6 +1,11 @@
 package io.musician101.musicianlibrary.java.minecraft.sponge.menu;
 
 import io.musician101.musicianlibrary.java.minecraft.AbstractMenu;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.data.key.Keys;
@@ -21,27 +26,18 @@ import org.spongepowered.api.item.inventory.type.OrderedInventory;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.text.Text;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.stream.Collectors;
-
 @SuppressWarnings("unused")
-public class AbstractSpongeMenu extends AbstractMenu<Close, OrderedInventory, SpongeClickEventHandler, ClickInventoryEvent, Disconnect, ItemStack>
-{
+public class AbstractSpongeMenu extends AbstractMenu<Close, OrderedInventory, SpongeClickEventHandler, ClickInventoryEvent, Disconnect, ItemStack> {
     private final PluginContainer plugin;
 
-    protected AbstractSpongeMenu(PluginContainer plugin, OrderedInventory inv, SpongeClickEventHandler handler)
-    {
+    protected AbstractSpongeMenu(PluginContainer plugin, OrderedInventory inv, SpongeClickEventHandler handler) {
         super(inv, handler);
         this.plugin = plugin;
         Sponge.getEventManager().registerListeners(plugin, this);
     }
 
     @Override
-    protected void destroy()
-    {
+    protected void destroy() {
         Sponge.getEventManager().unregisterListeners(this);
     }
 
@@ -67,11 +63,9 @@ public class AbstractSpongeMenu extends AbstractMenu<Close, OrderedInventory, Sp
 
         int slot = -1;
         OrderedInventory inv = (OrderedInventory) event.getTargetInventory();
-        for (int x = 0; x < inv.size(); x++)
-        {
+        for (int x = 0; x < inv.size(); x++) {
             Optional<Slot> slotOptional = inv.getSlot(new SlotIndex(x));
-            if (slotOptional.isPresent())
-            {
+            if (slotOptional.isPresent()) {
                 Optional<ItemStack> itemStackOptional = slotOptional.get().peek();
                 if (itemStackOptional.isPresent() && itemStack.equals(itemStackOptional.get()))
                     slot = x;
@@ -89,8 +83,7 @@ public class AbstractSpongeMenu extends AbstractMenu<Close, OrderedInventory, Sp
 
     @Listener
     @Override
-    public void onClose(Close event)
-    {
+    public void onClose(Close event) {
         Optional<Player> playerOptional = event.getCause().first(Player.class);
         if (!playerOptional.isPresent())
             return;
@@ -102,8 +95,7 @@ public class AbstractSpongeMenu extends AbstractMenu<Close, OrderedInventory, Sp
 
     @Listener
     @Override
-    public void onQuit(Disconnect event)
-    {
+    public void onQuit(Disconnect event) {
         Optional<Container> invOptional = event.getTargetEntity().getOpenInventory();
         if (!invOptional.isPresent())
             return;
@@ -114,38 +106,30 @@ public class AbstractSpongeMenu extends AbstractMenu<Close, OrderedInventory, Sp
     }
 
     @Override
-    public void open(UUID uuid)
-    {
-        Optional<Player> player = Sponge.getServer().getPlayer(uuid);
-        if (player.isPresent())
-            player.get().openInventory(inv, Cause.of(NamedCause.source(plugin)));
+    public void open(UUID uuid) {
+        Sponge.getServer().getPlayer(uuid).ifPresent(player1 -> player1.openInventory(inv, Cause.of(NamedCause.source(plugin))));
     }
 
     @Override
-    public void setOption(int slot, ItemStack itemStack)
-    {
+    public void setOption(int slot, ItemStack itemStack) {
         setOption(slot, itemStack, " ");
     }
 
     @Override
-    public void setOption(int slot, ItemStack itemStack, String name)
-    {
+    public void setOption(int slot, ItemStack itemStack, String name) {
         setOption(slot, itemStack, name, new String[0]);
     }
 
     @Override
-    public void setOption(int slot, ItemStack itemStack, String name, String... description)
-    {
+    public void setOption(int slot, ItemStack itemStack, String name, String... description) {
         setOption(slot, itemStack, name, false, description);
     }
 
     @Override
-    public void setOption(int slot, ItemStack itemStack, String name, boolean willGlow, String... description)
-    {
+    public void setOption(int slot, ItemStack itemStack, String name, boolean willGlow, String... description) {
         itemStack.offer(Keys.DISPLAY_NAME, Text.of(name));
         itemStack.offer(Keys.ITEM_LORE, Arrays.stream(description).map(Text::of).collect(Collectors.toList()));
-        if (willGlow)
-        {
+        if (willGlow) {
             itemStack.offer(Keys.ITEM_ENCHANTMENTS, Collections.singletonList(new ItemEnchantment(Enchantments.AQUA_AFFINITY, 1)));
             itemStack.offer(Keys.HIDE_ENCHANTMENTS, true);
         }

@@ -7,19 +7,16 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.ModContainer;
 
-public class ForgeHelpCommand<M> extends AbstractForgeCommand<M>
-{
+public class ForgeHelpCommand<M> extends AbstractForgeCommand<M> {
     private final AbstractForgeCommand<M> mainCommand;
 
-    public ForgeHelpCommand(M modInstance, ICommandSender sender, AbstractForgeCommand<M> mainCommand)
-    {
+    public ForgeHelpCommand(M modInstance, ICommandSender sender, AbstractForgeCommand<M> mainCommand) {
         super(modInstance, "help", "Display help info for " + mainCommand.getUsage(sender), new ForgeCommandUsage(new ForgeCommandArgument(TextFormatting.getTextWithoutFormattingCodes(mainCommand.getUsage(sender))), new ForgeCommandArgument("help")));
         this.mainCommand = mainCommand;
     }
 
     @Override
-    protected void build()
-    {
+    protected void build() {
         setConsumer((server, sender, args) -> {
             ModContainer modContainer = FMLCommonHandler.instance().findContainerFor(modInstance);
             sender.sendMessage(TextComponentUtils.greenText("===== ")

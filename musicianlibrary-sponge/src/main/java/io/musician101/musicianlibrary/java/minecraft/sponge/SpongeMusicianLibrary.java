@@ -7,19 +7,17 @@ import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.plugin.Plugin;
 
 @Plugin(id = SpongeMusicianLibrary.ID, name = "Musician Library - Sponge", authors = {"Musician101"}, version = "3.0-SNAPSHOT", description = "A library used to house common classes across multiple projects.")
-public class SpongeMusicianLibrary extends AbstractSpongePlugin<AbstractConfig>
-{
+public class SpongeMusicianLibrary extends AbstractSpongePlugin<AbstractConfig> {
     static final String ID = "sponge_musician_library";
+
+    @Override
+    public Logger getLogger() {
+        return LoggerFactory.getLogger(ID);
+    }
 
     @Override
     public void preInit(GamePreInitializationEvent event)//NOSONAR
     {
 
-    }
-
-    @Override
-    public Logger getLogger()
-    {
-        return LoggerFactory.getLogger(ID);
     }
 }

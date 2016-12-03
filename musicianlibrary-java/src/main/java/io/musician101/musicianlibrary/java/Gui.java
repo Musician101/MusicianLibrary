@@ -1,5 +1,9 @@
 package io.musician101.musicianlibrary.java;
 
+import java.awt.Dimension;
+import java.awt.event.ActionListener;
+import java.util.Arrays;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -12,31 +16,23 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.TableModel;
-import java.awt.Dimension;
-import java.awt.event.ActionListener;
-import java.util.Arrays;
-import java.util.List;
 
 
-public class Gui
-{
-    private Gui()
-    {
+public class Gui {
+    private Gui() {
 
     }
 
 
     public static class Button extends JButton//NOSONAR
     {
-        public Button(int x, int y, int w, int h, ActionListener listener)
-        {
+        public Button(int x, int y, int w, int h, ActionListener listener) {
             super();
             setBounds(x, y, w, h);
             addActionListener(listener);
         }
 
-        public Button(String text, int x, int y, int w, int h)
-        {
+        public Button(String text, int x, int y, int w, int h) {
             this(text, x, y, w, h, null);
         }
 
@@ -50,16 +46,13 @@ public class Gui
     }
 
 
-    public static class ComboBox<E> extends JComboBox<E>
-    {
-        public ComboBox(E[] items, int x, int y, int w, int h)
-        {
+    public static class ComboBox<E> extends JComboBox<E> {
+        public ComboBox(E[] items, int x, int y, int w, int h) {
             super(items);
             setBounds(x, y, w, h);
         }
 
-        public void addAll(E[] items)
-        {
+        public void addAll(E[] items) {
             addAll(Arrays.asList(items));
         }
 
@@ -70,90 +63,70 @@ public class Gui
     }
 
 
-    public static class Label extends JLabel
-    {
-        public Label(String text, int x, int y)
-        {
+    public static class Label extends JLabel {
+        public Label(String text, int x, int y) {
             super(text);
             setBounds(x, y, 0, 0);
             setSize(getPreferredSize());
         }
     }
 
-
-    public static class Panel extends JPanel
-    {
-        public Panel(int w, int h)
-        {
-            setPreferredSize(new Dimension(w, h));
-        }
-    }
-
-
-    public static class ScrollPane extends JScrollPane
-    {
-        public ScrollPane(Table table, int x, int y, int w, int h)
-        {
-            super(table);
-            setBounds(x, y, w, h);
-        }
-
-        public ScrollPane(JList list, int x, int y, int w, int h)
-        {
-            super(list);
-            setBounds(x, y, w, h);
-        }
-    }
-
-
-    public static class Table extends JTable//NOSONAR
-    {
-        public Table(TableModel model)
-        {
-            super(model);
-            setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        }
-    }
-
-
-    public static class TextField extends JTextField//NOSONAR
-    {
-        public TextField(int x, int y, int w, int h)
-        {
-            setBounds(x, y, w, h);
-        }
-    }
-
-
-    public static class MenuBar extends JMenuBar
-    {
-        public MenuBar(int w, int h, List<Menu> menus)
-        {
-            super();
-            setBounds(0, 0, w, h);
-            menus.forEach(this::add);
-        }
-    }
-
-
     public static class Menu extends JMenu//NOSONAR
     {
-        public Menu(String name, List<MenuItem> items)
-        {
+        public Menu(String name, List<MenuItem> items) {
             super();
             setText(name);
             items.forEach(this::add);
         }
     }
 
+    public static class MenuBar extends JMenuBar {
+        public MenuBar(int w, int h, List<Menu> menus) {
+            super();
+            setBounds(0, 0, w, h);
+            menus.forEach(this::add);
+        }
+    }
 
     public static class MenuItem extends JMenuItem//NOSONAR
     {
-        public MenuItem(String name, ActionListener listener)
-        {
+        public MenuItem(String name, ActionListener listener) {
             super();
             setText(name);
             addActionListener(listener);
+        }
+    }
+
+    public static class Panel extends JPanel {
+        public Panel(int w, int h) {
+            setPreferredSize(new Dimension(w, h));
+        }
+    }
+
+    public static class ScrollPane extends JScrollPane {
+        public ScrollPane(Table table, int x, int y, int w, int h) {
+            super(table);
+            setBounds(x, y, w, h);
+        }
+
+        public ScrollPane(JList list, int x, int y, int w, int h) {
+            super(list);
+            setBounds(x, y, w, h);
+        }
+    }
+
+    public static class Table extends JTable//NOSONAR
+    {
+        public Table(TableModel model) {
+            super(model);
+            setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        }
+    }
+
+    public static class TextField extends JTextField//NOSONAR
+    {
+        public TextField(int x, int y, int w, int h) {
+            setBounds(x, y, w, h);
         }
     }
 }

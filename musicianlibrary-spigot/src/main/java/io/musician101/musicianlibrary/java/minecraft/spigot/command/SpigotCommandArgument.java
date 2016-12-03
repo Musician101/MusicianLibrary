@@ -4,22 +4,18 @@ import io.musician101.musicianlibrary.java.minecraft.command.AbstractCommandArgu
 import org.bukkit.ChatColor;
 
 
-public class SpigotCommandArgument extends AbstractCommandArgument<String>
-{
-    public SpigotCommandArgument(String name)
-    {
+public class SpigotCommandArgument extends AbstractCommandArgument<String> {
+    public SpigotCommandArgument(String name) {
         super(name);
     }
 
 
-    public SpigotCommandArgument(String name, Syntax... syntaxes)
-    {
+    public SpigotCommandArgument(String name, Syntax... syntaxes) {
         super(name, syntaxes);
     }
 
     @Override
-    public String format()
-    {
+    public String format() {
         String name = this.name;
         if (syntaxList.contains(Syntax.REPLACE))
             name = ChatColor.ITALIC + name;
