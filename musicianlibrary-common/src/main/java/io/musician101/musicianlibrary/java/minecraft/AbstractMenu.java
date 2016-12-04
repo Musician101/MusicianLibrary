@@ -3,7 +3,6 @@ package io.musician101.musicianlibrary.java.minecraft;
 import io.musician101.musicianlibrary.java.minecraft.AbstractMenu.ClickEventHandler;
 import java.util.UUID;
 
-@SuppressWarnings({"SameParameterValue", "unused"})
 public abstract class AbstractMenu<C, I, H extends ClickEventHandler, L, Q, S> {
     protected final H handler;
     protected final I inv;
@@ -36,7 +35,6 @@ public abstract class AbstractMenu<C, I, H extends ClickEventHandler, L, Q, S> {
         void handle(E event);
     }
 
-    @SuppressWarnings("unused")
     public static class ClickEvent<S, P> {
         final S itemStack;
         final P player;
@@ -44,7 +42,6 @@ public abstract class AbstractMenu<C, I, H extends ClickEventHandler, L, Q, S> {
         boolean close = false;
         boolean destroy = false;
 
-        @SuppressWarnings("WeakerAccess")
         public ClickEvent(P player, S itemStack, int slot) {
             this.player = player;
             this.itemStack = itemStack;

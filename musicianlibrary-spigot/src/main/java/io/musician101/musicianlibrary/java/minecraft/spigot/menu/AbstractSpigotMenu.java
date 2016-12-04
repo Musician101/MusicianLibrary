@@ -19,7 +19,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
 public class AbstractSpigotMenu extends AbstractMenu<InventoryCloseEvent, Inventory, SpigotClickEventHandler, InventoryClickEvent, PlayerQuitEvent, ItemStack> implements Listener {
     protected AbstractSpigotMenu(JavaPlugin plugin, Inventory inv, SpigotClickEventHandler handler) {
         super(inv, handler);

@@ -28,8 +28,7 @@ public abstract class AbstractSpigotChestMenu<J extends JavaPlugin> extends Abst
     static {
         try {
             final Class<?> entityHuman = Class.forName("net.minecraft.server." + SERVER_VERSION + ".EntityHuman");
-            handleInventoryCloseEvent = Class.forName("org.bukkit.craftbukkit." + SERVER_VERSION + ".event.CraftEventFactory")
-                    .getDeclaredMethod("handleInventoryCloseEvent", entityHuman);
+            handleInventoryCloseEvent = Class.forName("org.bukkit.craftbukkit." + SERVER_VERSION + ".event.CraftEventFactory").getDeclaredMethod("handleInventoryCloseEvent", entityHuman);
             getHandle = Class.forName("org.bukkit.craftbukkit." + SERVER_VERSION + ".entity.CraftPlayer").getDeclaredMethod("getHandle");
             defaultContainer = entityHuman.getDeclaredField("defaultContainer");
             activeContainer = entityHuman.getDeclaredField("activeContainer");

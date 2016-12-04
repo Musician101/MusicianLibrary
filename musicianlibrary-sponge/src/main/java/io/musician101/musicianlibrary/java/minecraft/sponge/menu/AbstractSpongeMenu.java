@@ -26,7 +26,6 @@ import org.spongepowered.api.item.inventory.type.OrderedInventory;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.text.Text;
 
-@SuppressWarnings("unused")
 public class AbstractSpongeMenu extends AbstractMenu<Close, OrderedInventory, SpongeClickEventHandler, ClickInventoryEvent, Disconnect, ItemStack> {
     private final PluginContainer plugin;
 
@@ -100,8 +99,7 @@ public class AbstractSpongeMenu extends AbstractMenu<Close, OrderedInventory, Sp
         if (!invOptional.isPresent())
             return;
 
-        //noinspection RedundantCast
-        if (inv.equals((OrderedInventory) invOptional.get()))
+        if (inv.equals(invOptional.get()))
             destroy();
     }
 

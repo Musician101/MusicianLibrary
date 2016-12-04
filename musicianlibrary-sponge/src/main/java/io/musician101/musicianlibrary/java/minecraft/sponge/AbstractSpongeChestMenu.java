@@ -45,7 +45,8 @@ public abstract class AbstractSpongeChestMenu<J> extends AbstractChestMenu<Consu
 
             final int finalSlotIndex = slotIndex;
             if (buttons.containsKey(slotIndex))
-                event.getCause().first(Player.class).ifPresent(player -> buttons.get(finalSlotIndex).accept(player));//NOSONAR
+                event.getCause().first(Player.class).ifPresent(player ->
+                        buttons.get(finalSlotIndex).accept(player));//NOSONAR
         }
     }
 
