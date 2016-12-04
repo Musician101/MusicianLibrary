@@ -35,7 +35,7 @@ public class SpongeRegion extends AbstractRegion<Location<World>> {
                 node.getNode("MaxY").getInt(0),
                 node.getNode("MaxZ").getInt(0));
 
-        this.worldName = !node.getNode("World").isVirtual() ? node.getNode("World").getString() : "";//NOSONAR
+        this.worldName = !node.getNode("World").isVirtual() ? node.getNode("World").getString() : "";
     }
 
     public static SpongeRegion createFromLocationRadius(Location<World> location, double radius) {
@@ -59,7 +59,7 @@ public class SpongeRegion extends AbstractRegion<Location<World>> {
 
     @Override
     public boolean isInRegion(Location<World> location) {
-        return location.getExtent().getName().equals(worldName) && location.getPosition().getX() > getMinX() && location.getPosition().getX() < getMaxX() && location.getPosition().getY() > getMinY() && location.getPosition().getY() < getMaxY() && location.getPosition().getZ() > getMinZ() && location.getPosition().getZ() < getMaxZ();//NOSONAR
+        return location.getExtent().getName().equals(worldName) && location.getPosition().getX() > getMinX() && location.getPosition().getX() < getMaxX() && location.getPosition().getY() > getMinY() && location.getPosition().getY() < getMaxY() && location.getPosition().getZ() > getMinZ() && location.getPosition().getZ() < getMaxZ();
     }
 
     @Override

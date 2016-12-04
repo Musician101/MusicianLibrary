@@ -72,9 +72,9 @@ public class SpigotBookMenu<J extends JavaPlugin> extends AbstractBookMenu<ItemS
             heldItem = player.getInventory().getItemInMainHand();
             player.getInventory().setItemInMainHand(book);
             Bukkit.getPluginManager().registerEvents(this, plugin);
-            taskId = Bukkit.getScheduler().runTaskLater(plugin, () -> player.getInventory().setItem(2, null), 100).getTaskId();//NOSONAR
+            taskId = Bukkit.getScheduler().runTaskLater(plugin, () -> player.getInventory().setItem(2, null), 100).getTaskId();
         }
-        catch (Exception e)//NOSONAR
+        catch (Exception e)
         {
             e.printStackTrace();
         }

@@ -16,7 +16,7 @@ public class SpongeMusicianLibrary extends AbstractSpongePlugin<AbstractConfig> 
     }
 
     @Override
-    public void preInit(GamePreInitializationEvent event)//NOSONAR
+    public void preInit(GamePreInitializationEvent event)
     {
 
     }

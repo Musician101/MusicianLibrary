@@ -24,7 +24,7 @@ public class Gui {
     }
 
 
-    public static class Button extends JButton//NOSONAR
+    public static class Button extends JButton
     {
         public Button(int x, int y, int w, int h, ActionListener listener) {
             super();
@@ -36,7 +36,7 @@ public class Gui {
             this(text, x, y, w, h, null);
         }
 
-        public Button(String text, int x, int y, int w, int h, ActionListener listener)//NOSONAR
+        public Button(String text, int x, int y, int w, int h, ActionListener listener)
         {
             super(text);
             setBounds(x, y, w, h);
@@ -56,7 +56,7 @@ public class Gui {
             addAll(Arrays.asList(items));
         }
 
-        public void addAll(List<E> items)//NOSONAR
+        public void addAll(List<E> items)
         {
             items.forEach(this::addItem);
         }
@@ -71,7 +71,7 @@ public class Gui {
         }
     }
 
-    public static class Menu extends JMenu//NOSONAR
+    public static class Menu extends JMenu
     {
         public Menu(String name, List<MenuItem> items) {
             super();
@@ -88,7 +88,7 @@ public class Gui {
         }
     }
 
-    public static class MenuItem extends JMenuItem//NOSONAR
+    public static class MenuItem extends JMenuItem
     {
         public MenuItem(String name, ActionListener listener) {
             super();
@@ -115,7 +115,7 @@ public class Gui {
         }
     }
 
-    public static class Table extends JTable//NOSONAR
+    public static class Table extends JTable
     {
         public Table(TableModel model) {
             super(model);
@@ -123,7 +123,7 @@ public class Gui {
         }
     }
 
-    public static class TextField extends JTextField//NOSONAR
+    public static class TextField extends JTextField
     {
         public TextField(int x, int y, int w, int h) {
             setBounds(x, y, w, h);

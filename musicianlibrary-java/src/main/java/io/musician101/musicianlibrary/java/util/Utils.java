@@ -10,7 +10,7 @@ public class Utils {
 
     }
 
-    public static boolean isInteger(String string)//NOSONAR
+    public static boolean isInteger(String string)
     {
         if (string == null)
             return false;

@@ -19,8 +19,7 @@ public abstract class AbstractForgeCommand<M> extends CommandBase {
     private final String name;
     private final List<AbstractForgeCommand> subCommands = new ArrayList<>();
     private final ForgeCommandUsage usage;
-    private TriConsumer<MinecraftServer, ICommandSender, List<String>> triConsumer = (server, sender, args) -> {
-    };//NOSONAR
+    private TriConsumer<MinecraftServer, ICommandSender, List<String>> triConsumer = (server, sender, args) -> {};
 
     protected AbstractForgeCommand(M modInstance, String name, String description, ForgeCommandUsage usage) {
         this.modInstance = modInstance;

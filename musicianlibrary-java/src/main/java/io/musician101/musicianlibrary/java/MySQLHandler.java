@@ -43,7 +43,7 @@ public class MySQLHandler {
         return connection;
     }
 
-    public ResultSet querySQL(String query) throws ClassNotFoundException, SQLException//NOSONAR
+    public ResultSet querySQL(String query) throws ClassNotFoundException, SQLException
     {
         Connection c;
         if (checkConnection())
@@ -58,7 +58,7 @@ public class MySQLHandler {
         return rset;
     }
 
-    public void updateSQL(String update) throws ClassNotFoundException, SQLException//NOSONAR
+    public void updateSQL(String update) throws ClassNotFoundException, SQLException
     {
         Connection c;
         if (checkConnection())

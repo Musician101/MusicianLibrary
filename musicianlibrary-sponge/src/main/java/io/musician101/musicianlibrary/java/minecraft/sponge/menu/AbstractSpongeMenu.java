@@ -42,7 +42,7 @@ public class AbstractSpongeMenu extends AbstractMenu<Close, OrderedInventory, Sp
 
     @Listener
     @Override
-    public void onClick(ClickInventoryEvent event)//NOSONAR
+    public void onClick(ClickInventoryEvent event)
     {
         Optional<Player> playerOptional = event.getCause().first(Player.class);
         if (!playerOptional.isPresent())

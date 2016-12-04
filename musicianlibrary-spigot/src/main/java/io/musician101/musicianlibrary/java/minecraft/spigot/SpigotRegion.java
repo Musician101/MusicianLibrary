@@ -28,14 +28,14 @@ public class SpigotRegion extends AbstractRegion<Location> {
     }
 
     public SpigotRegion(Map<String, Object> map) {
-        super(map.containsKey("MinX") ? (Integer) map.get("MinX") : 0,//NOSONAR
+        super(map.containsKey("MinX") ? (Integer) map.get("MinX") : 0,
                 map.containsKey("MaxX") ? (Integer) map.get("MaxX") : 0,
                 map.containsKey("MinY") ? (Integer) map.get("MinY") : 0,
                 map.containsKey("MaxY") ? (Integer) map.get("MaxY") : 0,
                 map.containsKey("MinZ") ? (Integer) map.get("MinZ") : 0,
                 map.containsKey("MaxZ") ? (Integer) map.get("MaxZ") : 0);
 
-        this.worldName = map.containsKey("World") ? (String) map.get("World") : "";//NOSONAR
+        this.worldName = map.containsKey("World") ? (String) map.get("World") : "";
     }
 
     public static SpigotRegion createFromLocationRadius(Location location, double radius) {
@@ -60,7 +60,7 @@ public class SpigotRegion extends AbstractRegion<Location> {
 
     @Override
     public boolean isInRegion(Location location) {
-        return location.getWorld().getName().equals(worldName) && location.getX() > getMinX() && location.getX() < getMaxX() && location.getZ() > getMinZ() && location.getZ() < getMaxZ();//NOSONAR
+        return location.getWorld().getName().equals(worldName) && location.getX() > getMinX() && location.getX() < getMaxX() && location.getZ() > getMinZ() && location.getZ() < getMaxZ();
     }
 
     @Override
