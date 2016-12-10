@@ -27,6 +27,14 @@ public class SpongeCommandPermissions extends AbstractCommandPermissions<Text, C
         return true;
     }
 
+    public static SpongeCommandPermissions blank() {
+        return builder().setIsPlayerOnly(false).setPermissionNode("").setNoPermissionMessage(Text.of()).setNoPermissionMessage(Text.of()).build();
+    }
+
+    public static SpongeCommandPermissionsBuilder builder() {
+        return new SpongeCommandPermissionsBuilder();
+    }
+
     public static class SpongeCommandPermissionsBuilder extends AbstractCommandPermissionsBuilder<SpongeCommandPermissionsBuilder, Text, CommandSource, SpongeCommandPermissions> {
 
         SpongeCommandPermissionsBuilder() {

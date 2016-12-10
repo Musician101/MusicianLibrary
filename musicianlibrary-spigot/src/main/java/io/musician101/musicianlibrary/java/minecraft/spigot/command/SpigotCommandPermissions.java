@@ -11,6 +11,10 @@ public class SpigotCommandPermissions extends AbstractCommandPermissions<String,
 
     }
 
+    public static SpigotCommandPermissions blank() {
+        return builder().setIsPlayerOnly(false).setPermissionNode("").setNoPermissionMessage("").setNoPermissionMessage("").build();
+    }
+
     public static SpigotCommandPermissionsBuilder builder() {
         return new SpigotCommandPermissionsBuilder();
     }
