@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.function.BiConsumer;
 
 public abstract class AbstractBookMenu<I, J, P, T, W, X, Y, Z> {
+
     protected final BiConsumer<P, List<String>> biConsumer;
     protected final I book;
     protected final P player;

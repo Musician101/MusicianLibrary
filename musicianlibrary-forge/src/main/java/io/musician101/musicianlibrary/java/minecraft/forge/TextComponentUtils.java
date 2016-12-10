@@ -6,6 +6,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 
 public class TextComponentUtils {
+
     private TextComponentUtils() {
 
     }

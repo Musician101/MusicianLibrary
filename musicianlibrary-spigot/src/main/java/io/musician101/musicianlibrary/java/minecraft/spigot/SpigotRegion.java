@@ -10,6 +10,7 @@ import org.bukkit.WorldCreator;
 
 
 public class SpigotRegion extends AbstractRegion<Location> {
+
     private String worldName = "";
 
     private SpigotRegion(Location location) {

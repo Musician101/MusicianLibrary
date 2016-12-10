@@ -19,13 +19,14 @@ import javax.swing.table.TableModel;
 
 
 public class Gui {
+
     private Gui() {
 
     }
 
 
-    public static class Button extends JButton
-    {
+    public static class Button extends JButton {
+
         public Button(int x, int y, int w, int h, ActionListener listener) {
             super();
             setBounds(x, y, w, h);
@@ -36,8 +37,7 @@ public class Gui {
             this(text, x, y, w, h, null);
         }
 
-        public Button(String text, int x, int y, int w, int h, ActionListener listener)
-        {
+        public Button(String text, int x, int y, int w, int h, ActionListener listener) {
             super(text);
             setBounds(x, y, w, h);
             if (listener != null)
@@ -47,6 +47,7 @@ public class Gui {
 
 
     public static class ComboBox<E> extends JComboBox<E> {
+
         public ComboBox(E[] items, int x, int y, int w, int h) {
             super(items);
             setBounds(x, y, w, h);
@@ -56,14 +57,14 @@ public class Gui {
             addAll(Arrays.asList(items));
         }
 
-        public void addAll(List<E> items)
-        {
+        public void addAll(List<E> items) {
             items.forEach(this::addItem);
         }
     }
 
 
     public static class Label extends JLabel {
+
         public Label(String text, int x, int y) {
             super(text);
             setBounds(x, y, 0, 0);
@@ -71,8 +72,8 @@ public class Gui {
         }
     }
 
-    public static class Menu extends JMenu
-    {
+    public static class Menu extends JMenu {
+
         public Menu(String name, List<MenuItem> items) {
             super();
             setText(name);
@@ -81,6 +82,7 @@ public class Gui {
     }
 
     public static class MenuBar extends JMenuBar {
+
         public MenuBar(int w, int h, List<Menu> menus) {
             super();
             setBounds(0, 0, w, h);
@@ -88,8 +90,8 @@ public class Gui {
         }
     }
 
-    public static class MenuItem extends JMenuItem
-    {
+    public static class MenuItem extends JMenuItem {
+
         public MenuItem(String name, ActionListener listener) {
             super();
             setText(name);
@@ -98,12 +100,14 @@ public class Gui {
     }
 
     public static class Panel extends JPanel {
+
         public Panel(int w, int h) {
             setPreferredSize(new Dimension(w, h));
         }
     }
 
     public static class ScrollPane extends JScrollPane {
+
         public ScrollPane(Table table, int x, int y, int w, int h) {
             super(table);
             setBounds(x, y, w, h);
@@ -115,16 +119,16 @@ public class Gui {
         }
     }
 
-    public static class Table extends JTable
-    {
+    public static class Table extends JTable {
+
         public Table(TableModel model) {
             super(model);
             setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         }
     }
 
-    public static class TextField extends JTextField
-    {
+    public static class TextField extends JTextField {
+
         public TextField(int x, int y, int w, int h) {
             setBounds(x, y, w, h);
         }

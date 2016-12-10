@@ -1,26 +1,26 @@
 package io.musician101.musicianlibrary.java.minecraft.command;
 
-import java.util.Arrays;
+import io.musician101.musicianlibrary.java.minecraft.MLResettableBuilder;
+import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Nonnull;
 
 
 public abstract class AbstractCommandArgument<M> {
-    protected final List<Syntax> syntaxList;
+
     protected String name;
+    protected List<Syntax> syntaxList;
 
-    protected AbstractCommandArgument(String name) {
-        this(name, Syntax.LITERAL);
-    }
+    @Nonnull
+    public abstract M format();
 
-    protected AbstractCommandArgument(String name, Syntax... syntaxes) {
-        this.syntaxList = Arrays.asList(syntaxes);
-        if (syntaxList.contains(Syntax.REQUIRED) && syntaxList.contains(Syntax.OPTIONAL))
-            throw new IllegalArgumentException("Common arguments cannot be both Optional and Required.");
-
+    protected void setName(String name) {
         this.name = name;
     }
 
-    public abstract M format();
+    protected void setSyntaxList(List<Syntax> syntaxList) {
+        this.syntaxList = syntaxList;
+    }
 
     public enum Syntax {
         LITERAL,
@@ -28,5 +28,17 @@ public abstract class AbstractCommandArgument<M> {
         REPLACE,
         REQUIRED,
         OPTIONAL
+    }
+
+    protected static abstract class AbstractCommandArgumentBuilder<A, B extends AbstractCommandArgumentBuilder<A, B, M>, M> implements MLResettableBuilder<A, B> {
+
+        protected String name;
+        protected List<Syntax> syntaxList = new ArrayList<>();
+
+        @Nonnull
+        public abstract B addSyntax(@Nonnull Syntax syntax);
+
+        @Nonnull
+        public abstract B setName(@Nonnull String name);
     }
 }

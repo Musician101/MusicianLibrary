@@ -4,6 +4,7 @@ import java.io.File;
 
 
 public abstract class AbstractConfig {
+
     protected final File configFile;
     protected boolean updateCheck;
 

@@ -5,6 +5,7 @@ import org.spongepowered.api.text.format.TextColors;
 
 
 public class TextUtils {
+
     private TextUtils() {
 
     }

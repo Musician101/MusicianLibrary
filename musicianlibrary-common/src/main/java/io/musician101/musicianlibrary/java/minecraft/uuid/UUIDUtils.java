@@ -16,6 +16,7 @@ import java.util.UUID;
 
 
 public class UUIDUtils {
+
     private UUIDUtils() {
 
     }
@@ -71,6 +72,7 @@ public class UUIDUtils {
     }
 
     public static class MinecraftProfile {
+
         private final String name;
         private final UUID uuid;
 

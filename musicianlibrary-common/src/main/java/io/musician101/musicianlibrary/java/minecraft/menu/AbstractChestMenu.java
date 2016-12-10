@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class AbstractChestMenu<C, I, J, P, S, X, Y, Z> {
+
     protected final Map<Integer, C> buttons = new HashMap<>();
     protected final I inventory;
     protected final P player;

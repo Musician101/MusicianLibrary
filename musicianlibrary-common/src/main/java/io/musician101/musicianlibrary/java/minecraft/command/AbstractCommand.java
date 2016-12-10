@@ -1,30 +1,130 @@
 package io.musician101.musicianlibrary.java.minecraft.command;
 
+import io.musician101.musicianlibrary.java.minecraft.MLResettableBuilder;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.BiFunction;
+import javax.annotation.Nonnull;
 
+public abstract class AbstractCommand<A extends AbstractCommandArgument<M>, C extends AbstractCommand<A, C, M, P, S, U>, M, P extends AbstractCommandPermissions<M, S>, S, U extends AbstractCommandUsage<A, M>> {
 
-public abstract class AbstractCommand<M, U extends AbstractCommandUsage, P extends AbstractCommandPermissions, C extends AbstractCommand, S> {
-    protected final M description;
-    protected final String name;
-    protected final P permissions;
-    protected final List<C> subCommands;
-    protected final U usage;
+    private BiFunction<S, List<String>, MLCommandResult> biFunction;
+    private M description;
+    private String name;
+    private P permissions;
+    private Map<String, C> subCommands;
+    private U usage;
 
-    protected AbstractCommand(String name, M description, U usage, P permissions, List<C> subCommands) {
-        this.name = name;
-        this.description = description;
-        this.usage = usage;
-        this.permissions = permissions;
-        this.subCommands = subCommands;
+    private MLCommandResult execute(@Nonnull String arg, @Nonnull S sender, @Nonnull List<String> args) {
+        if (subCommands.containsKey(arg)) {
+            return subCommands.get(arg).execute(sender, shiftArguments(args));
+        }
+
+        return null;
     }
 
-    public List<C> getSubCommands() {
+    @Nonnull
+    public MLCommandResult execute(@Nonnull S sender, @Nonnull List<String> args) {
+        if (!minArgsMet(args.size()))
+            return MLCommandResult.NOT_ENOUGH_ARGUMENTS;
+
+        MLCommandResult result = null;
+        if (args.size() > 0)
+            result = execute(args.get(0), sender, shiftArguments(args));
+
+        return result == null ? biFunction.apply(sender, args) : result;
+    }
+
+    public M getDescription() {
+        return description;
+    }
+
+    protected void setDescription(@Nonnull M description) {
+        this.description = description;
+    }
+
+    @Nonnull
+    public abstract M getHelp();
+
+    public String getName() {
+        return name;
+    }
+
+    protected void setName(@Nonnull String name) {
+        this.name = name;
+    }
+
+    public Map<String, C> getSubCommands() {
         return subCommands;
     }
 
-    public U getUsage() {
-        return usage;
+    protected void setSubCommands(@Nonnull Map<String, C> subCommands) {
+        this.subCommands = subCommands;
     }
 
-    protected abstract boolean minArgsMet(S source, int argsLength, M message);
+    @Nonnull
+    public M getUsage() {
+        return usage.getUsage();
+    }
+
+    protected void setUsage(@Nonnull U usage) {
+        this.usage = usage;
+    }
+
+    protected boolean minArgsMet(int amount) {
+        return usage.getMinArgs() < amount;
+    }
+
+    protected void setBiFunction(@Nonnull BiFunction<S, List<String>, MLCommandResult> biFunction) {
+        this.biFunction = biFunction;
+    }
+
+    protected void setPermissions(@Nonnull P permissions) {
+        this.permissions = permissions;
+    }
+
+    protected List<String> shiftArguments(@Nonnull String... args) {
+        return shiftArguments(Arrays.asList(args));
+    }
+
+    protected List<String> shiftArguments(@Nonnull List<String> args) {
+        if (!args.isEmpty())
+            args.remove(0);
+
+        return args;
+    }
+
+    protected boolean testPermissions(@Nonnull S sender) {
+        return permissions.testPermissions(sender);
+    }
+
+    protected static abstract class AbstractCommandBuilder<A extends AbstractCommandArgument<M>, B extends AbstractCommandBuilder<A, B, C, M, P, S, U>, C extends AbstractCommand<A, C, M, P, S, U>, M, P extends AbstractCommandPermissions<M, S>, S, U extends AbstractCommandUsage<A, M>> implements MLResettableBuilder<C, B> {
+
+        protected BiFunction<S, List<String>, MLCommandResult> biFunction = (sender, args) -> MLCommandResult.SUCCESS;
+        protected M description;
+        protected String name;
+        protected P permissions;
+        protected Map<String, C> subCommands = new HashMap<>();
+        protected U usage;
+
+        @Nonnull
+        public abstract B addCommand(@Nonnull C command);
+
+        @Nonnull
+        public abstract B setBiFunction(@Nonnull BiFunction<S, List<String>, MLCommandResult> biFunction);
+
+        @Nonnull
+        public abstract B setDescription(@Nonnull M description);
+
+        @Nonnull
+        public abstract B setName(@Nonnull String name);
+
+        @Nonnull
+        public abstract B setPermissions(@Nonnull P permissions);
+
+        @Nonnull
+        public abstract B setUsage(@Nonnull U usage);
+    }
 }

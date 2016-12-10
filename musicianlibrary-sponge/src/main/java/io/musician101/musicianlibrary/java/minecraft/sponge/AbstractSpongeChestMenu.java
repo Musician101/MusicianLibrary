@@ -17,6 +17,7 @@ import org.spongepowered.api.item.inventory.property.SlotIndex;
 import org.spongepowered.api.item.inventory.type.OrderedInventory;
 
 public abstract class AbstractSpongeChestMenu<J> extends AbstractChestMenu<Consumer<Player>, OrderedInventory, J, Player, ItemStack, Drag, ClickInventoryEvent, Close> {
+
     protected AbstractSpongeChestMenu(Player player, InventoryArchetype inventoryArchetype, String name, J plugin) {
         this(player, inventoryArchetype, name, plugin, false);
     }

@@ -5,6 +5,7 @@ import java.util.Map;
 
 
 public abstract class AbstractRegion<L> {
+
     private int maxX = 0;
     private int maxY = 0;
     private int maxZ = 0;

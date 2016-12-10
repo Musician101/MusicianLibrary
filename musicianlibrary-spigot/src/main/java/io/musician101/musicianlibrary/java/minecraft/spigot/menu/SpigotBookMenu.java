@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class SpigotBookMenu<J extends JavaPlugin> extends AbstractBookMenu<ItemStack, J, Player, Integer, PlayerInteractEvent, InventoryClickEvent, PlayerDropItemEvent, PlayerEditBookEvent> implements Listener {
+
     public SpigotBookMenu(Player player, ItemStack book, BiConsumer<Player, List<String>> biConsumer) {
         super(player, book, biConsumer);
     }
@@ -74,8 +75,7 @@ public class SpigotBookMenu<J extends JavaPlugin> extends AbstractBookMenu<ItemS
             Bukkit.getPluginManager().registerEvents(this, plugin);
             taskId = Bukkit.getScheduler().runTaskLater(plugin, () -> player.getInventory().setItem(2, null), 100).getTaskId();
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             e.printStackTrace();
         }
     }

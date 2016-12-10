@@ -6,12 +6,12 @@ import java.util.stream.Collector;
 
 
 public class Utils {
+
     private Utils() {
 
     }
 
-    public static boolean isInteger(String string)
-    {
+    public static boolean isInteger(String string) {
         if (string == null)
             return false;
 

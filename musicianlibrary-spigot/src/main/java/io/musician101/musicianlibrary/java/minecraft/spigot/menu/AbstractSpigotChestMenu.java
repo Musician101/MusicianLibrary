@@ -19,6 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public abstract class AbstractSpigotChestMenu<J extends JavaPlugin> extends AbstractChestMenu<BiConsumer<Player, ClickType>, Inventory, J, Player, ItemStack, InventoryDragEvent, InventoryClickEvent, InventoryCloseEvent> implements Listener {
+
     private static final String SERVER_VERSION = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
     private static Field activeContainer;
     private static Field defaultContainer;

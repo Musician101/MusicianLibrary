@@ -8,6 +8,7 @@ import java.sql.Statement;
 
 
 public class MySQLHandler {
+
     private final String database;
     private final String hostname;
     private final String password;
@@ -43,8 +44,7 @@ public class MySQLHandler {
         return connection;
     }
 
-    public ResultSet querySQL(String query) throws ClassNotFoundException, SQLException
-    {
+    public ResultSet querySQL(String query) throws ClassNotFoundException, SQLException {
         Connection c;
         if (checkConnection())
             c = getConnection();
@@ -58,8 +58,7 @@ public class MySQLHandler {
         return rset;
     }
 
-    public void updateSQL(String update) throws ClassNotFoundException, SQLException
-    {
+    public void updateSQL(String update) throws ClassNotFoundException, SQLException {
         Connection c;
         if (checkConnection())
             c = getConnection();

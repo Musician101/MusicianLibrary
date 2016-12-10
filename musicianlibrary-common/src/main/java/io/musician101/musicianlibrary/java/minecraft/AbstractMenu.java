@@ -4,6 +4,7 @@ import io.musician101.musicianlibrary.java.minecraft.AbstractMenu.ClickEventHand
 import java.util.UUID;
 
 public abstract class AbstractMenu<C, I, H extends ClickEventHandler, L, Q, S> {
+
     protected final H handler;
     protected final I inv;
 
@@ -32,10 +33,12 @@ public abstract class AbstractMenu<C, I, H extends ClickEventHandler, L, Q, S> {
 
     @FunctionalInterface
     public interface ClickEventHandler<E extends ClickEvent> {
+
         void handle(E event);
     }
 
     public static class ClickEvent<S, P> {
+
         final S itemStack;
         final P player;
         final int slot;
