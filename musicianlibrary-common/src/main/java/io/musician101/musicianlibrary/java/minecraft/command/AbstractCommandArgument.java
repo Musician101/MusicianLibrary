@@ -39,6 +39,6 @@ public abstract class AbstractCommandArgument<M> {
         public abstract B addSyntax(@Nonnull Syntax syntax);
 
         @Nonnull
-        public abstract B setName(@Nonnull String name);
+        public abstract B name(@Nonnull String name);
     }
 }

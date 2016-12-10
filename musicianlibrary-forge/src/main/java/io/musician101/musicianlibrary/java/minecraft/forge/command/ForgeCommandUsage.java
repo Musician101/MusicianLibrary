@@ -64,7 +64,7 @@ public class ForgeCommandUsage extends AbstractCommandUsage<ForgeCommandArgument
 
         @Nonnull
         @Override
-        public ForgeCommandUsageBuilder setMinArgs(int minArgs) {
+        public ForgeCommandUsageBuilder minArgs(int minArgs) {
             return null;
         }
     }

@@ -53,15 +53,15 @@ public abstract class AbstractCommandPermissions<M, S> {
         protected M playerOnly;
 
         @Nonnull
-        public abstract B setIsPlayerOnly(boolean isPlayerOnly);
+        public abstract B isPlayerOnly(boolean isPlayerOnly);
 
         @Nonnull
-        public abstract B setNoPermissionMessage(M noPermission);
+        public abstract B noPermissionMessage(@Nonnull M noPermission);
 
         @Nonnull
-        public abstract B setPermissionNode(String permissionNode);
+        public abstract B permissionNode(@Nonnull String permissionNode);
 
         @Nonnull
-        public abstract B setPlayerOnlyMessage(M playerOnly);
+        public abstract B playerOnlyMessage(@Nonnull M playerOnly);
     }
 }

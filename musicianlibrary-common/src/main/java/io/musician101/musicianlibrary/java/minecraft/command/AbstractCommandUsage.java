@@ -38,6 +38,6 @@ public abstract class AbstractCommandUsage<A extends AbstractCommandArgument<M>,
         protected abstract M parseUsage(@Nonnull List<A> arguments);
 
         @Nonnull
-        public abstract B setMinArgs(int minArgs);
+        public abstract B minArgs(int minArgs);
     }
 }

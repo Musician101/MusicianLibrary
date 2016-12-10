@@ -18,13 +18,13 @@ public class SpigotCommandArgument extends AbstractCommandArgument<String> {
     }
 
     public static SpigotCommandArgument of(@Nonnull String name, @Nonnull Syntax... syntaxes) {
-        SpigotCommandArgumentBuilder builder = builder().setName(name);
+        SpigotCommandArgumentBuilder builder = builder().name(name);
         Stream.of(syntaxes).forEach(builder::addSyntax);
         return builder.build();
     }
 
     public static SpigotCommandArgument of(@Nonnull String name) {
-        return builder().setName(name).build();
+        return builder().name(name).build();
     }
 
     @Nonnull
@@ -87,7 +87,7 @@ public class SpigotCommandArgument extends AbstractCommandArgument<String> {
 
         @Nonnull
         @Override
-        public SpigotCommandArgumentBuilder setName(@Nonnull String name) {
+        public SpigotCommandArgumentBuilder name(@Nonnull String name) {
             this.name = name;
             return this;
         }

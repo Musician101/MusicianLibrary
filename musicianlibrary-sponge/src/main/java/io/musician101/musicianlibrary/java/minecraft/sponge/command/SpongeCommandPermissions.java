@@ -28,7 +28,7 @@ public class SpongeCommandPermissions extends AbstractCommandPermissions<Text, C
     }
 
     public static SpongeCommandPermissions blank() {
-        return builder().setIsPlayerOnly(false).setPermissionNode("").setNoPermissionMessage(Text.of()).setNoPermissionMessage(Text.of()).build();
+        return builder().isPlayerOnly(false).permissionNode("").noPermissionMessage(Text.of()).noPermissionMessage(Text.of()).build();
     }
 
     public static SpongeCommandPermissionsBuilder builder() {
@@ -73,28 +73,28 @@ public class SpongeCommandPermissions extends AbstractCommandPermissions<Text, C
 
         @Nonnull
         @Override
-        public SpongeCommandPermissionsBuilder setIsPlayerOnly(boolean isPlayerOnly) {
+        public SpongeCommandPermissionsBuilder isPlayerOnly(boolean isPlayerOnly) {
             this.isPlayerOnly = isPlayerOnly;
             return this;
         }
 
         @Nonnull
         @Override
-        public SpongeCommandPermissionsBuilder setNoPermissionMessage(Text noPermission) {
+        public SpongeCommandPermissionsBuilder noPermissionMessage(Text noPermission) {
             this.noPermission = noPermission;
             return this;
         }
 
         @Nonnull
         @Override
-        public SpongeCommandPermissionsBuilder setPermissionNode(String permissionNode) {
+        public SpongeCommandPermissionsBuilder permissionNode(String permissionNode) {
             this.permissionNode = permissionNode;
             return this;
         }
 
         @Nonnull
         @Override
-        public SpongeCommandPermissionsBuilder setPlayerOnlyMessage(Text playerOnly) {
+        public SpongeCommandPermissionsBuilder playerOnlyMessage(Text playerOnly) {
             this.playerOnly = playerOnly;
             return this;
         }

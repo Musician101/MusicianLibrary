@@ -2,6 +2,7 @@ package io.musician101.musicianlibrary.java.minecraft.sponge.command;
 
 import io.musician101.musicianlibrary.java.minecraft.command.AbstractCommandArgument;
 import java.util.ArrayList;
+import java.util.stream.Stream;
 import javax.annotation.Nonnull;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextStyles;
@@ -18,7 +19,13 @@ public class SpongeCommandArgument extends AbstractCommandArgument<Text> {
     }
 
     public static SpongeCommandArgument of(String argument) {
-        return builder().setName(argument).build();
+        return builder().name(argument).build();
+    }
+
+    public static SpongeCommandArgument of(String argument, Syntax... syntaxes) {
+        SpongeCommandArgumentBuilder builder = builder().name(argument);
+        Stream.of(syntaxes).forEach(builder::addSyntax);
+        return builder.build();
     }
 
     @Nonnull
@@ -81,7 +88,7 @@ public class SpongeCommandArgument extends AbstractCommandArgument<Text> {
 
         @Nonnull
         @Override
-        public SpongeCommandArgumentBuilder setName(@Nonnull String name) {
+        public SpongeCommandArgumentBuilder name(@Nonnull String name) {
             this.name = name;
             return this;
         }

@@ -47,7 +47,7 @@ public class SpongeCommandUsage extends AbstractCommandUsage<SpongeCommandArgume
                 throw new IllegalStateException("Usage can not be empty.");
 
             SpongeCommandUsage scu = new SpongeCommandUsage();
-            setMinArgs(minArgs);
+            minArgs(minArgs);
             scu.setUsage(parseUsage(usage));
             return scu;
         }
@@ -70,7 +70,7 @@ public class SpongeCommandUsage extends AbstractCommandUsage<SpongeCommandArgume
 
         @Nonnull
         @Override
-        public SpongeCommandUsageBuilder setMinArgs(int minArgs) {
+        public SpongeCommandUsageBuilder minArgs(int minArgs) {
             this.minArgs = minArgs;
             return this;
         }

@@ -18,10 +18,10 @@ import org.spongepowered.api.world.World;
 
 public class MLCommandCallable<P extends PluginContainer> implements CommandCallable {
 
-    private final SpongeCommand command;
+    private final SpongeCommand<P> command;
     private final P plugin;
 
-    public MLCommandCallable(P plugin, SpongeCommand command) {
+    public MLCommandCallable(P plugin, SpongeCommand<P> command) {
         this.plugin = plugin;
         this.command = command;
     }
@@ -63,7 +63,7 @@ public class MLCommandCallable<P extends PluginContainer> implements CommandCall
     @Nonnull
     @Override
     public CommandResult process(@Nonnull CommandSource source, @Nonnull String arguments) throws CommandException {
-        for (SpongeCommand cmd : command.getSubCommands().values()) {
+        for (SpongeCommand<P> cmd : command.getSubCommands().values()) {
             if (command.getName().equalsIgnoreCase(cmd.getName())) {
                 MLCommandResult result = cmd.execute(source, splitArgs(arguments));
                 if (result == MLCommandResult.SUCCESS)

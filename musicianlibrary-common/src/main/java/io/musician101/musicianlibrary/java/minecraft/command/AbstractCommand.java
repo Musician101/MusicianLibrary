@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.function.BiFunction;
 import javax.annotation.Nonnull;
 
-public abstract class AbstractCommand<A extends AbstractCommandArgument<M>, C extends AbstractCommand<A, C, M, P, S, U>, M, P extends AbstractCommandPermissions<M, S>, S, U extends AbstractCommandUsage<A, M>> {
+public abstract class AbstractCommand<A extends AbstractCommandArgument<M>, C extends AbstractCommand<A, C, I, M, P, S, U>, I, M, P extends AbstractCommandPermissions<M, S>, S, U extends AbstractCommandUsage<A, M>> {
 
     private BiFunction<S, List<String>, MLCommandResult> biFunction;
     private M description;
@@ -100,7 +100,10 @@ public abstract class AbstractCommand<A extends AbstractCommandArgument<M>, C ex
         return permissions.testPermissions(sender);
     }
 
-    protected static abstract class AbstractCommandBuilder<A extends AbstractCommandArgument<M>, B extends AbstractCommandBuilder<A, B, C, M, P, S, U>, C extends AbstractCommand<A, C, M, P, S, U>, M, P extends AbstractCommandPermissions<M, S>, S, U extends AbstractCommandUsage<A, M>> implements MLResettableBuilder<C, B> {
+    @Nonnull
+    protected abstract C getHelpCommand(I plugin);
+
+    protected static abstract class AbstractCommandBuilder<A extends AbstractCommandArgument<M>, B extends AbstractCommandBuilder<A, B, C, I, M, P, S, U>, C extends AbstractCommand<A, C, I, M, P, S, U>, I, M, P extends AbstractCommandPermissions<M, S>, S, U extends AbstractCommandUsage<A, M>> implements MLResettableBuilder<C, B> {
 
         protected BiFunction<S, List<String>, MLCommandResult> biFunction = (sender, args) -> MLCommandResult.SUCCESS;
         protected M description;
@@ -113,18 +116,18 @@ public abstract class AbstractCommand<A extends AbstractCommandArgument<M>, C ex
         public abstract B addCommand(@Nonnull C command);
 
         @Nonnull
-        public abstract B setBiFunction(@Nonnull BiFunction<S, List<String>, MLCommandResult> biFunction);
+        public abstract B function(@Nonnull BiFunction<S, List<String>, MLCommandResult> biFunction);
 
         @Nonnull
-        public abstract B setDescription(@Nonnull M description);
+        public abstract B description(@Nonnull M description);
 
         @Nonnull
-        public abstract B setName(@Nonnull String name);
+        public abstract B name(@Nonnull String name);
 
         @Nonnull
-        public abstract B setPermissions(@Nonnull P permissions);
+        public abstract B permissions(@Nonnull P permissions);
 
         @Nonnull
-        public abstract B setUsage(@Nonnull U usage);
+        public abstract B usage(@Nonnull U usage);
     }
 }

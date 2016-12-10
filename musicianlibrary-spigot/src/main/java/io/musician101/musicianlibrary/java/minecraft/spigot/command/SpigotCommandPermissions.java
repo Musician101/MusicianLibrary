@@ -12,7 +12,7 @@ public class SpigotCommandPermissions extends AbstractCommandPermissions<String,
     }
 
     public static SpigotCommandPermissions blank() {
-        return builder().setIsPlayerOnly(false).setPermissionNode("").setNoPermissionMessage("").setNoPermissionMessage("").build();
+        return builder().isPlayerOnly(false).permissionNode("").noPermissionMessage("").noPermissionMessage("").build();
     }
 
     public static SpigotCommandPermissionsBuilder builder() {
@@ -72,28 +72,28 @@ public class SpigotCommandPermissions extends AbstractCommandPermissions<String,
 
         @Nonnull
         @Override
-        public SpigotCommandPermissionsBuilder setIsPlayerOnly(boolean isPlayerOnly) {
+        public SpigotCommandPermissionsBuilder isPlayerOnly(boolean isPlayerOnly) {
             this.isPlayerOnly = isPlayerOnly;
             return this;
         }
 
         @Nonnull
         @Override
-        public SpigotCommandPermissionsBuilder setNoPermissionMessage(String noPermission) {
+        public SpigotCommandPermissionsBuilder noPermissionMessage(String noPermission) {
             this.noPermission = noPermission;
             return this;
         }
 
         @Nonnull
         @Override
-        public SpigotCommandPermissionsBuilder setPermissionNode(String permissionNode) {
+        public SpigotCommandPermissionsBuilder permissionNode(String permissionNode) {
             this.permissionNode = permissionNode;
             return this;
         }
 
         @Nonnull
         @Override
-        public SpigotCommandPermissionsBuilder setPlayerOnlyMessage(String playerOnly) {
+        public SpigotCommandPermissionsBuilder playerOnlyMessage(String playerOnly) {
             this.playerOnly = playerOnly;
             return this;
         }

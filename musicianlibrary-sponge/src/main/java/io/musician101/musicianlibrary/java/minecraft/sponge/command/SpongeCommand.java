@@ -13,27 +13,14 @@ import org.spongepowered.api.text.LiteralText;
 import org.spongepowered.api.text.Text;
 
 
-public class SpongeCommand extends AbstractCommand<SpongeCommandArgument, SpongeCommand, Text, SpongeCommandPermissions, CommandSource, SpongeCommandUsage> {
+public class SpongeCommand<I extends PluginContainer> extends AbstractCommand<SpongeCommandArgument, SpongeCommand<I>, I, Text, SpongeCommandPermissions, CommandSource, SpongeCommandUsage> {
 
     SpongeCommand() {
 
     }
 
-    public static SpongeCommandBuilder builder() {
-        return new SpongeCommandBuilder();
-    }
-
-    public static SpongeCommand getHelpCommand(PluginContainer plugin, SpongeCommand mainCommand) {
-        return builder().setName("help")
-                .setDescription(Text.join(Text.of("Display help info for "), mainCommand.getUsage()))
-                .setUsage(SpongeCommandUsage.of(SpongeCommandArgument.of(((LiteralText) mainCommand.getUsage()).getContent()), SpongeCommandArgument.of("help")))
-                .setBiFunction((sender, args) -> {
-                    sender.sendMessage(Text.join(TextUtils.greenText("===== "), Text.of(plugin.getName() + " v" + plugin.getVersion()), TextUtils.greenText(" =====")));
-                    sender.sendMessage(mainCommand.getHelp());
-                    mainCommand.getSubCommands().values().forEach(cmd -> sender.sendMessage(cmd.getHelp()));
-                    return MLCommandResult.SUCCESS;
-                })
-                .build();
+    public static <I extends PluginContainer> SpongeCommandBuilder<I> builder() {
+        return new SpongeCommandBuilder<>();
     }
 
     @Nonnull
@@ -42,7 +29,22 @@ public class SpongeCommand extends AbstractCommand<SpongeCommandArgument, Sponge
         return Text.join(getUsage(), Text.of(" "), getDescription());
     }
 
-    public static class SpongeCommandBuilder extends AbstractCommandBuilder<SpongeCommandArgument, SpongeCommandBuilder, SpongeCommand, Text, SpongeCommandPermissions, CommandSource, SpongeCommandUsage> {
+    @Nonnull
+    @Override
+    protected SpongeCommand<I> getHelpCommand(I plugin) {
+        return SpongeCommand.<I>builder().name("help")
+                .description(Text.join(Text.of("Display help info for "), getUsage()))
+                .usage(SpongeCommandUsage.of(SpongeCommandArgument.of(((LiteralText) getUsage()).getContent()), SpongeCommandArgument.of("help")))
+                .function((sender, args) -> {
+                    sender.sendMessage(Text.join(TextUtils.greenText("===== "), Text.of(plugin.getName() + " v" + plugin.getVersion()), TextUtils.greenText(" =====")));
+                    sender.sendMessage(getHelp());
+                    getSubCommands().values().forEach(cmd -> sender.sendMessage(cmd.getHelp()));
+                    return MLCommandResult.SUCCESS;
+                })
+                .build();
+    }
+
+    public static class SpongeCommandBuilder<I extends PluginContainer> extends AbstractCommandBuilder<SpongeCommandArgument, SpongeCommandBuilder<I>, SpongeCommand<I>, I, Text, SpongeCommandPermissions, CommandSource, SpongeCommandUsage> {
 
         SpongeCommandBuilder() {
 
@@ -50,15 +52,15 @@ public class SpongeCommand extends AbstractCommand<SpongeCommandArgument, Sponge
 
         @Nonnull
         @Override
-        public SpongeCommandBuilder addCommand(@Nonnull SpongeCommand command) {
+        public SpongeCommandBuilder<I> addCommand(@Nonnull SpongeCommand<I> command) {
             subCommands.put(command.getName(), command);
             return this;
         }
 
         @Nonnull
         @Override
-        public SpongeCommand build() throws IllegalStateException {
-            SpongeCommand sc = new SpongeCommand();
+        public SpongeCommand<I> build() throws IllegalStateException {
+            SpongeCommand<I> sc = new SpongeCommand<>();
             if (description == null)
                 throw new IllegalStateException("Description has not been set.");
 
@@ -76,13 +78,20 @@ public class SpongeCommand extends AbstractCommand<SpongeCommandArgument, Sponge
             sc.setPermissions(permissions);
             sc.setUsage(usage);
             sc.setSubCommands(subCommands);
-            sc.setBiFunction(biFunction);
+            if (biFunction == null)
+                sc.setBiFunction((sender, args) -> {
+                    sender.sendMessage(sc.getHelp());
+                    return MLCommandResult.SUCCESS;
+                });
+            else
+                sc.setBiFunction(biFunction);
+
             return sc;
         }
 
         @Nonnull
         @Override
-        public SpongeCommandBuilder reset() {
+        public SpongeCommandBuilder<I> reset() {
             biFunction = (sender, args) -> MLCommandResult.SUCCESS;
             description = null;
             name = null;
@@ -94,35 +103,35 @@ public class SpongeCommand extends AbstractCommand<SpongeCommandArgument, Sponge
 
         @Nonnull
         @Override
-        public SpongeCommandBuilder setBiFunction(@Nonnull BiFunction<CommandSource, List<String>, MLCommandResult> biFunction) {
+        public SpongeCommandBuilder<I> function(@Nonnull BiFunction<CommandSource, List<String>, MLCommandResult> biFunction) {
             this.biFunction = biFunction;
             return this;
         }
 
         @Nonnull
         @Override
-        public SpongeCommandBuilder setDescription(@Nonnull Text description) {
+        public SpongeCommandBuilder<I> description(@Nonnull Text description) {
             this.description = description;
             return this;
         }
 
         @Nonnull
         @Override
-        public SpongeCommandBuilder setName(@Nonnull String name) {
+        public SpongeCommandBuilder<I> name(@Nonnull String name) {
             this.name = name;
             return this;
         }
 
         @Nonnull
         @Override
-        public SpongeCommandBuilder setPermissions(@Nonnull SpongeCommandPermissions permissions) {
+        public SpongeCommandBuilder<I> permissions(@Nonnull SpongeCommandPermissions permissions) {
             this.permissions = permissions;
             return this;
         }
 
         @Nonnull
         @Override
-        public SpongeCommandBuilder setUsage(@Nonnull SpongeCommandUsage usage) {
+        public SpongeCommandBuilder<I> usage(@Nonnull SpongeCommandUsage usage) {
             this.usage = usage;
             return this;
         }

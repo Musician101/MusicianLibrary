@@ -10,12 +10,12 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public abstract class AbstractSpigotPlugin<C extends AbstractConfig> extends JavaPlugin {
+public abstract class AbstractSpigotPlugin<C extends AbstractConfig, P extends JavaPlugin> extends JavaPlugin {
 
-    protected final List<SpigotCommand> commands = new ArrayList<>();
+    protected final List<SpigotCommand<P>> commands = new ArrayList<>();
     protected C config;
 
-    public List<SpigotCommand> getCommands() {
+    public List<SpigotCommand<P>> getCommands() {
         return commands;
     }
 
@@ -25,7 +25,7 @@ public abstract class AbstractSpigotPlugin<C extends AbstractConfig> extends Jav
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String... args) {
-        for (SpigotCommand cmd : commands) {
+        for (SpigotCommand<P> cmd : commands) {
             if (command.getName().equalsIgnoreCase(cmd.getName())) {
                 MLCommandResult result = cmd.execute(sender, Arrays.asList(args));
                 if (result == MLCommandResult.SUCCESS)

@@ -10,27 +10,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class SpigotCommand extends AbstractCommand<SpigotCommandArgument, SpigotCommand, String, SpigotCommandPermissions, CommandSender, SpigotCommandUsage> {
+public class SpigotCommand<I extends JavaPlugin> extends AbstractCommand<SpigotCommandArgument, SpigotCommand<I>, I, String, SpigotCommandPermissions, CommandSender, SpigotCommandUsage> {
 
     private SpigotCommand() {
 
     }
 
-    public static SpigotCommandBuilder builder() {
-        return new SpigotCommandBuilder();
-    }
-
-    public static <P extends JavaPlugin> SpigotCommand getHelpCommand(@Nonnull P plugin, @Nonnull SpigotCommand mainCommand) {
-        return builder().setName("help")
-                .setDescription("Display help info for " + ChatColor.stripColor(mainCommand.getUsage()))
-                .setUsage(SpigotCommandUsage.of(SpigotCommandArgument.of(ChatColor.stripColor(mainCommand.getUsage())), SpigotCommandArgument.of("help")))
-                .setPermissions(SpigotCommandPermissions.builder().setPermissionNode("").setIsPlayerOnly(false).setNoPermissionMessage("").setPlayerOnlyMessage("").build())
-                .setBiFunction((sender, args) -> {
-                    sender.sendMessage(ChatColor.GREEN + "===== " + ChatColor.RESET + plugin.getName() + " v" + plugin.getDescription().getVersion() + ChatColor.GREEN + " =====");
-                    sender.sendMessage(mainCommand.getHelp());
-                    mainCommand.getSubCommands().values().forEach(command -> sender.sendMessage(command.getHelp()));
-                    return MLCommandResult.SUCCESS;
-                }).build();
+    public static <I extends JavaPlugin> SpigotCommandBuilder<I> builder() {
+        return new SpigotCommandBuilder<>();
     }
 
     @Nonnull
@@ -39,7 +26,21 @@ public class SpigotCommand extends AbstractCommand<SpigotCommandArgument, Spigot
         return getUsage() + " " + ChatColor.AQUA + getDescription();
     }
 
-    public static class SpigotCommandBuilder extends AbstractCommandBuilder<SpigotCommandArgument, SpigotCommandBuilder, SpigotCommand, String, SpigotCommandPermissions, CommandSender, SpigotCommandUsage> {
+    @Nonnull
+    @Override
+    protected SpigotCommand<I> getHelpCommand(I plugin) {
+        return SpigotCommand.<I>builder().name("help").description("Display help info for " + ChatColor.stripColor(getUsage()))
+                .usage(SpigotCommandUsage.of(SpigotCommandArgument.of(ChatColor.stripColor(getUsage())), SpigotCommandArgument.of("help")))
+                .permissions(SpigotCommandPermissions.blank())
+                .function((sender, args) -> {
+                    sender.sendMessage(ChatColor.GREEN + "===== " + ChatColor.RESET + plugin.getName() + " v" + plugin.getDescription().getVersion() + ChatColor.GREEN + " =====");
+                    sender.sendMessage(getHelp());
+                    getSubCommands().values().forEach(command -> sender.sendMessage(command.getHelp()));
+                    return MLCommandResult.SUCCESS;
+                }).build();
+    }
+
+    public static class SpigotCommandBuilder<I extends JavaPlugin> extends AbstractCommandBuilder<SpigotCommandArgument, SpigotCommandBuilder<I>, SpigotCommand<I>, I, String, SpigotCommandPermissions, CommandSender, SpigotCommandUsage> {
 
         SpigotCommandBuilder() {
 
@@ -47,15 +48,15 @@ public class SpigotCommand extends AbstractCommand<SpigotCommandArgument, Spigot
 
         @Nonnull
         @Override
-        public SpigotCommandBuilder addCommand(@Nonnull SpigotCommand command) {
+        public SpigotCommandBuilder<I> addCommand(@Nonnull SpigotCommand<I> command) {
             subCommands.put(command.getName(), command);
             return this;
         }
 
         @Nonnull
         @Override
-        public SpigotCommand build() throws IllegalStateException {
-            SpigotCommand sc = new SpigotCommand();
+        public SpigotCommand<I> build() throws IllegalStateException {
+            SpigotCommand<I> sc = new SpigotCommand<>();
             if (description == null)
                 throw new IllegalStateException("Description has not been set.");
 
@@ -73,13 +74,20 @@ public class SpigotCommand extends AbstractCommand<SpigotCommandArgument, Spigot
             sc.setPermissions(permissions);
             sc.setUsage(usage);
             sc.setSubCommands(subCommands);
-            sc.setBiFunction(biFunction);
+            if (biFunction == null)
+                sc.setBiFunction((sender, args) -> {
+                    sender.sendMessage(sc.getHelp());
+                    return MLCommandResult.SUCCESS;
+                });
+            else
+                sc.setBiFunction(biFunction);
+
             return sc;
         }
 
         @Nonnull
         @Override
-        public SpigotCommandBuilder reset() {
+        public SpigotCommandBuilder<I> reset() {
             biFunction = (sender, args) -> MLCommandResult.SUCCESS;
             description = null;
             name = null;
@@ -91,35 +99,35 @@ public class SpigotCommand extends AbstractCommand<SpigotCommandArgument, Spigot
 
         @Nonnull
         @Override
-        public SpigotCommandBuilder setBiFunction(@Nonnull BiFunction<CommandSender, List<String>, MLCommandResult> biFunction) {
+        public SpigotCommandBuilder<I> function(@Nonnull BiFunction<CommandSender, List<String>, MLCommandResult> biFunction) {
             this.biFunction = biFunction;
             return this;
         }
 
         @Nonnull
         @Override
-        public SpigotCommandBuilder setDescription(@Nonnull String description) {
+        public SpigotCommandBuilder<I> description(@Nonnull String description) {
             this.description = description;
             return this;
         }
 
         @Nonnull
         @Override
-        public SpigotCommandBuilder setName(@Nonnull String name) {
+        public SpigotCommandBuilder<I> name(@Nonnull String name) {
             this.name = name;
             return this;
         }
 
         @Nonnull
         @Override
-        public SpigotCommandBuilder setPermissions(@Nonnull SpigotCommandPermissions permissions) {
+        public SpigotCommandBuilder<I> permissions(@Nonnull SpigotCommandPermissions permissions) {
             this.permissions = permissions;
             return this;
         }
 
         @Nonnull
         @Override
-        public SpigotCommandBuilder setUsage(@Nonnull SpigotCommandUsage usage) {
+        public SpigotCommandBuilder<I> usage(@Nonnull SpigotCommandUsage usage) {
             this.usage = usage;
             return this;
         }

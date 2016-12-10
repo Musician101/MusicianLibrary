@@ -77,7 +77,7 @@ public class SpigotCommandUsage extends AbstractCommandUsage<SpigotCommandArgume
 
         @Nonnull
         @Override
-        public SpigotCommandUsageBuilder setMinArgs(int minArgs) {
+        public SpigotCommandUsageBuilder minArgs(int minArgs) {
             this.minArgs = minArgs;
             return this;
         }
