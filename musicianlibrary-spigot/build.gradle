@@ -7,6 +7,7 @@ repositories {
         name = 'sonatype'
         url = 'https://oss.sonatype.org/content/groups/public/'
     }
+    mavenLocal()
 }
 
 dependencies {
