@@ -11,8 +11,22 @@ public class SpigotCommandUsage {
     private int minArgs;
     private String usage;
 
-    SpigotCommandUsage() {
+    private SpigotCommandUsage() {
 
+    }
+
+    public static SpigotCommandUsageBuilder builder() {
+        return new SpigotCommandUsageBuilder();
+    }
+
+    public static SpigotCommandUsage of(SpigotCommandArgument argument) {
+        return builder().addArgument(argument).build();
+    }
+
+    public static SpigotCommandUsage of(SpigotCommandArgument... arguments) {
+        SpigotCommandUsageBuilder builder = builder();
+        Stream.of(arguments).forEach(builder::addArgument);
+        return builder.build();
     }
 
     public int getMinArgs() {
@@ -29,20 +43,6 @@ public class SpigotCommandUsage {
 
     protected void setUsage(String usage) {
         this.usage = usage;
-    }
-
-    public static SpigotCommandUsageBuilder builder() {
-        return new SpigotCommandUsageBuilder();
-    }
-
-    public static SpigotCommandUsage of(SpigotCommandArgument argument) {
-        return builder().addArgument(argument).build();
-    }
-
-    public static SpigotCommandUsage of(SpigotCommandArgument... arguments) {
-        SpigotCommandUsageBuilder builder = builder();
-        Stream.of(arguments).forEach(builder::addArgument);
-        return builder.build();
     }
 
     public static class SpigotCommandUsageBuilder {
@@ -73,6 +73,12 @@ public class SpigotCommandUsage {
         }
 
         @Nonnull
+        public SpigotCommandUsageBuilder minArgs(int minArgs) {
+            this.minArgs = minArgs;
+            return this;
+        }
+
+        @Nonnull
         protected String parseUsage(@Nonnull List<SpigotCommandArgument> arguments) {
             StringBuilder sb = new StringBuilder();
             sb.append(ChatColor.GRAY).append(arguments.get(0).format());
@@ -93,12 +99,6 @@ public class SpigotCommandUsage {
         public SpigotCommandUsageBuilder reset() {
             minArgs = 0;
             usage = new ArrayList<>();
-            return this;
-        }
-
-        @Nonnull
-        public SpigotCommandUsageBuilder minArgs(int minArgs) {
-            this.minArgs = minArgs;
             return this;
         }
     }

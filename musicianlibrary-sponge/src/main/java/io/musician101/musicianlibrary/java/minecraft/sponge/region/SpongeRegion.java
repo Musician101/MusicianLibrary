@@ -2,12 +2,10 @@ package io.musician101.musicianlibrary.java.minecraft.sponge.region;
 
 import io.musician101.musicianlibrary.java.minecraft.region.AbstractRegion;
 import java.util.Map;
-import java.util.Optional;
 import ninja.leaping.configurate.ConfigurationNode;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
-
 
 public class SpongeRegion extends AbstractRegion<Location<World>> {
 
@@ -44,18 +42,15 @@ public class SpongeRegion extends AbstractRegion<Location<World>> {
     }
 
     public static SpongeRegion createFromLocationRadius(Location<World> location, double xRadius, double yRadius, double zRadius) {
-        if (xRadius < 0 || yRadius < 0 || zRadius < 0)
+        if (xRadius < 0 || yRadius < 0 || zRadius < 0) {
             throw new IllegalArgumentException("The radius cannot be negative!");
+        }
 
         return xRadius > 0 || yRadius > 0 || zRadius > 0 ? new SpongeRegion(location.sub(xRadius, yRadius, zRadius), location.add(xRadius, yRadius, zRadius)) : new SpongeRegion(location);
     }
 
     public World getWorld() {
-        Optional<World> optional = Sponge.getGame().getServer().getWorld(worldName);
-        if (optional.isPresent())
-            return optional.get();
-
-        throw new NullPointerException("World does not exist.");
+        return Sponge.getGame().getServer().getWorld(worldName).orElseThrow(() -> new NullPointerException("World does not exist."));
     }
 
     @Override

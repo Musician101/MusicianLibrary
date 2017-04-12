@@ -30,8 +30,9 @@ public class MySQLHandler {
     }
 
     public void closeConnection() throws SQLException {
-        if (connection != null)
+        if (connection != null) {
             connection.close();
+        }
     }
 
     public Connection getConnection() {
@@ -46,10 +47,12 @@ public class MySQLHandler {
 
     public ResultSet querySQL(String query) throws ClassNotFoundException, SQLException {
         Connection c;
-        if (checkConnection())
+        if (checkConnection()) {
             c = getConnection();
-        else
+        }
+        else {
             c = openConnection();
+        }
 
         Statement s = c.createStatement();
         ResultSet rset = s.executeQuery(query);
@@ -60,10 +63,12 @@ public class MySQLHandler {
 
     public void updateSQL(String update) throws ClassNotFoundException, SQLException {
         Connection c;
-        if (checkConnection())
+        if (checkConnection()) {
             c = getConnection();
-        else
+        }
+        else {
             c = openConnection();
+        }
 
         Statement s = c.createStatement();
         s.executeUpdate(update);

@@ -25,6 +25,10 @@ public class SpigotCommand<I extends JavaPlugin> {
 
     }
 
+    public static <I extends JavaPlugin> SpigotCommandBuilder<I> builder() {
+        return new SpigotCommandBuilder<>();
+    }
+
     private boolean execute(@Nonnull String arg, @Nonnull CommandSender sender, @Nonnull List<String> args) {
         return subCommands.containsKey(arg) && subCommands.get(arg).execute(sender, shiftArguments(args));
     }
@@ -48,6 +52,24 @@ public class SpigotCommand<I extends JavaPlugin> {
 
     protected void setDescription(@Nonnull String description) {
         this.description = description;
+    }
+
+    @Nonnull
+    public String getHelp() {
+        return getUsage() + " " + ChatColor.AQUA + getDescription();
+    }
+
+    @Nonnull
+    protected SpigotCommand<I> getHelpCommand(I plugin) {
+        return SpigotCommand.<I>builder().name("help").description("Display help info for " + ChatColor.stripColor(getUsage()))
+                .usage(SpigotCommandUsage.of(SpigotCommandArgument.of(ChatColor.stripColor(getUsage())), SpigotCommandArgument.of("help")))
+                .permissions(SpigotCommandPermissions.blank())
+                .function((sender, args) -> {
+                    sender.sendMessage(ChatColor.GREEN + "===== " + ChatColor.RESET + plugin.getName() + " v" + plugin.getDescription().getVersion() + ChatColor.GREEN + " =====");
+                    sender.sendMessage(getHelp());
+                    getSubCommands().values().forEach(command -> sender.sendMessage(command.getHelp()));
+                    return true;
+                }).build();
     }
 
     public String getName() {
@@ -104,28 +126,6 @@ public class SpigotCommand<I extends JavaPlugin> {
 
     protected boolean testPermissions(@Nonnull CommandSender sender) {
         return permissions.testPermissions(sender);
-    }
-
-    public static <I extends JavaPlugin> SpigotCommandBuilder<I> builder() {
-        return new SpigotCommandBuilder<>();
-    }
-
-    @Nonnull
-    public String getHelp() {
-        return getUsage() + " " + ChatColor.AQUA + getDescription();
-    }
-
-    @Nonnull
-    protected SpigotCommand<I> getHelpCommand(I plugin) {
-        return SpigotCommand.<I>builder().name("help").description("Display help info for " + ChatColor.stripColor(getUsage()))
-                .usage(SpigotCommandUsage.of(SpigotCommandArgument.of(ChatColor.stripColor(getUsage())), SpigotCommandArgument.of("help")))
-                .permissions(SpigotCommandPermissions.blank())
-                .function((sender, args) -> {
-                    sender.sendMessage(ChatColor.GREEN + "===== " + ChatColor.RESET + plugin.getName() + " v" + plugin.getDescription().getVersion() + ChatColor.GREEN + " =====");
-                    sender.sendMessage(getHelp());
-                    getSubCommands().values().forEach(command -> sender.sendMessage(command.getHelp()));
-                    return true;
-                }).build();
     }
 
     public static class SpigotCommandBuilder<I extends JavaPlugin> {
@@ -185,25 +185,14 @@ public class SpigotCommand<I extends JavaPlugin> {
         }
 
         @Nonnull
-        public SpigotCommandBuilder<I> reset() {
-            biFunction = (sender, args) -> true;
-            description = null;
-            name = null;
-            permissions = null;
-            subCommands = new HashMap<>();
-            usage = null;
+        public SpigotCommandBuilder<I> description(@Nonnull String description) {
+            this.description = description;
             return this;
         }
 
         @Nonnull
         public SpigotCommandBuilder<I> function(@Nonnull BiFunction<CommandSender, List<String>, Boolean> biFunction) {
             this.biFunction = biFunction;
-            return this;
-        }
-
-        @Nonnull
-        public SpigotCommandBuilder<I> description(@Nonnull String description) {
-            this.description = description;
             return this;
         }
 
@@ -216,6 +205,17 @@ public class SpigotCommand<I extends JavaPlugin> {
         @Nonnull
         public SpigotCommandBuilder<I> permissions(@Nonnull SpigotCommandPermissions permissions) {
             this.permissions = permissions;
+            return this;
+        }
+
+        @Nonnull
+        public SpigotCommandBuilder<I> reset() {
+            biFunction = (sender, args) -> true;
+            description = null;
+            name = null;
+            permissions = null;
+            subCommands = new HashMap<>();
+            usage = null;
             return this;
         }
 

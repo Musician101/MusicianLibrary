@@ -31,13 +31,15 @@ public class UUIDUtils {
             HttpURLConnection connection = (HttpURLConnection) new URL("https://sessionserver.mojang.com/session/minecraft/profile" + uuid.toString().replace("-", "")).openConnection();
             JsonObject response = new Gson().fromJson(new InputStreamReader(connection.getInputStream()), JsonObject.class);
             String name = response.has("name") ? response.get("name").getAsString() : null;
-            if (name == null)
+            if (name == null) {
                 continue;
+            }
 
             String cause = response.has("cause") ? response.get("cause").getAsString() : null;
             String errorMessage = response.has("errorMessage") ? response.get("errorMessage").getAsString() : null;
-            if (cause != null && cause.length() > 0)
+            if (cause != null && cause.length() > 0) {
                 throw new IllegalStateException(errorMessage);
+            }
 
             map.put(uuid, name);
         }
@@ -62,8 +64,9 @@ public class UUIDUtils {
             connection.setDoOutput(true);
             List objects = new Gson().fromJson(new InputStreamReader(connection.getInputStream()), List.class);
             List<MinecraftProfile> profiles = new ArrayList<>();
-            for (Object object : objects)
+            for (Object object : objects) {
                 profiles.add(new GsonBuilder().registerTypeHierarchyAdapter(MinecraftProfile.class, new MinecraftProfileTypeAdapter()).create().fromJson(object.toString(), MinecraftProfile.class));
+            }
 
             profiles.forEach(profile -> map.put(profile.getName(), profile.getUUID()));
         }

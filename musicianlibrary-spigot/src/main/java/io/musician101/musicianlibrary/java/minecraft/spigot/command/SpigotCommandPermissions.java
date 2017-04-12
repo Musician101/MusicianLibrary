@@ -11,8 +11,16 @@ public class SpigotCommandPermissions {
     private String permissionNode;
     private String playerOnly;
 
-    SpigotCommandPermissions() {
+    private SpigotCommandPermissions() {
 
+    }
+
+    public static SpigotCommandPermissions blank() {
+        return builder().isPlayerOnly(false).permissionNode("").noPermissionMessage("").noPermissionMessage("").build();
+    }
+
+    public static SpigotCommandPermissionsBuilder builder() {
+        return new SpigotCommandPermissionsBuilder();
     }
 
     public String getNoPermissionMessage() {
@@ -47,14 +55,6 @@ public class SpigotCommandPermissions {
         this.isPlayerOnly = isPlayerOnly;
     }
 
-    public static SpigotCommandPermissions blank() {
-        return builder().isPlayerOnly(false).permissionNode("").noPermissionMessage("").noPermissionMessage("").build();
-    }
-
-    public static SpigotCommandPermissionsBuilder builder() {
-        return new SpigotCommandPermissionsBuilder();
-    }
-
     public boolean testPermissions(CommandSender sender) {
         if (isPlayerOnly() && !(sender instanceof Player)) {
             sender.sendMessage(getPlayerOnlyMessage());
@@ -83,29 +83,23 @@ public class SpigotCommandPermissions {
         @Nonnull
         public SpigotCommandPermissions build() throws IllegalStateException {
             SpigotCommandPermissions scp = new SpigotCommandPermissions();
-            if (noPermission == null)
+            if (noPermission == null) {
                 throw new IllegalStateException("NoPermission has not been set.");
+            }
 
-            if (permissionNode == null)
+            if (permissionNode == null) {
                 throw new IllegalStateException("PermissionNode has not been set.");
+            }
 
-            if (playerOnly == null)
+            if (playerOnly == null) {
                 throw new IllegalStateException("PlayerOnly has not been set.");
+            }
 
             scp.setIsPlayerOnly(isPlayerOnly);
             scp.setNoPermissionMessage(noPermission);
             scp.setPermissionNode(permissionNode);
             scp.setPlayerOnlyMessage(playerOnly);
             return scp;
-        }
-
-        @Nonnull
-        public SpigotCommandPermissionsBuilder reset() {
-            isPlayerOnly = false;
-            noPermission = null;
-            permissionNode = null;
-            playerOnly = null;
-            return this;
         }
 
         @Nonnull
@@ -129,6 +123,15 @@ public class SpigotCommandPermissions {
         @Nonnull
         public SpigotCommandPermissionsBuilder playerOnlyMessage(@Nonnull String playerOnly) {
             this.playerOnly = playerOnly;
+            return this;
+        }
+
+        @Nonnull
+        public SpigotCommandPermissionsBuilder reset() {
+            isPlayerOnly = false;
+            noPermission = null;
+            permissionNode = null;
+            playerOnly = null;
             return this;
         }
     }

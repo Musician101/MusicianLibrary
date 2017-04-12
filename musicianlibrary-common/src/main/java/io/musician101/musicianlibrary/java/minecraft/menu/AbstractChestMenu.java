@@ -11,10 +11,10 @@ public abstract class AbstractChestMenu<F, G extends AbstractChestMenu<F, G, I, 
     protected final Map<N, Consumer<P>> buttons = new HashMap<>();
     @Nonnull
     protected final I inventory;
-    @Nullable
-    protected final G prevMenu;
     @Nonnull
     protected final P player;
+    @Nullable
+    protected final G prevMenu;
 
     public AbstractChestMenu(@Nonnull I inventory, @Nonnull P player, @Nullable G prevMenu) {
         this.inventory = inventory;
@@ -26,15 +26,15 @@ public abstract class AbstractChestMenu<F, G extends AbstractChestMenu<F, G, I, 
 
     protected abstract void close();
 
-    public abstract void open();
-
-    protected abstract void set(int slot, @Nonnull S itemStack);
-
-    protected abstract void set(int slot, @Nonnull S itemStack, @Nonnull Consumer<P> consumer);
-
-    protected abstract void setBackButton(int slot, @Nonnull T itemType);
-
     @SuppressWarnings("unchecked")
     @Nonnull
     protected abstract S createItem(@Nonnull T itemType, @Nonnull F name, @Nonnull F... description);
+
+    public abstract void open();
+
+    protected abstract void set(int slot, @Nonnull S itemStack, @Nonnull Consumer<P> consumer);
+
+    protected abstract void set(int slot, @Nonnull S itemStack);
+
+    protected abstract void setBackButton(int slot, @Nonnull T itemType);
 }

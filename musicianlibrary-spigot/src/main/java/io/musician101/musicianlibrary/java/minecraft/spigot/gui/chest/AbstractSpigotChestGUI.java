@@ -63,23 +63,36 @@ public abstract class AbstractSpigotChestGUI<J extends JavaPlugin> extends Abstr
     @Override
     protected void close() {
         HandlerList.unregisterAll(this);
-        if (prevMenu != null)
+        if (prevMenu != null) {
             prevMenu.open();
+        }
+    }
+
+    @Nonnull
+    @Override
+    protected ItemStack createItem(@Nonnull Material itemType, @Nonnull String name, @Nonnull String... description) {
+        ItemStack itemStack = new ItemStack(itemType);
+        ItemMeta meta = itemStack.getItemMeta();
+        meta.setDisplayName(name);
+        meta.setLore(Arrays.asList(description));
+        return itemStack;
     }
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
         if (e.getInventory().getName().equals(inventory.getName()) && e.getInventory().getHolder().equals(player)) {
             e.setCancelled(true);
-            if (buttons.containsKey(e.getRawSlot()))
+            if (buttons.containsKey(e.getRawSlot())) {
                 buttons.get(e.getRawSlot()).accept((Player) e.getWhoClicked());
+            }
         }
     }
 
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent e) {
-        if (e.getInventory().getName().equals(inventory.getName()) && e.getInventory().getHolder().equals(player))
+        if (e.getInventory().getName().equals(inventory.getName()) && e.getInventory().getHolder().equals(player)) {
             close();
+        }
     }
 
     @EventHandler
@@ -106,24 +119,14 @@ public abstract class AbstractSpigotChestGUI<J extends JavaPlugin> extends Abstr
     }
 
     @Override
-    protected void set(int slot, @Nonnull ItemStack stack, @Nonnull Consumer<Player> consumer) {
-        set(slot, stack);
-        buttons.put(slot, consumer);
-    }
-
-    @Override
     protected void set(int slot, @Nonnull ItemStack stack) {
         inventory.setItem(slot, stack);
     }
 
-    @Nonnull
     @Override
-    protected ItemStack createItem(@Nonnull Material itemType, @Nonnull String name, @Nonnull String... description) {
-        ItemStack itemStack = new ItemStack(itemType);
-        ItemMeta meta = itemStack.getItemMeta();
-        meta.setDisplayName(name);
-        meta.setLore(Arrays.asList(description));
-        return itemStack;
+    protected void set(int slot, @Nonnull ItemStack stack, @Nonnull Consumer<Player> consumer) {
+        set(slot, stack);
+        buttons.put(slot, consumer);
     }
 
     @Override

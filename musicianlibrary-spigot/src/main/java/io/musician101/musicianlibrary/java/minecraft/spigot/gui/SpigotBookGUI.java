@@ -25,8 +25,9 @@ public class SpigotBookGUI<J extends JavaPlugin> extends AbstractBookMenu<ItemSt
     @EventHandler
     @Override
     public void bookInteract(PlayerInteractEvent event) {
-        if (player.getUniqueId().equals(event.getPlayer().getUniqueId()) && event.hasItem() && isSameBook(event.getItem()))
+        if (player.getUniqueId().equals(event.getPlayer().getUniqueId()) && event.hasItem() && isSameBook(event.getItem())) {
             Bukkit.getScheduler().cancelTask(taskId);
+        }
     }
 
     @EventHandler
@@ -34,8 +35,9 @@ public class SpigotBookGUI<J extends JavaPlugin> extends AbstractBookMenu<ItemSt
     public void clickBook(InventoryClickEvent event) {
         if (event.getWhoClicked() instanceof Player) {
             Player player = (Player) event.getWhoClicked();
-            if (player.getUniqueId().equals(this.player.getUniqueId()) && isSameBook(event.getCurrentItem()))
+            if (player.getUniqueId().equals(this.player.getUniqueId()) && isSameBook(event.getCurrentItem())) {
                 event.setCancelled(true);
+            }
         }
     }
 
@@ -50,16 +52,18 @@ public class SpigotBookGUI<J extends JavaPlugin> extends AbstractBookMenu<ItemSt
         if (player.getUniqueId().equals(event.getPlayer().getUniqueId())) {
             ItemStack itemStack = new ItemStack(Material.BOOK_AND_QUILL);
             itemStack.setItemMeta(event.getPreviousBookMeta());
-            if (isSameBook(itemStack))
+            if (isSameBook(itemStack)) {
                 biConsumer.accept(player, event.getNewBookMeta().getPages());
+            }
         }
     }
 
     @EventHandler
     @Override
     public void dropBook(PlayerDropItemEvent event) {
-        if (player.getUniqueId().equals(event.getPlayer().getUniqueId()) && isSameBook(event.getItemDrop().getItemStack()))
+        if (player.getUniqueId().equals(event.getPlayer().getUniqueId()) && isSameBook(event.getItemDrop().getItemStack())) {
             event.setCancelled(true);
+        }
     }
 
     @Override

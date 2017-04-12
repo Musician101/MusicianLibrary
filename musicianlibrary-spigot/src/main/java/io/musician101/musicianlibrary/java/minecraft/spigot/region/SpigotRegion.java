@@ -45,16 +45,18 @@ public class SpigotRegion extends AbstractRegion<Location> {
 
     public static SpigotRegion createFromLocationRadius(Location location, double xRadius, double yRadius, double zRadius) {
         Validate.notNull(location);
-        if (xRadius < 0 || yRadius < 0 || zRadius < 0)
+        if (xRadius < 0 || yRadius < 0 || zRadius < 0) {
             throw new IllegalArgumentException("The radius cannot be negative!");
+        }
 
         return xRadius > 0 || yRadius > 0 || zRadius > 0 ? new SpigotRegion(location.clone().subtract(xRadius, yRadius, zRadius), location.clone().add(xRadius, yRadius, zRadius)) : new SpigotRegion(location);
     }
 
     public World getWorld() {
         World world = Bukkit.getServer().getWorld(this.worldName);
-        if (world == null)
+        if (world == null) {
             world = Bukkit.getServer().createWorld(WorldCreator.name(this.worldName));
+        }
 
         return world;
     }

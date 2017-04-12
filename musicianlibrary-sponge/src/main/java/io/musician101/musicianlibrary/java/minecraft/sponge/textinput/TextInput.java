@@ -13,11 +13,11 @@ import org.spongepowered.api.event.message.MessageChannelEvent;
 public abstract class TextInput<I> {
 
     @Nonnull
+    protected final BiFunction<String, Player, Boolean> biFunction;
+    @Nonnull
     protected final Player player;
     @Nullable
     protected final AbstractSpongeChestGUI<I> prevMenu;
-    @Nonnull
-    protected final BiFunction<String, Player, Boolean> biFunction;
 
     public TextInput(@Nonnull I plugin, @Nonnull Player player, @Nullable AbstractSpongeChestGUI<I> prevMenu, @Nonnull BiFunction<String, Player, Boolean> biFunction) {
         this.player = player;

@@ -40,8 +40,9 @@ public class Gui {
         public Button(String text, int x, int y, int w, int h, ActionListener listener) {
             super(text);
             setBounds(x, y, w, h);
-            if (listener != null)
+            if (listener != null) {
                 addActionListener(listener);
+            }
         }
     }
 

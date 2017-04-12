@@ -12,25 +12,29 @@ public class Utils {
     }
 
     public static boolean isInteger(String string) {
-        if (string == null)
+        if (string == null) {
             return false;
+        }
 
         int length = string.length();
-        if (length == 0)
+        if (length == 0) {
             return false;
+        }
 
         int i = 0;
         if (string.charAt(0) == '-') {
-            if (length == 1)
+            if (length == 1) {
                 return false;
+            }
 
             i = 1;
         }
 
         for (; i < length; i++) {
             char c = string.charAt(i);
-            if (c < '0' || c > '9')
+            if (c < '0' || c > '9') {
                 return false;
+            }
         }
 
         return true;
@@ -43,8 +47,9 @@ public class Utils {
                     return left;
                 },
                 list -> {
-                    if (list.size() != 1)
+                    if (list.size() != 1) {
                         throw new IllegalStateException();
+                    }
 
                     return list.get(0);
                 });
