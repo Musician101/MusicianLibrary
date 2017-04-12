@@ -1,14 +1,50 @@
 package io.musician101.musicianlibrary.java.minecraft.spigot.command;
 
-import io.musician101.musicianlibrary.java.minecraft.command.AbstractCommandPermissions;
 import javax.annotation.Nonnull;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class SpigotCommandPermissions extends AbstractCommandPermissions<String, CommandSender> {
+public class SpigotCommandPermissions {
+
+    private boolean isPlayerOnly;
+    private String noPermission;
+    private String permissionNode;
+    private String playerOnly;
 
     SpigotCommandPermissions() {
 
+    }
+
+    public String getNoPermissionMessage() {
+        return noPermission;
+    }
+
+    protected void setNoPermissionMessage(String noPermission) {
+        this.noPermission = noPermission;
+    }
+
+    public String getPermissionNode() {
+        return permissionNode;
+    }
+
+    protected void setPermissionNode(String permissionNode) {
+        this.permissionNode = permissionNode;
+    }
+
+    public String getPlayerOnlyMessage() {
+        return playerOnly;
+    }
+
+    protected void setPlayerOnlyMessage(String playerOnly) {
+        this.playerOnly = playerOnly;
+    }
+
+    public boolean isPlayerOnly() {
+        return isPlayerOnly;
+    }
+
+    protected void setIsPlayerOnly(boolean isPlayerOnly) {
+        this.isPlayerOnly = isPlayerOnly;
     }
 
     public static SpigotCommandPermissions blank() {
@@ -19,7 +55,6 @@ public class SpigotCommandPermissions extends AbstractCommandPermissions<String,
         return new SpigotCommandPermissionsBuilder();
     }
 
-    @Override
     public boolean testPermissions(CommandSender sender) {
         if (isPlayerOnly() && !(sender instanceof Player)) {
             sender.sendMessage(getPlayerOnlyMessage());
@@ -34,14 +69,18 @@ public class SpigotCommandPermissions extends AbstractCommandPermissions<String,
         return true;
     }
 
-    public static class SpigotCommandPermissionsBuilder extends AbstractCommandPermissionsBuilder<SpigotCommandPermissionsBuilder, String, CommandSender, SpigotCommandPermissions> {
+    public static class SpigotCommandPermissionsBuilder {
+
+        private boolean isPlayerOnly = false;
+        private String noPermission;
+        private String permissionNode;
+        private String playerOnly;
 
         SpigotCommandPermissionsBuilder() {
 
         }
 
         @Nonnull
-        @Override
         public SpigotCommandPermissions build() throws IllegalStateException {
             SpigotCommandPermissions scp = new SpigotCommandPermissions();
             if (noPermission == null)
@@ -61,7 +100,6 @@ public class SpigotCommandPermissions extends AbstractCommandPermissions<String,
         }
 
         @Nonnull
-        @Override
         public SpigotCommandPermissionsBuilder reset() {
             isPlayerOnly = false;
             noPermission = null;
@@ -71,29 +109,25 @@ public class SpigotCommandPermissions extends AbstractCommandPermissions<String,
         }
 
         @Nonnull
-        @Override
         public SpigotCommandPermissionsBuilder isPlayerOnly(boolean isPlayerOnly) {
             this.isPlayerOnly = isPlayerOnly;
             return this;
         }
 
         @Nonnull
-        @Override
         public SpigotCommandPermissionsBuilder noPermissionMessage(String noPermission) {
             this.noPermission = noPermission;
             return this;
         }
 
         @Nonnull
-        @Override
-        public SpigotCommandPermissionsBuilder permissionNode(String permissionNode) {
+        public SpigotCommandPermissionsBuilder permissionNode(@Nonnull String permissionNode) {
             this.permissionNode = permissionNode;
             return this;
         }
 
         @Nonnull
-        @Override
-        public SpigotCommandPermissionsBuilder playerOnlyMessage(String playerOnly) {
+        public SpigotCommandPermissionsBuilder playerOnlyMessage(@Nonnull String playerOnly) {
             this.playerOnly = playerOnly;
             return this;
         }

@@ -2,37 +2,39 @@ package io.musician101.musicianlibrary.java.minecraft.menu;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-public abstract class AbstractChestMenu<C, I, J, P, S, X, Y, Z> {
+public abstract class AbstractChestMenu<F, G extends AbstractChestMenu<F, G, I, N, P, S, T>, I, N, P, S, T> {
 
-    protected final Map<Integer, C> buttons = new HashMap<>();
+    protected final Map<N, Consumer<P>> buttons = new HashMap<>();
+    @Nonnull
     protected final I inventory;
+    @Nullable
+    protected final G prevMenu;
+    @Nonnull
     protected final P player;
 
-    protected AbstractChestMenu(I inventory, P player) {
+    public AbstractChestMenu(@Nonnull I inventory, @Nonnull P player, @Nullable G prevMenu) {
         this.inventory = inventory;
         this.player = player;
+        this.prevMenu = prevMenu;
     }
 
     protected abstract void build();
 
     protected abstract void close();
 
-    protected void onClose() {
-    }
+    public abstract void open();
 
-    public abstract void onInventoryClick(Y event);
+    protected abstract void set(int slot, @Nonnull S itemStack);
 
-    public abstract void onInventoryClose(Z event);
+    protected abstract void set(int slot, @Nonnull S itemStack, @Nonnull Consumer<P> consumer);
 
-    public abstract void onInventoryItemDrag(X event);
+    protected abstract void setBackButton(int slot, @Nonnull T itemType);
 
-    protected void onOpen() {
-    }
-
-    protected abstract void open(J plugin);
-
-    protected abstract void set(int slot, S itemStack);
-
-    protected abstract void set(int slot, S itemStack, C consumer);
+    @SuppressWarnings("unchecked")
+    @Nonnull
+    protected abstract S createItem(@Nonnull T itemType, @Nonnull F name, @Nonnull F... description);
 }

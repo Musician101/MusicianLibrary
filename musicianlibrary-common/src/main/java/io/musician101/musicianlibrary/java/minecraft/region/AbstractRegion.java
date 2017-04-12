@@ -1,4 +1,4 @@
-package io.musician101.musicianlibrary.java.minecraft;
+package io.musician101.musicianlibrary.java.minecraft.region;
 
 import java.util.HashMap;
 import java.util.Map;

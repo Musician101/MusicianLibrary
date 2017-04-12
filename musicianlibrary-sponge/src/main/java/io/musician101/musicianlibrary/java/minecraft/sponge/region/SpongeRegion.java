@@ -1,6 +1,6 @@
-package io.musician101.musicianlibrary.java.minecraft.sponge;
+package io.musician101.musicianlibrary.java.minecraft.sponge.region;
 
-import io.musician101.musicianlibrary.java.minecraft.AbstractRegion;
+import io.musician101.musicianlibrary.java.minecraft.region.AbstractRegion;
 import java.util.Map;
 import java.util.Optional;
 import ninja.leaping.configurate.ConfigurationNode;

@@ -1,4 +1,5 @@
 repositories {
+    mavenLocal()
     maven {
         name = 'spigotmc-repo'
         url = 'https://hub.spigotmc.org/nexus/content/groups/public/'
@@ -7,12 +8,16 @@ repositories {
         name = 'sonatype'
         url = 'https://oss.sonatype.org/content/groups/public/'
     }
-    mavenLocal()
+    maven {
+        name = 'WesJD'
+        url = 'http://nexus.wesjd.net/repository/thirdparty/'
+    }
 }
 
 dependencies {
     compile project(':musicianlibrary-common')
     compile 'org.spigotmc:spigot:1.10.2-R0.1-SNAPSHOT'
+    compile 'net.wesjd:anvilgui:1.1.1-SNAPSHOT'
 }
 
 processResources {
@@ -24,5 +29,6 @@ processResources {
 shadowJar {
     dependencies {
         include(dependency(':musicianlibrary-common'))
+        include(dependency(':anilgui:1.1.1-SNAPSHOT'))
     }
 }

@@ -1,4 +1,4 @@
-package io.musician101.musicianlibrary.java.minecraft.sponge;
+package io.musician101.musicianlibrary.java.minecraft.sponge.utils;
 
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;

@@ -1,16 +1,35 @@
 package io.musician101.musicianlibrary.java.minecraft.spigot.command;
 
-import io.musician101.musicianlibrary.java.minecraft.command.AbstractCommandArgument;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 import javax.annotation.Nonnull;
 import org.bukkit.ChatColor;
 
 
-public class SpigotCommandArgument extends AbstractCommandArgument<String> {
+public class SpigotCommandArgument {
+
+    private String name;
+    private List<Syntax> syntaxList;
 
     SpigotCommandArgument() {
 
+    }
+
+    protected void setName(String name) {
+        this.name = name;
+    }
+
+    protected void setSyntaxList(List<Syntax> syntaxList) {
+        this.syntaxList = syntaxList;
+    }
+
+    public enum Syntax {
+        LITERAL,
+        MULTIPLE,
+        REPLACE,
+        REQUIRED,
+        OPTIONAL
     }
 
     public static SpigotCommandArgumentBuilder builder() {
@@ -28,7 +47,6 @@ public class SpigotCommandArgument extends AbstractCommandArgument<String> {
     }
 
     @Nonnull
-    @Override
     public String format() {
         String name = this.name;
         if (syntaxList.contains(Syntax.REPLACE))
@@ -46,21 +64,22 @@ public class SpigotCommandArgument extends AbstractCommandArgument<String> {
         return name;
     }
 
-    public static class SpigotCommandArgumentBuilder extends AbstractCommandArgumentBuilder<SpigotCommandArgument, SpigotCommandArgumentBuilder, String> {
+    public static class SpigotCommandArgumentBuilder {
+
+        private String name;
+        private List<Syntax> syntaxList = new ArrayList<>();
 
         SpigotCommandArgumentBuilder() {
 
         }
 
         @Nonnull
-        @Override
         public SpigotCommandArgumentBuilder addSyntax(@Nonnull Syntax syntax) {
             syntaxList.add(syntax);
             return this;
         }
 
         @Nonnull
-        @Override
         public SpigotCommandArgument build() throws IllegalStateException {
             if (name == null)
                 throw new IllegalStateException("Name has not been set.");
@@ -78,7 +97,6 @@ public class SpigotCommandArgument extends AbstractCommandArgument<String> {
         }
 
         @Nonnull
-        @Override
         public SpigotCommandArgumentBuilder reset() {
             name = null;
             syntaxList = new ArrayList<>();
@@ -86,7 +104,6 @@ public class SpigotCommandArgument extends AbstractCommandArgument<String> {
         }
 
         @Nonnull
-        @Override
         public SpigotCommandArgumentBuilder name(@Nonnull String name) {
             this.name = name;
             return this;

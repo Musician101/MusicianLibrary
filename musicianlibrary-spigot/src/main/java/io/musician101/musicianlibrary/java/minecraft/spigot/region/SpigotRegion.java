@@ -1,6 +1,6 @@
-package io.musician101.musicianlibrary.java.minecraft.spigot;
+package io.musician101.musicianlibrary.java.minecraft.spigot.region;
 
-import io.musician101.musicianlibrary.java.minecraft.AbstractRegion;
+import io.musician101.musicianlibrary.java.minecraft.region.AbstractRegion;
 import java.util.Map;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;

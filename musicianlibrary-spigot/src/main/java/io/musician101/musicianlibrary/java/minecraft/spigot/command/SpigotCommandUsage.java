@@ -1,16 +1,34 @@
 package io.musician101.musicianlibrary.java.minecraft.spigot.command;
 
-import io.musician101.musicianlibrary.java.minecraft.command.AbstractCommandUsage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 import javax.annotation.Nonnull;
 import org.bukkit.ChatColor;
 
-public class SpigotCommandUsage extends AbstractCommandUsage<SpigotCommandArgument, String> {
+public class SpigotCommandUsage {
+
+    private int minArgs;
+    private String usage;
 
     SpigotCommandUsage() {
 
+    }
+
+    public int getMinArgs() {
+        return minArgs;
+    }
+
+    protected void setMinArgs(int minArgs) {
+        this.minArgs = minArgs;
+    }
+
+    public String getUsage() {
+        return usage;
+    }
+
+    protected void setUsage(String usage) {
+        this.usage = usage;
     }
 
     public static SpigotCommandUsageBuilder builder() {
@@ -27,24 +45,26 @@ public class SpigotCommandUsage extends AbstractCommandUsage<SpigotCommandArgume
         return builder.build();
     }
 
-    public static class SpigotCommandUsageBuilder extends AbstractCommandUsageBuilder<SpigotCommandArgument, SpigotCommandUsageBuilder, String, SpigotCommandUsage> {
+    public static class SpigotCommandUsageBuilder {
+
+        private int minArgs = 0;
+        private List<SpigotCommandArgument> usage = new ArrayList<>();
 
         SpigotCommandUsageBuilder() {
 
         }
 
         @Nonnull
-        @Override
         public SpigotCommandUsageBuilder addArgument(@Nonnull SpigotCommandArgument argument) {
             usage.add(argument);
             return this;
         }
 
         @Nonnull
-        @Override
         public SpigotCommandUsage build() throws IllegalStateException {
-            if (usage.isEmpty())
+            if (usage.isEmpty()) {
                 throw new IllegalStateException("Usage can not be empty.");
+            }
 
             SpigotCommandUsage scu = new SpigotCommandUsage();
             scu.setMinArgs(minArgs);
@@ -53,22 +73,23 @@ public class SpigotCommandUsage extends AbstractCommandUsage<SpigotCommandArgume
         }
 
         @Nonnull
-        @Override
         protected String parseUsage(@Nonnull List<SpigotCommandArgument> arguments) {
             StringBuilder sb = new StringBuilder();
             sb.append(ChatColor.GRAY).append(arguments.get(0).format());
-            if (arguments.size() > 1)
+            if (arguments.size() > 1) {
                 sb.append(" ").append(ChatColor.RESET).append(arguments.get(1).format());
+            }
 
-            if (arguments.size() > 2)
-                for (int x = 2; x < arguments.size() - 1; x++)
+            if (arguments.size() > 2) {
+                for (int x = 2; x < arguments.size() - 1; x++) {
                     sb.append(" ").append(ChatColor.GREEN).append(arguments.get(x).format());
+                }
+            }
 
             return sb.toString();
         }
 
         @Nonnull
-        @Override
         public SpigotCommandUsageBuilder reset() {
             minArgs = 0;
             usage = new ArrayList<>();
@@ -76,7 +97,6 @@ public class SpigotCommandUsage extends AbstractCommandUsage<SpigotCommandArgume
         }
 
         @Nonnull
-        @Override
         public SpigotCommandUsageBuilder minArgs(int minArgs) {
             this.minArgs = minArgs;
             return this;
