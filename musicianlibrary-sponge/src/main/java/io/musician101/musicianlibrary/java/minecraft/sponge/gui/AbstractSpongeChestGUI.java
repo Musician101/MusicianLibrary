@@ -32,15 +32,15 @@ import org.spongepowered.api.item.inventory.property.SlotIndex;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.text.Text;
 
-public abstract class AbstractSpongeChestMenu<J> extends AbstractChestMenu<Text, AbstractSpongeChestMenu<J>, Inventory, String, Player, ItemStack, ItemType> {
+public abstract class AbstractSpongeChestGUI<J> extends AbstractChestMenu<Text, AbstractSpongeChestGUI<J>, Inventory, String, Player, ItemStack, ItemType> {
 
     private final Map<Integer, ItemStack> slots = new HashMap<>();
 
-    public AbstractSpongeChestMenu(@Nonnull Player player, @Nonnull String name, int size, @Nullable AbstractSpongeChestMenu<J> prevMenu, PluginContainer plugin) {
+    public AbstractSpongeChestGUI(@Nonnull Player player, @Nonnull String name, int size, @Nullable AbstractSpongeChestGUI<J> prevMenu, PluginContainer plugin) {
         this(player, name, size, prevMenu, plugin, false);
     }
 
-    public AbstractSpongeChestMenu(@Nonnull Player player, @Nonnull String name, int size, @Nullable AbstractSpongeChestMenu<J> prevMenu, @Nonnull PluginContainer plugin, boolean manualOpen) {
+    public AbstractSpongeChestGUI(@Nonnull Player player, @Nonnull String name, int size, @Nullable AbstractSpongeChestGUI<J> prevMenu, @Nonnull PluginContainer plugin, boolean manualOpen) {
         super(parseInventory(name, size, plugin), player, prevMenu);
     }
 

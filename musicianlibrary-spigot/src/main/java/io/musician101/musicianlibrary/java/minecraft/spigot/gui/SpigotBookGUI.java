@@ -1,4 +1,4 @@
-package io.musician101.musicianlibrary.java.minecraft.spigot.menu;
+package io.musician101.musicianlibrary.java.minecraft.spigot.gui;
 
 import io.musician101.musicianlibrary.java.minecraft.menu.AbstractBookMenu;
 import java.util.List;
@@ -16,9 +16,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class SpigotBookMenu<J extends JavaPlugin> extends AbstractBookMenu<ItemStack, J, Player, Integer, PlayerInteractEvent, InventoryClickEvent, PlayerDropItemEvent, PlayerEditBookEvent> implements Listener {
+public class SpigotBookGUI<J extends JavaPlugin> extends AbstractBookMenu<ItemStack, J, Player, Integer, PlayerInteractEvent, InventoryClickEvent, PlayerDropItemEvent, PlayerEditBookEvent> implements Listener {
 
-    public SpigotBookMenu(Player player, ItemStack book, BiConsumer<Player, List<String>> biConsumer) {
+    public SpigotBookGUI(Player player, ItemStack book, BiConsumer<Player, List<String>> biConsumer) {
         super(player, book, biConsumer);
     }
 

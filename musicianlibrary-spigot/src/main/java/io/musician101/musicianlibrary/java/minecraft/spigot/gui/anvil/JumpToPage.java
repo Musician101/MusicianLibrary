@@ -1,6 +1,6 @@
-package io.musician101.musicianlibrary.java.minecraft.spigot.menu.anvil;
+package io.musician101.musicianlibrary.java.minecraft.spigot.gui.anvil;
 
-import io.musician101.musicianlibrary.java.minecraft.spigot.menu.chest.AbstractSpigotChestMenu;
+import io.musician101.musicianlibrary.java.minecraft.spigot.gui.chest.AbstractSpigotChestGUI;
 import io.musician101.musicianlibrary.java.util.TriConsumer;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -10,7 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class JumpToPage<J extends JavaPlugin> extends AbstractAnvilGUI<J> {
 
-    public JumpToPage(@Nonnull J plugin, @Nonnull Player player, int maxPage, @Nullable AbstractSpigotChestMenu<J> prevMenu, @Nonnull TriConsumer<Player, Integer, AbstractSpigotChestMenu<J>> triConsumer) {
+    public JumpToPage(@Nonnull J plugin, @Nonnull Player player, int maxPage, @Nullable AbstractSpigotChestGUI<J> prevMenu, @Nonnull TriConsumer<Player, Integer, AbstractSpigotChestGUI<J>> triConsumer) {
         super(plugin, player, prevMenu, (p, name) -> {
             int page;
             try {

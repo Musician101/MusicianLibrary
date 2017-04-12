@@ -1,6 +1,6 @@
-package io.musician101.musicianlibrary.java.minecraft.spigot.menu.chest;
+package io.musician101.musicianlibrary.java.minecraft.spigot.gui.chest;
 
-import io.musician101.musicianlibrary.java.minecraft.spigot.menu.anvil.JumpToPage;
+import io.musician101.musicianlibrary.java.minecraft.spigot.gui.anvil.JumpToPage;
 import io.musician101.musicianlibrary.java.util.TriConsumer;
 import java.util.List;
 import java.util.function.BiFunction;
@@ -12,16 +12,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public abstract class AbstractSpigotPagedMenu<J extends JavaPlugin> extends AbstractSpigotChestMenu<J> {
+public abstract class AbstractSpigotPagedGUI<J extends JavaPlugin> extends AbstractSpigotChestGUI<J> {
 
     protected final int page;
 
-    public AbstractSpigotPagedMenu(@Nonnull Player player, int size, @Nonnull String name, int page, @Nullable AbstractSpigotChestMenu<J> prevMenu, @Nonnull J plugin) {
+    public AbstractSpigotPagedGUI(@Nonnull Player player, int size, @Nonnull String name, int page, @Nullable AbstractSpigotChestGUI<J> prevMenu, @Nonnull J plugin) {
         super(player, size, name, prevMenu, plugin);
         this.page = page;
     }
 
-    public AbstractSpigotPagedMenu(@Nonnull Player player, int size, @Nonnull String name, int page, @Nullable AbstractSpigotChestMenu<J> prevMenu, @Nonnull J plugin, boolean manualOpen) {
+    public AbstractSpigotPagedGUI(@Nonnull Player player, int size, @Nonnull String name, int page, @Nullable AbstractSpigotChestGUI<J> prevMenu, @Nonnull J plugin, boolean manualOpen) {
         super(player, size, name, prevMenu, plugin, manualOpen);
         this.page = page;
     }
@@ -43,7 +43,7 @@ public abstract class AbstractSpigotPagedMenu<J extends JavaPlugin> extends Abst
         }
     }
 
-    protected void setJumpToPage(int slot, int maxPage, TriConsumer<Player, Integer, AbstractSpigotChestMenu<J>> triConsumer) {
+    protected void setJumpToPage(int slot, int maxPage, TriConsumer<Player, Integer, AbstractSpigotChestGUI<J>> triConsumer) {
         ItemStack itemStack = createItem(Material.BOOK, "Jump To Page");
         itemStack.setAmount(page);
         set(slot, itemStack, player -> new JumpToPage<>(plugin, player, maxPage, prevMenu, triConsumer));

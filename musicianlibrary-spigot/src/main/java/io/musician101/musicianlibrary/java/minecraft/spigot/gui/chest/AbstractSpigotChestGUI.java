@@ -1,4 +1,4 @@
-package io.musician101.musicianlibrary.java.minecraft.spigot.menu.chest;
+package io.musician101.musicianlibrary.java.minecraft.spigot.gui.chest;
 
 import io.musician101.musicianlibrary.java.minecraft.menu.AbstractChestMenu;
 import java.lang.reflect.Field;
@@ -24,7 +24,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public abstract class AbstractSpigotChestMenu<J extends JavaPlugin> extends AbstractChestMenu<String, AbstractSpigotChestMenu<J>, Inventory, Integer, Player, ItemStack, Material> implements Listener {
+public abstract class AbstractSpigotChestGUI<J extends JavaPlugin> extends AbstractChestMenu<String, AbstractSpigotChestGUI<J>, Inventory, Integer, Player, ItemStack, Material> implements Listener {
 
     private static final String SERVER_VERSION = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
     private static Field activeContainer;
@@ -48,11 +48,11 @@ public abstract class AbstractSpigotChestMenu<J extends JavaPlugin> extends Abst
     @Nonnull
     protected final J plugin;
 
-    public AbstractSpigotChestMenu(@Nonnull Player player, int size, @Nonnull String name, @Nullable AbstractSpigotChestMenu<J> prevMenu, @Nonnull J plugin) {
+    public AbstractSpigotChestGUI(@Nonnull Player player, int size, @Nonnull String name, @Nullable AbstractSpigotChestGUI<J> prevMenu, @Nonnull J plugin) {
         this(player, size, name, prevMenu, plugin, false);
     }
 
-    public AbstractSpigotChestMenu(@Nonnull Player player, int size, @Nonnull String name, @Nullable AbstractSpigotChestMenu<J> prevMenu, @Nonnull J plugin, boolean manualOpen) {
+    public AbstractSpigotChestGUI(@Nonnull Player player, int size, @Nonnull String name, @Nullable AbstractSpigotChestGUI<J> prevMenu, @Nonnull J plugin, boolean manualOpen) {
         super(Bukkit.createInventory(player, size, name), player, prevMenu);
         this.plugin = plugin;
         if (!manualOpen) {

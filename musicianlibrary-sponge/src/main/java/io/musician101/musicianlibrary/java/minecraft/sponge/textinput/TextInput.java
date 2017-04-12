@@ -1,6 +1,6 @@
 package io.musician101.musicianlibrary.java.minecraft.sponge.textinput;
 
-import io.musician101.musicianlibrary.java.minecraft.sponge.gui.AbstractSpongeChestMenu;
+import io.musician101.musicianlibrary.java.minecraft.sponge.gui.AbstractSpongeChestGUI;
 import java.util.function.BiFunction;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -15,11 +15,11 @@ public abstract class TextInput<I> {
     @Nonnull
     protected final Player player;
     @Nullable
-    protected final AbstractSpongeChestMenu<I> prevMenu;
+    protected final AbstractSpongeChestGUI<I> prevMenu;
     @Nonnull
     protected final BiFunction<String, Player, Boolean> biFunction;
 
-    public TextInput(@Nonnull I plugin, @Nonnull Player player, @Nullable AbstractSpongeChestMenu<I> prevMenu, @Nonnull BiFunction<String, Player, Boolean> biFunction) {
+    public TextInput(@Nonnull I plugin, @Nonnull Player player, @Nullable AbstractSpongeChestGUI<I> prevMenu, @Nonnull BiFunction<String, Player, Boolean> biFunction) {
         this.player = player;
         this.prevMenu = prevMenu;
         this.biFunction = biFunction;
