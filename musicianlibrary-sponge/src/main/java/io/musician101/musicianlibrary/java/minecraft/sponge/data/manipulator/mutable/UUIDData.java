@@ -21,6 +21,18 @@ public class UUIDData extends AbstractSingleData<UUID, UUIDData, ImmutableUUIDDa
 
     @Nonnull
     @Override
+    public ImmutableUUIDData asImmutable() {
+        return new ImmutableUUIDData(getValue());
+    }
+
+    @Nonnull
+    @Override
+    public UUIDData copy() {
+        return new UUIDData(getValue());
+    }
+
+    @Nonnull
+    @Override
     public Optional<UUIDData> fill(@Nonnull DataHolder dataHolder, @Nonnull MergeFunction overlap) {
         dataHolder.get(UUIDData.class).ifPresent(bookGUIData -> overlap.merge(this, bookGUIData));
         return Optional.of(this);
@@ -33,10 +45,9 @@ public class UUIDData extends AbstractSingleData<UUID, UUIDData, ImmutableUUIDDa
         return Optional.of(this);
     }
 
-    @Nonnull
     @Override
-    public UUIDData copy() {
-        return new UUIDData(getValue());
+    public int getContentVersion() {
+        return 1;
     }
 
     @SuppressWarnings("unchecked")
@@ -44,17 +55,6 @@ public class UUIDData extends AbstractSingleData<UUID, UUIDData, ImmutableUUIDDa
     @Override
     protected Value<UUID> getValueGetter() {
         return Sponge.getRegistry().getValueFactory().createValue((Key<Value<UUID>>) usedKey, getValue());
-    }
-
-    @Nonnull
-    @Override
-    public ImmutableUUIDData asImmutable() {
-        return new ImmutableUUIDData(getValue());
-    }
-
-    @Override
-    public int getContentVersion() {
-        return 1;
     }
 
     @Nonnull

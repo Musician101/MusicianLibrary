@@ -18,23 +18,13 @@ public class SpigotRegion extends AbstractRegion<Location> {
     }
 
     private SpigotRegion(Location location, Location location2) {
-        super(Math.min((int) location.getX(), (int) location2.getX()),
-                Math.max((int) location.getX(), (int) location2.getX()),
-                Math.min((int) location.getY(), (int) location2.getY()),
-                Math.max((int) location.getY(), (int) location2.getY()),
-                Math.min((int) location.getZ(), (int) location2.getZ()),
-                Math.max((int) location.getZ(), (int) location2.getZ()));
+        super(Math.min((int) location.getX(), (int) location2.getX()), Math.max((int) location.getX(), (int) location2.getX()), Math.min((int) location.getY(), (int) location2.getY()), Math.max((int) location.getY(), (int) location2.getY()), Math.min((int) location.getZ(), (int) location2.getZ()), Math.max((int) location.getZ(), (int) location2.getZ()));
 
         this.worldName = location.getWorld().getName();
     }
 
     public SpigotRegion(Map<String, Object> map) {
-        super(map.containsKey("MinX") ? (Integer) map.get("MinX") : 0,
-                map.containsKey("MaxX") ? (Integer) map.get("MaxX") : 0,
-                map.containsKey("MinY") ? (Integer) map.get("MinY") : 0,
-                map.containsKey("MaxY") ? (Integer) map.get("MaxY") : 0,
-                map.containsKey("MinZ") ? (Integer) map.get("MinZ") : 0,
-                map.containsKey("MaxZ") ? (Integer) map.get("MaxZ") : 0);
+        super(map.containsKey("MinX") ? (Integer) map.get("MinX") : 0, map.containsKey("MaxX") ? (Integer) map.get("MaxX") : 0, map.containsKey("MinY") ? (Integer) map.get("MinY") : 0, map.containsKey("MaxY") ? (Integer) map.get("MaxY") : 0, map.containsKey("MinZ") ? (Integer) map.get("MinZ") : 0, map.containsKey("MaxZ") ? (Integer) map.get("MaxZ") : 0);
 
         this.worldName = map.containsKey("World") ? (String) map.get("World") : "";
     }

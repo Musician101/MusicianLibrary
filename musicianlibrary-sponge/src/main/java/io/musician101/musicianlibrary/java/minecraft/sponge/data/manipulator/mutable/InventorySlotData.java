@@ -12,28 +12,22 @@ import org.spongepowered.api.data.manipulator.mutable.common.AbstractSingleData;
 import org.spongepowered.api.data.merge.MergeFunction;
 import org.spongepowered.api.data.value.mutable.Value;
 
-public class InventorySlotData extends AbstractSingleData<Integer, InventorySlotData, ImmutableInventorySlotData>{
+public class InventorySlotData extends AbstractSingleData<Integer, InventorySlotData, ImmutableInventorySlotData> {
 
     public InventorySlotData(Integer value) {
         super(value, MLKeys.SLOT);
     }
 
+    @Nonnull
     @Override
-    public int getContentVersion() {
-        return 1;
+    public ImmutableInventorySlotData asImmutable() {
+        return new ImmutableInventorySlotData(getValue());
     }
 
     @Nonnull
     @Override
-    public DataContainer toContainer() {
-        return super.toContainer().set(usedKey, getValue());
-    }
-
-    @SuppressWarnings("unchecked")
-    @Nonnull
-    @Override
-    protected Value<Integer> getValueGetter() {
-        return Sponge.getRegistry().getValueFactory().createValue((Key<Value<Integer>>) usedKey, getValue());
+    public InventorySlotData copy() {
+        return new InventorySlotData(getValue());
     }
 
     @Nonnull
@@ -50,15 +44,21 @@ public class InventorySlotData extends AbstractSingleData<Integer, InventorySlot
         return Optional.of(this);
     }
 
+    @Override
+    public int getContentVersion() {
+        return 1;
+    }
+
+    @SuppressWarnings("unchecked")
     @Nonnull
     @Override
-    public InventorySlotData copy() {
-        return new InventorySlotData(getValue());
+    protected Value<Integer> getValueGetter() {
+        return Sponge.getRegistry().getValueFactory().createValue((Key<Value<Integer>>) usedKey, getValue());
     }
 
     @Nonnull
     @Override
-    public ImmutableInventorySlotData asImmutable() {
-        return new ImmutableInventorySlotData(getValue());
+    public DataContainer toContainer() {
+        return super.toContainer().set(usedKey, getValue());
     }
 }

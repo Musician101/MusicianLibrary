@@ -13,17 +13,17 @@ public abstract class AbstractSpongePlugin<C extends AbstractConfig> {
         return config;
     }
 
-    public abstract PluginContainer getPluginContainer();
-
     public String getId() {
         return getPluginContainer().getId();
+    }
+
+    public Logger getLogger() {
+        return getPluginContainer().getLogger();
     }
 
     public String getName() {
         return getPluginContainer().getName();
     }
 
-    public Logger getLogger() {
-        return getPluginContainer().getLogger();
-    }
+    public abstract PluginContainer getPluginContainer();
 }

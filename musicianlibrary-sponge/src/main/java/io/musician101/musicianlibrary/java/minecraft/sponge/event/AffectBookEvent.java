@@ -11,15 +11,21 @@ import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 
 public class AffectBookEvent extends AbstractEvent implements TargetPlayerEvent, Cancellable {
 
-    private boolean cancelled = false;
     private final Cause cause;
     private final Player player;
     private final Transaction<ItemStackSnapshot> transaction;
+    private boolean cancelled = false;
 
     public AffectBookEvent(Player player, Transaction<ItemStackSnapshot> transaction, Cause cause) {
         this.player = player;
         this.transaction = transaction;
         this.cause = cause;
+    }
+
+    @Nonnull
+    @Override
+    public Cause getCause() {
+        return cause;
     }
 
     @Nonnull
@@ -31,12 +37,6 @@ public class AffectBookEvent extends AbstractEvent implements TargetPlayerEvent,
     @Nonnull
     public Transaction<ItemStackSnapshot> getTransaction() {
         return transaction;
-    }
-
-    @Nonnull
-    @Override
-    public Cause getCause() {
-        return cause;
     }
 
     @Override

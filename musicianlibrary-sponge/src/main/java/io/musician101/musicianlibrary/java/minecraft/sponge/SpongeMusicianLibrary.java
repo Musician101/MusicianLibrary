@@ -2,12 +2,12 @@ package io.musician101.musicianlibrary.java.minecraft.sponge;
 
 import com.google.inject.Inject;
 import io.musician101.musicianlibrary.java.minecraft.config.AbstractConfig;
-import io.musician101.musicianlibrary.java.minecraft.sponge.data.manipulator.builder.UUIDDataBuilder;
 import io.musician101.musicianlibrary.java.minecraft.sponge.data.manipulator.builder.InventorySlotDataBuilder;
-import io.musician101.musicianlibrary.java.minecraft.sponge.data.manipulator.immutable.ImmutableUUIDData;
+import io.musician101.musicianlibrary.java.minecraft.sponge.data.manipulator.builder.UUIDDataBuilder;
 import io.musician101.musicianlibrary.java.minecraft.sponge.data.manipulator.immutable.ImmutableInventorySlotData;
-import io.musician101.musicianlibrary.java.minecraft.sponge.data.manipulator.mutable.UUIDData;
+import io.musician101.musicianlibrary.java.minecraft.sponge.data.manipulator.immutable.ImmutableUUIDData;
 import io.musician101.musicianlibrary.java.minecraft.sponge.data.manipulator.mutable.InventorySlotData;
+import io.musician101.musicianlibrary.java.minecraft.sponge.data.manipulator.mutable.UUIDData;
 import io.musician101.musicianlibrary.java.minecraft.sponge.gui.SpongeBookGUIManager;
 import io.musician101.musicianlibrary.java.minecraft.sponge.plugin.AbstractSpongePlugin;
 import org.spongepowered.api.data.DataRegistration;
@@ -22,12 +22,21 @@ import org.spongepowered.api.plugin.PluginContainer;
 
 @Plugin(id = "sponge_musician_library", name = "Musician Library - Sponge", authors = {"Musician101"}, version = "3.0-SNAPSHOT", description = "A library used to house common classes across multiple projects.")
 public class SpongeMusicianLibrary extends AbstractSpongePlugin<AbstractConfig> {
+
     private static SpongeMusicianLibrary instance;
 
     @Inject
     private PluginContainer pluginContainer;
 
     private SpongeBookGUIManager spongeBookGUIManager;
+
+    public static SpongeMusicianLibrary instance() {
+        return instance;
+    }
+
+    public PluginContainer getPluginContainer() {
+        return pluginContainer;
+    }
 
     public SpongeBookGUIManager getSpongeBookGUIManager() {
         return spongeBookGUIManager;
@@ -47,13 +56,5 @@ public class SpongeMusicianLibrary extends AbstractSpongePlugin<AbstractConfig> 
 
     private <D extends DataManipulator<D, M>, M extends ImmutableDataManipulator<M, D>, T extends DataManipulator<T, I>, I extends ImmutableDataManipulator<I, T>> void registerData(String dataName, String id, Class<D> manipulatorClass, Class<M> immutableDataClass, DataManipulatorBuilder<T, I> builder) {
         DataRegistration.builder().dataClass(manipulatorClass).dataName(dataName).manipulatorId(id).immutableClass(immutableDataClass).buildAndRegister(pluginContainer);
-    }
-
-    public PluginContainer getPluginContainer() {
-        return pluginContainer;
-    }
-
-    public static SpongeMusicianLibrary instance() {
-        return instance;
     }
 }

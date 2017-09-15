@@ -20,6 +20,22 @@ public class SpongeAnvilGUI {
         entityPlayer.displayGui(new SSAnvil(entityPlayer, biFunction));
     }
 
+    static class SSAnvil extends Anvil {
+
+        private final BiFunction<EntityPlayer, String, String> biFunction;
+
+        private SSAnvil(EntityPlayer player, BiFunction<EntityPlayer, String, String> biFunction) {
+            super(player.getEntityWorld(), player.getPosition());
+            this.biFunction = biFunction;
+        }
+
+        @Nonnull
+        @Override
+        public Container createContainer(@Nonnull InventoryPlayer playerInventory, @Nonnull EntityPlayer playerIn) {
+            return new SSContainerRepair(playerInventory, playerIn, biFunction);
+        }
+    }
+
     static class SSContainerRepair extends ContainerRepair {
 
         private final BiFunction<EntityPlayer, String, String> biFunction;
@@ -30,6 +46,16 @@ public class SpongeAnvilGUI {
             net.minecraft.item.ItemStack itemStack = new net.minecraft.item.ItemStack(Items.PAPER);
             itemStack.setStackDisplayName("Rename Me!");
             putStackInSlot(0, itemStack);
+        }
+
+        @Override
+        public boolean canInteractWith(@Nonnull EntityPlayer playerIn) {
+            return true;
+        }
+
+        @Override
+        public void onContainerClosed(EntityPlayer playerIn) {
+
         }
 
         @Nonnull
@@ -50,32 +76,6 @@ public class SpongeAnvilGUI {
             }
 
             return ItemStack.EMPTY;
-        }
-
-        @Override
-        public void onContainerClosed(EntityPlayer playerIn) {
-
-        }
-
-        @Override
-        public boolean canInteractWith(@Nonnull EntityPlayer playerIn) {
-            return true;
-        }
-    }
-
-    static class SSAnvil extends Anvil {
-
-        private final BiFunction<EntityPlayer, String, String> biFunction;
-
-        private SSAnvil(EntityPlayer player, BiFunction<EntityPlayer, String, String> biFunction) {
-            super(player.getEntityWorld(), player.getPosition());
-            this.biFunction = biFunction;
-        }
-
-        @Nonnull
-        @Override
-        public Container createContainer(@Nonnull InventoryPlayer playerInventory, @Nonnull EntityPlayer playerIn) {
-            return new SSContainerRepair(playerInventory, playerIn, biFunction);
         }
     }
 }

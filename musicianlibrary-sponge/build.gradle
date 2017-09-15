@@ -47,7 +47,7 @@ sourceSets {
 }
 
 jar {
-    manifest.attributes (
+    manifest.attributes(
             "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
             "MixinConfigs": "mixins.sponge_musician_library.json",
             "FMLCorePluginContainsFMLMod": "true"

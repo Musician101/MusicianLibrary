@@ -24,8 +24,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class SpigotBookGUI<J extends JavaPlugin> implements Listener {
 
-    private final Player player;
-    private final int bookSlot;
     private static final String LORE_IDENTIFIER = "\\_o<";
     private static final Predicate<ItemStack> BOOK_FILTER = itemStack -> {
         Material material = itemStack.getType();
@@ -40,7 +38,9 @@ public class SpigotBookGUI<J extends JavaPlugin> implements Listener {
 
         return false;
     };
+    private final int bookSlot;
     private final Consumer<List<String>> consumer;
+    private final Player player;
 
     public SpigotBookGUI(J plugin, Player player, ItemStack book, Consumer<List<String>> consumer) {
         this.player = player;
@@ -57,25 +57,16 @@ public class SpigotBookGUI<J extends JavaPlugin> implements Listener {
         return !Stream.of(player.getInventory().getContents()).filter(BOOK_FILTER).collect(Collectors.toList()).isEmpty();
     }
 
-    private boolean isEditing(Player player, ItemStack itemStack) {
-        return player.getUniqueId().equals(this.player.getUniqueId()) && itemStack != null && BOOK_FILTER.test(itemStack);
-    }
-
-    @EventHandler
-    public void playerQuit(PlayerQuitEvent event) {
-        Player player = event.getPlayer();
-        PlayerInventory inv = player.getInventory();
-        if (isEditing(player, inv.getItem(bookSlot))) {
-            inv.setItem(bookSlot, null);
-            remove();
-        }
-    }
-
     @EventHandler
     public void clickBook(InventoryClickEvent event) {
         if (event.getWhoClicked() instanceof Player) {
             event.setCancelled(isEditing((Player) event.getWhoClicked(), event.getCurrentItem()));
         }
+    }
+
+    @EventHandler
+    public void dropBook(PlayerDropItemEvent event) {
+        event.setCancelled(isEditing(event.getPlayer(), event.getItemDrop().getItemStack()));
     }
 
     @EventHandler
@@ -94,9 +85,18 @@ public class SpigotBookGUI<J extends JavaPlugin> implements Listener {
         }
     }
 
+    private boolean isEditing(Player player, ItemStack itemStack) {
+        return player.getUniqueId().equals(this.player.getUniqueId()) && itemStack != null && BOOK_FILTER.test(itemStack);
+    }
+
     @EventHandler
-    public void dropBook(PlayerDropItemEvent event) {
-        event.setCancelled(isEditing(event.getPlayer(), event.getItemDrop().getItemStack()));
+    public void playerQuit(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+        PlayerInventory inv = player.getInventory();
+        if (isEditing(player, inv.getItem(bookSlot))) {
+            inv.setItem(bookSlot, null);
+            remove();
+        }
     }
 
     private void remove() {

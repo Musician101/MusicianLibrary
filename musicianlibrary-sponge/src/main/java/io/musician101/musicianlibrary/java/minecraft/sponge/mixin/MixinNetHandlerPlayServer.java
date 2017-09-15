@@ -40,9 +40,12 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 @Mixin(value = NetHandlerPlayServer.class, priority = 1001)
 public abstract class MixinNetHandlerPlayServer implements INetHandlerPlayServer {
 
-    @Shadow public EntityPlayerMP player;
+    @Shadow
+    public EntityPlayerMP player;
 
-    @Shadow public abstract void sendPacket(Packet<?> packetIn);
+    private ItemStackSnapshot getSnapshot(net.minecraft.item.ItemStack itemStack) {
+        return org.spongepowered.api.item.inventory.ItemStack.class.cast(itemStack).createSnapshot();
+    }
 
     //TODO need to use TextSerializers.PLAIN for easier freakin easier translating x-x
     @Inject(method = "processCustomPayload", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;setTagInfo(Ljava/lang/String;Lnet/minecraft/nbt/NBTBase;)V", ordinal = 0), locals = LocalCapture.CAPTURE_FAILEXCEPTION, cancellable = true)
@@ -67,7 +70,7 @@ public abstract class MixinNetHandlerPlayServer implements INetHandlerPlayServer
         Player spongePlayer = (Player) player;
         NBTTagList pagesNBT = itemStack.getTagCompound().getTagList("pages", 8);
         List<Text> pagesText = new ArrayList<>();
-        for(int i = 0; i < pagesNBT.tagCount(); i++) {
+        for (int i = 0; i < pagesNBT.tagCount(); i++) {
             pagesText.add(Text.of(pagesNBT.getStringTagAt(i)));
         }
         org.spongepowered.api.item.inventory.ItemStack writtenBook = org.spongepowered.api.item.inventory.ItemStack.builder().fromSnapshot(getSnapshot(itemStack)).itemType(ItemTypes.WRITTEN_BOOK).add(Keys.BOOK_AUTHOR, Text.of(player.getName())).add(Keys.DISPLAY_NAME, Text.of(itemStack.getTagCompound().getString("title"))).add(Keys.BOOK_PAGES, pagesText).build();
@@ -103,12 +106,11 @@ public abstract class MixinNetHandlerPlayServer implements INetHandlerPlayServer
         return new NBTTagString(jsonObject.get("text").getAsString());
     }
 
+    @Shadow
+    public abstract void sendPacket(Packet<?> packetIn);
+
     private void updateInventory(EntityPlayerMP player, net.minecraft.item.ItemStack itemStack) {
         Slot slot = player.openContainer.getSlotFromInventory(player.inventory, player.inventory.currentItem);
         sendPacket(new SPacketSetSlot(player.openContainer.windowId, slot.slotNumber, itemStack));
-    }
-
-    private ItemStackSnapshot getSnapshot(net.minecraft.item.ItemStack itemStack) {
-        return org.spongepowered.api.item.inventory.ItemStack.class.cast(itemStack).createSnapshot();
     }
 }

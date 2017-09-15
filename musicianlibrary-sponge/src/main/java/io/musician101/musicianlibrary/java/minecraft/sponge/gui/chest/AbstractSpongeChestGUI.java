@@ -56,10 +56,37 @@ public abstract class AbstractSpongeChestGUI<C extends AbstractConfig, J extends
         return Inventory.builder().of(builder.build(plugin.getId() + ":" + name.replace("\\s", "_").toLowerCase(), name)).build(plugin);
     }
 
+    @Override
+    protected final ItemStack addGlow(@Nonnull ItemStack itemStack) {
+        itemStack.offer(Keys.ITEM_ENCHANTMENTS, Collections.singletonList(new ItemEnchantment(Enchantments.UNBREAKING, 1)));
+        itemStack.offer(Keys.HIDE_ENCHANTMENTS, true);
+        return itemStack;
+    }
+
+    @Override
+    protected final void closeGUI() {
+        if (prevGUI == null) {
+            player.closeInventory();
+        }
+        else {
+            prevGUI.open();
+        }
+    }
+
     @Nonnull
     @Override
     protected final ItemStack createItem(@Nonnull ItemType itemType, @Nonnull Text name, @Nonnull Text... description) {
         return ItemStack.builder().itemType(itemType).add(Keys.DISPLAY_NAME, name).add(Keys.ITEM_LORE, Stream.of(description).collect(Collectors.toList())).build();
+    }
+
+    @Override
+    protected final void delayedOpen() {
+        Task.builder().execute(this::open).delayTicks(1L).submit(plugin);
+    }
+
+    @Override
+    protected void delayedOpen(Supplier<AbstractSpongeChestGUI<C, J>> gui) {
+        Task.builder().execute(gui::get).delayTicks(1L).submit(plugin);
     }
 
     private boolean isSameInventory(@Nonnull Inventory inventory, @Nonnull Player player) {
@@ -91,16 +118,6 @@ public abstract class AbstractSpongeChestGUI<C extends AbstractConfig, J extends
     }
 
     @Override
-    protected final void delayedOpen() {
-        Task.builder().execute(this::open).delayTicks(1L).submit(plugin);
-    }
-
-    @Override
-    protected void delayedOpen(Supplier<AbstractSpongeChestGUI<C, J>> gui) {
-        Task.builder().execute(gui::get).delayTicks(1L).submit(plugin);
-    }
-
-    @Override
     protected final void set(int slot, @Nonnull ItemStack itemStack) {
         itemStack.offer(MLKeys.SLOT, slot);
         inventory.query(new SlotIndex(slot)).set(itemStack);
@@ -119,31 +136,14 @@ public abstract class AbstractSpongeChestGUI<C extends AbstractConfig, J extends
     }
 
     @Override
-    protected final void closeGUI() {
-        if (prevGUI == null) {
-            player.closeInventory();
-        }
-        else {
-            prevGUI.open();
-        }
-    }
-
-    @Override
-    protected final ItemStack addGlow(@Nonnull ItemStack itemStack) {
-        itemStack.offer(Keys.ITEM_ENCHANTMENTS, Collections.singletonList(new ItemEnchantment(Enchantments.UNBREAKING, 1)));
-        itemStack.offer(Keys.HIDE_ENCHANTMENTS, true);
+    protected final ItemStack setDurability(@Nonnull ItemStack itemStack, int durability) {
+        itemStack.offer(Keys.ITEM_DURABILITY, durability);
         return itemStack;
     }
 
     @Override
     protected final ItemStack setPotionEffect(@Nonnull ItemStack itemStack, @Nonnull PotionEffectType potionEffectType) {
         itemStack.offer(Keys.POTION_EFFECTS, Collections.singletonList(PotionEffect.of(potionEffectType, 1, 1)));
-        return itemStack;
-    }
-
-    @Override
-    protected final ItemStack setDurability(@Nonnull ItemStack itemStack, int durability) {
-        itemStack.offer(Keys.ITEM_DURABILITY, durability);
         return itemStack;
     }
 

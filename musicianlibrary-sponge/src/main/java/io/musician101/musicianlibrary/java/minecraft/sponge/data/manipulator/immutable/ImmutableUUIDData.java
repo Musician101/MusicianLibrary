@@ -17,13 +17,6 @@ public class ImmutableUUIDData extends AbstractImmutableSingleData<UUID, Immutab
         super(uuid, MLKeys.UUID);
     }
 
-    @SuppressWarnings("unchecked")
-    @Nonnull
-    @Override
-    protected ImmutableValue<UUID> getValueGetter() {
-        return Sponge.getRegistry().getValueFactory().createValue((Key<Value<UUID>>) usedKey, getValue()).asImmutable();
-    }
-
     @Nonnull
     @Override
     public UUIDData asMutable() {
@@ -33,6 +26,13 @@ public class ImmutableUUIDData extends AbstractImmutableSingleData<UUID, Immutab
     @Override
     public int getContentVersion() {
         return 1;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Nonnull
+    @Override
+    protected ImmutableValue<UUID> getValueGetter() {
+        return Sponge.getRegistry().getValueFactory().createValue((Key<Value<UUID>>) usedKey, getValue()).asImmutable();
     }
 
     @Nonnull

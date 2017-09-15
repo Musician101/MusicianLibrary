@@ -16,15 +16,15 @@ public class ImmutableInventorySlotData extends AbstractImmutableSingleData<Inte
         super(value, MLKeys.SLOT);
     }
 
+    @Nonnull
+    @Override
+    public InventorySlotData asMutable() {
+        return new InventorySlotData(getValue());
+    }
+
     @Override
     public int getContentVersion() {
         return 1;
-    }
-
-    @Nonnull
-    @Override
-    public DataContainer toContainer() {
-        return super.toContainer().set(MLKeys.SLOT, getValue());
     }
 
     @SuppressWarnings("unchecked")
@@ -36,7 +36,7 @@ public class ImmutableInventorySlotData extends AbstractImmutableSingleData<Inte
 
     @Nonnull
     @Override
-    public InventorySlotData asMutable() {
-        return new InventorySlotData(getValue());
+    public DataContainer toContainer() {
+        return super.toContainer().set(MLKeys.SLOT, getValue());
     }
 }

@@ -61,6 +61,53 @@ public abstract class AbstractSpigotChestGUI<J extends JavaPlugin> extends Abstr
         super(Bukkit.createInventory(player, size, name), player, prevMenu, plugin, manualOpen);
     }
 
+    @Override
+    protected final ItemStack addGlow(@Nonnull ItemStack itemStack) {
+        if (itemStack.getType() == Material.ENCHANTED_BOOK) {
+            EnchantmentStorageMeta meta = (EnchantmentStorageMeta) itemStack.getItemMeta();
+            meta.addStoredEnchant(Enchantment.DURABILITY, 1, true);
+            itemStack.setItemMeta(meta);
+        }
+        else {
+            itemStack.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
+        }
+
+        ItemMeta meta = itemStack.getItemMeta();
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        itemStack.setItemMeta(meta);
+        return itemStack;
+    }
+
+    @Override
+    protected final void closeGUI() {
+        if (prevGUI == null) {
+            player.closeInventory();
+        }
+        else {
+            prevGUI.open();
+        }
+    }
+
+    @Nonnull
+    @Override
+    protected final ItemStack createItem(@Nonnull Material itemType, @Nonnull String name, @Nonnull String... description) {
+        ItemStack itemStack = new ItemStack(itemType);
+        ItemMeta meta = itemStack.getItemMeta();
+        meta.setDisplayName(name);
+        meta.setLore(Arrays.asList(description));
+        return itemStack;
+    }
+
+    @Override
+    protected final void delayedOpen() {
+        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, this::open);
+    }
+
+    @Override
+    protected void delayedOpen(Supplier<AbstractSpigotChestGUI<J>> gui) {
+        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, gui::get);
+    }
+
     @EventHandler
     public final void onInventoryClick(InventoryClickEvent e) {
         if (e.getInventory().getName().equals(inventory.getName()) && e.getInventory().getHolder().equals(player)) {
@@ -83,16 +130,6 @@ public abstract class AbstractSpigotChestGUI<J extends JavaPlugin> extends Abstr
         e.setCancelled(e.getInventory().getName().equals(inventory.getName()) && e.getInventory().getHolder().equals(player));
     }
 
-    @Nonnull
-    @Override
-    protected final ItemStack createItem(@Nonnull Material itemType, @Nonnull String name, @Nonnull String... description) {
-        ItemStack itemStack = new ItemStack(itemType);
-        ItemMeta meta = itemStack.getItemMeta();
-        meta.setDisplayName(name);
-        meta.setLore(Arrays.asList(description));
-        return itemStack;
-    }
-
     @Override
     public final void open() {
         try {
@@ -109,16 +146,6 @@ public abstract class AbstractSpigotChestGUI<J extends JavaPlugin> extends Abstr
         catch (IllegalAccessException | InvocationTargetException ex) {
             ex.printStackTrace();
         }
-    }
-
-    @Override
-    protected final void delayedOpen() {
-        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, this::open);
-    }
-
-    @Override
-    protected void delayedOpen(Supplier<AbstractSpigotChestGUI<J>> gui) {
-        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, gui::get);
     }
 
     @Override
@@ -139,19 +166,8 @@ public abstract class AbstractSpigotChestGUI<J extends JavaPlugin> extends Abstr
     }
 
     @Override
-    protected final ItemStack addGlow(@Nonnull ItemStack itemStack) {
-        if (itemStack.getType() == Material.ENCHANTED_BOOK) {
-            EnchantmentStorageMeta meta = (EnchantmentStorageMeta) itemStack.getItemMeta();
-            meta.addStoredEnchant(Enchantment.DURABILITY, 1, true);
-            itemStack.setItemMeta(meta);
-        }
-        else {
-            itemStack.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
-        }
-
-        ItemMeta meta = itemStack.getItemMeta();
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        itemStack.setItemMeta(meta);
+    protected final ItemStack setDurability(@Nonnull ItemStack itemStack, int durability) {
+        itemStack.setDurability((short) durability);
         return itemStack;
     }
 
@@ -160,22 +176,6 @@ public abstract class AbstractSpigotChestGUI<J extends JavaPlugin> extends Abstr
         PotionMeta meta = (PotionMeta) itemStack.getItemMeta();
         meta.setBasePotionData(new PotionData(potionEffectType));
         itemStack.setItemMeta(meta);
-        return itemStack;
-    }
-
-    @Override
-    protected final void closeGUI() {
-        if (prevGUI == null) {
-            player.closeInventory();
-        }
-        else {
-            prevGUI.open();
-        }
-    }
-
-    @Override
-    protected final ItemStack setDurability(@Nonnull ItemStack itemStack, int durability) {
-        itemStack.setDurability((short) durability);
         return itemStack;
     }
 }

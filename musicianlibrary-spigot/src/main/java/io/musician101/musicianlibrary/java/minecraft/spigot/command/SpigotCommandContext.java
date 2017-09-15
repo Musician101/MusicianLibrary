@@ -15,6 +15,10 @@ public final class SpigotCommandContext {
         this.parsedArgs = ArrayListMultimap.create();
     }
 
+    public boolean checkPermission(CommandSender sender, String permission) {
+        return sender.hasPermission(permission);
+    }
+
     @SuppressWarnings("unchecked")
     public <T> Collection<T> getAll(String key) {
         return Collections.unmodifiableCollection((Collection<? extends T>) parsedArgs.get(key));
@@ -30,15 +34,11 @@ public final class SpigotCommandContext {
         return Optional.ofNullable((T) values.iterator().next());
     }
 
-    public void putArg(String key, Object value) {
-        parsedArgs.put(key, value);
-    }
-
-    public boolean checkPermission(CommandSender sender, String permission) {
-        return sender.hasPermission(permission);
-    }
-
     public boolean hasAny(String key) {
         return parsedArgs.containsKey(key);
+    }
+
+    public void putArg(String key, Object value) {
+        parsedArgs.put(key, value);
     }
 }

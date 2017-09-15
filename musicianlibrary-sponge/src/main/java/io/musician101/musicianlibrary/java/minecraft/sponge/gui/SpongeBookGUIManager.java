@@ -40,20 +40,12 @@ public class SpongeBookGUIManager {
         Sponge.getEventManager().registerListeners(SpongeMusicianLibrary.instance(), this);
     }
 
-    public boolean isEditing(@Nonnull Player player) {
-        if (consumers.containsKey(player.getUniqueId())) {
-            return !StreamSupport.stream(player.getInventory().query(ItemTypes.WRITTEN_BOOK, ItemTypes.WRITABLE_BOOK).spliterator(), false).map(Inventory::peek).map(Optional::get).filter(itemStack -> itemStack.get(MLKeys.UUID).filter(uuid -> uuid.equals(player.getUniqueId())).isPresent()).collect(Collectors.toList()).isEmpty();
-        }
-
-        consumers.remove(player.getUniqueId());
-        return false;
-    }
-
-    @Listener
-    public void playerQuit(ClientConnectionEvent.Disconnect event, @First Player player) {
-        if (isEditing(player)) {
-            remove(player);
-        }
+    public void addPlayer(@Nonnull Player player, @Nonnull ItemStack book, @Nonnull Consumer<List<Text>> consumer) {
+        UUID uuid = player.getUniqueId();
+        book.offer(MLKeys.UUID, uuid);
+        book.offer(MLKeys.SLOT, player.getInventory().<Hotbar>query(Hotbar.class).getSelectedSlotIndex());
+        player.setItemInHand(HandTypes.MAIN_HAND, book);
+        consumers.put(uuid, consumer);
     }
 
     @Listener
@@ -72,18 +64,25 @@ public class SpongeBookGUIManager {
         }
     }
 
-    public void addPlayer(@Nonnull Player player, @Nonnull ItemStack book, @Nonnull Consumer<List<Text>> consumer) {
-        UUID uuid = player.getUniqueId();
-        book.offer(MLKeys.UUID, uuid);
-        book.offer(MLKeys.SLOT, player.getInventory().<Hotbar>query(Hotbar.class).getSelectedSlotIndex());
-        player.setItemInHand(HandTypes.MAIN_HAND, book);
-        consumers.put(uuid, consumer);
+    public boolean isEditing(@Nonnull Player player) {
+        if (consumers.containsKey(player.getUniqueId())) {
+            return !StreamSupport.stream(player.getInventory().query(ItemTypes.WRITTEN_BOOK, ItemTypes.WRITABLE_BOOK).spliterator(), false).map(Inventory::peek).map(Optional::get).filter(itemStack -> itemStack.get(MLKeys.UUID).filter(uuid -> uuid.equals(player.getUniqueId())).isPresent()).collect(Collectors.toList()).isEmpty();
+        }
+
+        consumers.remove(player.getUniqueId());
+        return false;
+    }
+
+    @Listener
+    public void playerQuit(ClientConnectionEvent.Disconnect event, @First Player player) {
+        if (isEditing(player)) {
+            remove(player);
+        }
     }
 
     public void remove(Player player) {
         Hotbar inv = player.getInventory().query(Hotbar.class);
-        StreamSupport.stream(inv.query(ItemTypes.WRITTEN_BOOK, ItemTypes.WRITABLE_BOOK).spliterator(), false).map(Inventory::peek).map(Optional::get).filter(itemStack -> itemStack.get(UUIDData.class).isPresent())
-                .map(itemStack -> itemStack.get(MLKeys.SLOT)).findFirst().ifPresent(optional -> optional.ifPresent(slot -> inv.set(new SlotIndex(slot), ItemStack.empty())));
+        StreamSupport.stream(inv.query(ItemTypes.WRITTEN_BOOK, ItemTypes.WRITABLE_BOOK).spliterator(), false).map(Inventory::peek).map(Optional::get).filter(itemStack -> itemStack.get(UUIDData.class).isPresent()).map(itemStack -> itemStack.get(MLKeys.SLOT)).findFirst().ifPresent(optional -> optional.ifPresent(slot -> inv.set(new SlotIndex(slot), ItemStack.empty())));
         consumers.remove(player.getUniqueId());
     }
 }

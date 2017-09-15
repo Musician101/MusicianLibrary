@@ -16,23 +16,13 @@ public class SpongeRegion extends AbstractRegion<Location<World>> {
     }
 
     private SpongeRegion(Location<World> location, Location<World> location2) {
-        super(Math.min((int) location.getPosition().getX(), (int) location2.getPosition().getX()),
-                Math.min((int) location.getPosition().getY(), (int) location2.getPosition().getY()),
-                Math.min((int) location.getPosition().getZ(), (int) location2.getPosition().getZ()),
-                Math.max((int) location.getPosition().getX(), (int) location2.getPosition().getX()),
-                Math.max((int) location.getPosition().getY(), (int) location2.getPosition().getY()),
-                Math.max((int) location.getPosition().getZ(), (int) location2.getPosition().getZ()));
+        super(Math.min((int) location.getPosition().getX(), (int) location2.getPosition().getX()), Math.min((int) location.getPosition().getY(), (int) location2.getPosition().getY()), Math.min((int) location.getPosition().getZ(), (int) location2.getPosition().getZ()), Math.max((int) location.getPosition().getX(), (int) location2.getPosition().getX()), Math.max((int) location.getPosition().getY(), (int) location2.getPosition().getY()), Math.max((int) location.getPosition().getZ(), (int) location2.getPosition().getZ()));
 
         this.worldName = location.getExtent().getName();
     }
 
     public SpongeRegion(ConfigurationNode node) {
-        super(node.getNode("MinX").getInt(0),
-                node.getNode("MinY").getInt(0),
-                node.getNode("MinZ").getInt(0),
-                node.getNode("MaxX").getInt(0),
-                node.getNode("MaxY").getInt(0),
-                node.getNode("MaxZ").getInt(0));
+        super(node.getNode("MinX").getInt(0), node.getNode("MinY").getInt(0), node.getNode("MinZ").getInt(0), node.getNode("MaxX").getInt(0), node.getNode("MaxY").getInt(0), node.getNode("MaxZ").getInt(0));
 
         this.worldName = !node.getNode("World").isVirtual() ? node.getNode("World").getString() : "";
     }

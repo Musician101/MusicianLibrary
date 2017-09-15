@@ -41,17 +41,15 @@ public class Utils {
     }
 
     public static <T> Collector<T, List<T>, T> singletonCollector() {
-        return Collector.of(ArrayList::new, List::add,
-                (left, right) -> {
-                    left.addAll(right);
-                    return left;
-                },
-                list -> {
-                    if (list.size() != 1) {
-                        throw new IllegalStateException();
-                    }
+        return Collector.of(ArrayList::new, List::add, (left, right) -> {
+            left.addAll(right);
+            return left;
+        }, list -> {
+            if (list.size() != 1) {
+                throw new IllegalStateException();
+            }
 
-                    return list.get(0);
-                });
+            return list.get(0);
+        });
     }
 }

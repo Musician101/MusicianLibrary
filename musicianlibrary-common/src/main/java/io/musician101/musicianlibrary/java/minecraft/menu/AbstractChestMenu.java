@@ -13,9 +13,9 @@ public abstract class AbstractChestMenu<C, E, F, G extends AbstractChestMenu<C, 
     @Nonnull
     protected final I inventory;
     @Nonnull
-    protected final J plugin;
-    @Nonnull
     protected final P player;
+    @Nonnull
+    protected final J plugin;
     @Nullable
     protected final G prevGUI;
 
@@ -29,24 +29,6 @@ public abstract class AbstractChestMenu<C, E, F, G extends AbstractChestMenu<C, 
         }
     }
 
-    protected abstract void build();
-
-    @SuppressWarnings("unchecked")
-    @Nonnull
-    protected abstract S createItem(@Nonnull T itemType, @Nonnull F name, @Nonnull F... description);
-
-    public abstract void open();
-
-    protected abstract void delayedOpen();
-
-    protected abstract void delayedOpen(Supplier<G> gui);
-
-    protected abstract void set(int slot, @Nonnull C clickType, @Nonnull S itemStack, @Nonnull Consumer<P> consumer);
-
-    protected abstract void set(int slot, @Nonnull S itemStack);
-
-    protected abstract void setBackButton(int slot, @Nonnull C clickType, @Nonnull T itemType);
-
     protected abstract S addGlow(@Nonnull S itemStack);
 
     protected final S addGlowIfConditionsMet(@Nonnull S itemStack, @Nonnull Supplier<Boolean> conditionSupplier) {
@@ -57,9 +39,27 @@ public abstract class AbstractChestMenu<C, E, F, G extends AbstractChestMenu<C, 
         return itemStack;
     }
 
-    protected abstract S setPotionEffect(@Nonnull S itemStack, @Nonnull E potionEffectType);
+    protected abstract void build();
+
+    protected abstract void closeGUI();
+
+    @SuppressWarnings("unchecked")
+    @Nonnull
+    protected abstract S createItem(@Nonnull T itemType, @Nonnull F name, @Nonnull F... description);
+
+    protected abstract void delayedOpen();
+
+    protected abstract void delayedOpen(Supplier<G> gui);
+
+    public abstract void open();
+
+    protected abstract void set(int slot, @Nonnull C clickType, @Nonnull S itemStack, @Nonnull Consumer<P> consumer);
+
+    protected abstract void set(int slot, @Nonnull S itemStack);
+
+    protected abstract void setBackButton(int slot, @Nonnull C clickType, @Nonnull T itemType);
 
     protected abstract S setDurability(@Nonnull S itemStack, int durability);
 
-    protected abstract void closeGUI();
+    protected abstract S setPotionEffect(@Nonnull S itemStack, @Nonnull E potionEffectType);
 }

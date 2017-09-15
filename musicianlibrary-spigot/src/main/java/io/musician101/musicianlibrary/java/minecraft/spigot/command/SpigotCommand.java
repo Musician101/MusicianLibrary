@@ -61,15 +61,12 @@ public class SpigotCommand<I extends JavaPlugin> {
 
     @Nonnull
     protected SpigotCommand<I> getHelpCommand(I plugin) {
-        return SpigotCommand.<I>builder().name("help").description("Display help info for " + ChatColor.stripColor(getUsage()))
-                .usage(SpigotCommandUsage.of(SpigotCommandArgument.of(ChatColor.stripColor(getUsage())), SpigotCommandArgument.of("help")))
-                .permissions(SpigotCommandPermissions.blank())
-                .function((sender, args) -> {
-                    sender.sendMessage(ChatColor.GREEN + "===== " + ChatColor.RESET + plugin.getName() + " v" + plugin.getDescription().getVersion() + ChatColor.GREEN + " =====");
-                    sender.sendMessage(getHelp());
-                    getSubCommands().values().forEach(command -> sender.sendMessage(command.getHelp()));
-                    return true;
-                }).build();
+        return SpigotCommand.<I>builder().name("help").description("Display help info for " + ChatColor.stripColor(getUsage())).usage(SpigotCommandUsage.of(SpigotCommandArgument.of(ChatColor.stripColor(getUsage())), SpigotCommandArgument.of("help"))).permissions(SpigotCommandPermissions.blank()).function((sender, args) -> {
+            sender.sendMessage(ChatColor.GREEN + "===== " + ChatColor.RESET + plugin.getName() + " v" + plugin.getDescription().getVersion() + ChatColor.GREEN + " =====");
+            sender.sendMessage(getHelp());
+            getSubCommands().values().forEach(command -> sender.sendMessage(command.getHelp()));
+            return true;
+        }).build();
     }
 
     public String getName() {

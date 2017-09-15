@@ -1,16 +1,16 @@
 [
-  {
-    "modid": "musicianlibrary",
-    "name": "Musicianlibrary",
-    "description": "",
-    "version": "${version}",
-    "mcversion": "${mcversion}",
-    "url": "",
-    "updateUrl": "",
-    "authorList": [],
-    "credits": "",
-    "logoFile": "",
-    "screenshots": [],
-    "dependencies": []
-  }
+    {
+        "modid": "musicianlibrary",
+        "name": "Musicianlibrary",
+        "description": "",
+        "version": "${version}",
+        "mcversion": "${mcversion}",
+        "url": "",
+        "updateUrl": "",
+        "authorList": [],
+        "credits": "",
+        "logoFile": "",
+        "screenshots": [],
+        "dependencies": []
+    }
 ]
