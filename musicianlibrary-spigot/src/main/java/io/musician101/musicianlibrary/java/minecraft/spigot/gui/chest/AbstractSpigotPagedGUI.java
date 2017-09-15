@@ -1,14 +1,16 @@
 package io.musician101.musicianlibrary.java.minecraft.spigot.gui.chest;
 
-import io.musician101.musicianlibrary.java.minecraft.spigot.gui.anvil.JumpToPage;
-import io.musician101.musicianlibrary.java.util.TriConsumer;
+import io.musician101.musicianlibrary.java.minecraft.spigot.gui.anvil.SpigotJumpToPage;
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -17,21 +19,31 @@ public abstract class AbstractSpigotPagedGUI<J extends JavaPlugin> extends Abstr
     protected final int page;
 
     public AbstractSpigotPagedGUI(@Nonnull Player player, int size, @Nonnull String name, int page, @Nullable AbstractSpigotChestGUI<J> prevMenu, @Nonnull J plugin) {
-        super(player, size, name, prevMenu, plugin);
+        super(player, name, size, prevMenu, plugin);
+        if (size <= 9) {
+            throw new IllegalArgumentException("Paged GUIs need to be at least 18 slots.");
+        }
+
         this.page = page;
     }
 
     public AbstractSpigotPagedGUI(@Nonnull Player player, int size, @Nonnull String name, int page, @Nullable AbstractSpigotChestGUI<J> prevMenu, @Nonnull J plugin, boolean manualOpen) {
-        super(player, size, name, prevMenu, plugin, manualOpen);
+        super(player, name, size, prevMenu, plugin, manualOpen);
+        if (size <= 9) {
+            throw new IllegalArgumentException("Paged GUIs need to be at least 18 slots.");
+        }
+
         this.page = page;
     }
 
-    protected void setContents(List<ItemStack> contents, BiFunction<Player, ItemStack, Consumer<Player>> consumerMapper) {
-        for (int x = 0; x < 45; x++) {
+    protected <T> void setContents(@Nonnull List<T> contents, @Nonnull Function<T, ItemStack> itemStackMapper, @Nullable BiFunction<Player, T, Consumer<Player>> consumerMapper) {
+        int size = inventory.getSize() - 9;
+        for (int x = 0; x < size; x++) {
             try {
-                ItemStack itemStack = contents.get(x + (page - 1) * 45);
+                T content = contents.get(x + (page - 1) * size);
+                ItemStack itemStack = itemStackMapper.apply(content);
                 if (consumerMapper != null) {
-                    set(x, itemStack, consumerMapper.apply(player, itemStack));
+                    set(x, ClickType.LEFT, itemStack, consumerMapper.apply(player, content));
                 }
                 else {
                     set(x, itemStack);
@@ -43,13 +55,13 @@ public abstract class AbstractSpigotPagedGUI<J extends JavaPlugin> extends Abstr
         }
     }
 
-    protected void setJumpToPage(int slot, int maxPage, TriConsumer<Player, Integer, AbstractSpigotChestGUI<J>> triConsumer) {
+    protected void setJumpToPage(int slot, int maxPage, BiConsumer<Player, Integer> triConsumer) {
         ItemStack itemStack = createItem(Material.BOOK, "Jump To Page");
         itemStack.setAmount(page);
-        set(slot, itemStack, player -> new JumpToPage<>(plugin, player, maxPage, prevMenu, triConsumer));
+        set(slot, ClickType.LEFT, itemStack, player -> new SpigotJumpToPage<>(plugin, player, maxPage, triConsumer));
     }
 
-    protected void setPageNavigationPage(int slot, @Nonnull String name, @Nonnull Consumer<Player> consumer) {
-        set(slot, createItem(Material.ARROW, name), consumer);
+    protected void setPageNavigation(int slot, @Nonnull String name, @Nonnull Consumer<Player> consumer) {
+        set(slot, ClickType.LEFT, createItem(Material.ARROW, name), consumer);
     }
 }

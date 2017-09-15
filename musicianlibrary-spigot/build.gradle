@@ -16,7 +16,7 @@ repositories {
 
 dependencies {
     compile project(':musicianlibrary-common')
-    compile 'org.spigotmc:spigot:1.10.2-R0.1-SNAPSHOT'
+    compile 'org.spigotmc:spigot:1.12-R0.1-SNAPSHOT'
     compile 'net.wesjd:anvilgui:1.1.1-SNAPSHOT'
 }
 
