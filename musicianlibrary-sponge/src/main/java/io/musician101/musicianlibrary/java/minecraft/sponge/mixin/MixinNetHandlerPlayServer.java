@@ -47,7 +47,6 @@ public abstract class MixinNetHandlerPlayServer implements INetHandlerPlayServer
         return org.spongepowered.api.item.inventory.ItemStack.class.cast(itemStack).createSnapshot();
     }
 
-    //TODO need to use TextSerializers.PLAIN for easier freakin easier translating x-x
     @Inject(method = "processCustomPayload", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;setTagInfo(Ljava/lang/String;Lnet/minecraft/nbt/NBTBase;)V", ordinal = 0), locals = LocalCapture.CAPTURE_FAILEXCEPTION, cancellable = true)
     public void onBookEdit(CPacketCustomPayload packetIn, CallbackInfo ci, String channelName, PacketBuffer packetBuffer, net.minecraft.item.ItemStack itemStack, net.minecraft.item.ItemStack itemStack1) {
         Player spongePlayer = (Player) player;
