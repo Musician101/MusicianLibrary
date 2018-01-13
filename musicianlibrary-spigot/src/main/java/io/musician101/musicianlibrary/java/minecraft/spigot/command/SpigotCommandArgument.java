@@ -1,19 +1,18 @@
 package io.musician101.musicianlibrary.java.minecraft.spigot.command;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 import javax.annotation.Nonnull;
 import org.bukkit.ChatColor;
 
-
 public class SpigotCommandArgument {
 
-    private String name;
-    private List<Syntax> syntaxList;
+    private final List<Syntax> syntaxList;
+    private final String name;
 
-    private SpigotCommandArgument() {
-
+    SpigotCommandArgument(String name, List<Syntax> syntaxList) {
+        this.name = name;
+        this.syntaxList = syntaxList;
     }
 
     public static SpigotCommandArgumentBuilder builder() {
@@ -52,68 +51,11 @@ public class SpigotCommandArgument {
         return name;
     }
 
-    protected void setName(String name) {
-        this.name = name;
-    }
-
-    protected void setSyntaxList(List<Syntax> syntaxList) {
-        this.syntaxList = syntaxList;
-    }
-
     public enum Syntax {
         LITERAL,
         MULTIPLE,
         REPLACE,
         REQUIRED,
         OPTIONAL
-    }
-
-    public static class SpigotCommandArgumentBuilder {
-
-        private String name;
-        private List<Syntax> syntaxList = new ArrayList<>();
-
-        SpigotCommandArgumentBuilder() {
-
-        }
-
-        @Nonnull
-        public SpigotCommandArgumentBuilder addSyntax(@Nonnull Syntax syntax) {
-            syntaxList.add(syntax);
-            return this;
-        }
-
-        @Nonnull
-        public SpigotCommandArgument build() throws IllegalStateException {
-            if (name == null) {
-                throw new IllegalStateException("Name has not been set.");
-            }
-
-            if (syntaxList.isEmpty()) {
-                syntaxList.add(Syntax.LITERAL);
-            }
-
-            if (syntaxList.contains(Syntax.REQUIRED) && syntaxList.contains(Syntax.OPTIONAL)) {
-                throw new IllegalStateException("Common arguments cannot be both Optional and Required.");
-            }
-
-            SpigotCommandArgument argument = new SpigotCommandArgument();
-            argument.setName(name);
-            argument.setSyntaxList(syntaxList);
-            return argument;
-        }
-
-        @Nonnull
-        public SpigotCommandArgumentBuilder name(@Nonnull String name) {
-            this.name = name;
-            return this;
-        }
-
-        @Nonnull
-        public SpigotCommandArgumentBuilder reset() {
-            name = null;
-            syntaxList = new ArrayList<>();
-            return this;
-        }
     }
 }

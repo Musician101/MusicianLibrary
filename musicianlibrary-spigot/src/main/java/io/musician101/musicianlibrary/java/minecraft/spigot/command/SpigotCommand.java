@@ -1,9 +1,7 @@
 package io.musician101.musicianlibrary.java.minecraft.spigot.command;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
@@ -14,19 +12,22 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class SpigotCommand<I extends JavaPlugin> {
 
-    private BiFunction<CommandSender, List<String>, Boolean> biFunction;
-    private String description;
-    private String name;
-    private SpigotCommandPermissions permissions;
-    private Map<String, SpigotCommand<I>> subCommands;
-    private SpigotCommandUsage usage;
+    private final BiFunction<CommandSender, List<String>, Boolean> biFunction;
+    private final I plugin;
+    private final Map<String, SpigotCommand<I>> subCommands;
+    private final SpigotCommandPermissions permissions;
+    private final SpigotCommandUsage usage;
+    private final String description;
+    private final String name;
 
-    private SpigotCommand() {
-
-    }
-
-    public static <I extends JavaPlugin> SpigotCommandBuilder<I> builder() {
-        return new SpigotCommandBuilder<>();
+    SpigotCommand(I plugin, BiFunction<CommandSender, List<String>, Boolean> biFunction, Map<String, SpigotCommand<I>> subCommands, SpigotCommandPermissions permissions, SpigotCommandUsage usage, String description, String name) {
+        this.plugin = plugin;
+        this.biFunction = biFunction;
+        this.subCommands = subCommands;
+        this.permissions = permissions;
+        this.usage = usage;
+        this.description = description;
+        this.name = name;
     }
 
     private boolean execute(@Nonnull String arg, @Nonnull CommandSender sender, @Nonnull List<String> args) {
@@ -34,11 +35,20 @@ public class SpigotCommand<I extends JavaPlugin> {
     }
 
     public boolean execute(@Nonnull CommandSender sender, @Nonnull List<String> args) {
-        if (!minArgsMet(args.size())) {
+        if (!permissions.testPermissions(sender)) {
+            return false;
+        }
+
+        if (!(usage.getMinArgs() < args.size())) {
             return false;
         }
 
         if (args.size() > 0) {
+            String arg = args.get(0);
+            if (arg.equalsIgnoreCase("help")) {
+                return getHelpCommand(plugin).execute(sender, Collections.emptyList());
+            }
+
             return execute(args.get(0), sender, shiftArguments(args));
         }
 
@@ -50,31 +60,22 @@ public class SpigotCommand<I extends JavaPlugin> {
         return description;
     }
 
-    protected void setDescription(@Nonnull String description) {
-        this.description = description;
-    }
-
     @Nonnull
     public String getHelp() {
         return getUsage() + " " + ChatColor.AQUA + getDescription();
     }
 
-    @Nonnull
-    protected SpigotCommand<I> getHelpCommand(I plugin) {
+    private SpigotCommand<I> getHelpCommand(I plugin) {
         return SpigotCommand.<I>builder().name("help").description("Display help info for " + ChatColor.stripColor(getUsage())).usage(SpigotCommandUsage.of(SpigotCommandArgument.of(ChatColor.stripColor(getUsage())), SpigotCommandArgument.of("help"))).permissions(SpigotCommandPermissions.blank()).function((sender, args) -> {
             sender.sendMessage(ChatColor.GREEN + "===== " + ChatColor.RESET + plugin.getName() + " v" + plugin.getDescription().getVersion() + ChatColor.GREEN + " =====");
             sender.sendMessage(getHelp());
             getSubCommands().values().forEach(command -> sender.sendMessage(command.getHelp()));
             return true;
-        }).build();
+        }).build(plugin);
     }
 
     public String getName() {
         return name;
-    }
-
-    protected void setName(@Nonnull String name) {
-        this.name = name;
     }
 
     @Nonnull
@@ -82,36 +83,12 @@ public class SpigotCommand<I extends JavaPlugin> {
         return subCommands;
     }
 
-    protected void setSubCommands(@Nonnull Map<String, SpigotCommand<I>> subCommands) {
-        this.subCommands = subCommands;
-    }
-
     @Nonnull
     public String getUsage() {
         return usage.getUsage();
     }
 
-    protected void setUsage(@Nonnull SpigotCommandUsage usage) {
-        this.usage = usage;
-    }
-
-    protected boolean minArgsMet(int amount) {
-        return usage.getMinArgs() < amount;
-    }
-
-    protected void setBiFunction(@Nonnull BiFunction<CommandSender, List<String>, Boolean> biFunction) {
-        this.biFunction = biFunction;
-    }
-
-    protected void setPermissions(@Nonnull SpigotCommandPermissions permissions) {
-        this.permissions = permissions;
-    }
-
-    protected List<String> shiftArguments(@Nonnull String... args) {
-        return shiftArguments(Arrays.asList(args));
-    }
-
-    protected List<String> shiftArguments(@Nonnull List<String> args) {
+    private List<String> shiftArguments(@Nonnull List<String> args) {
         if (args.isEmpty()) {
             return Collections.emptyList();
         }
@@ -121,105 +98,7 @@ public class SpigotCommand<I extends JavaPlugin> {
         return shiftedArgs;
     }
 
-    protected boolean testPermissions(@Nonnull CommandSender sender) {
-        return permissions.testPermissions(sender);
-    }
-
-    public static class SpigotCommandBuilder<I extends JavaPlugin> {
-
-        private BiFunction<CommandSender, List<String>, Boolean> biFunction = (sender, args) -> true;
-        private String description;
-        private String name;
-        private SpigotCommandPermissions permissions;
-        private Map<String, SpigotCommand<I>> subCommands = new HashMap<>();
-        private SpigotCommandUsage usage;
-
-        SpigotCommandBuilder() {
-
-        }
-
-        @Nonnull
-        public SpigotCommandBuilder<I> addCommand(@Nonnull SpigotCommand<I> command) {
-            subCommands.put(command.getName(), command);
-            return this;
-        }
-
-        @Nonnull
-        public SpigotCommand<I> build() throws IllegalStateException {
-            SpigotCommand<I> sc = new SpigotCommand<>();
-            if (description == null) {
-                throw new IllegalStateException("Description has not been set.");
-            }
-
-            if (name == null) {
-                throw new IllegalStateException("Name has not been set.");
-            }
-
-            if (permissions == null) {
-                throw new IllegalStateException("Permissions have not been set.");
-            }
-
-            if (usage == null) {
-                throw new IllegalStateException("Usage has not been set.");
-            }
-
-            sc.setDescription(description);
-            sc.setName(name);
-            sc.setPermissions(permissions);
-            sc.setUsage(usage);
-            sc.setSubCommands(subCommands);
-            if (biFunction == null) {
-                sc.setBiFunction((sender, args) -> {
-                    sender.sendMessage(sc.getHelp());
-                    return true;
-                });
-            }
-            else {
-                sc.setBiFunction(biFunction);
-            }
-
-            return sc;
-        }
-
-        @Nonnull
-        public SpigotCommandBuilder<I> description(@Nonnull String description) {
-            this.description = description;
-            return this;
-        }
-
-        @Nonnull
-        public SpigotCommandBuilder<I> function(@Nonnull BiFunction<CommandSender, List<String>, Boolean> biFunction) {
-            this.biFunction = biFunction;
-            return this;
-        }
-
-        @Nonnull
-        public SpigotCommandBuilder<I> name(@Nonnull String name) {
-            this.name = name;
-            return this;
-        }
-
-        @Nonnull
-        public SpigotCommandBuilder<I> permissions(@Nonnull SpigotCommandPermissions permissions) {
-            this.permissions = permissions;
-            return this;
-        }
-
-        @Nonnull
-        public SpigotCommandBuilder<I> reset() {
-            biFunction = (sender, args) -> true;
-            description = null;
-            name = null;
-            permissions = null;
-            subCommands = new HashMap<>();
-            usage = null;
-            return this;
-        }
-
-        @Nonnull
-        public SpigotCommandBuilder<I> usage(@Nonnull SpigotCommandUsage usage) {
-            this.usage = usage;
-            return this;
-        }
+    public static <I extends JavaPlugin> SpigotCommandBuilder<I> builder() {
+        return new SpigotCommandBuilder<>();
     }
 }
