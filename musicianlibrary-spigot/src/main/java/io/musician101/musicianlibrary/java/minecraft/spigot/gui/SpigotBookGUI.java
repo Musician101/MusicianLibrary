@@ -1,6 +1,5 @@
 package io.musician101.musicianlibrary.java.minecraft.spigot.gui;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -42,12 +41,14 @@ public class SpigotBookGUI<J extends JavaPlugin> implements Listener {
     private final Consumer<List<String>> consumer;
     private final Player player;
 
-    public SpigotBookGUI(J plugin, Player player, ItemStack book, Consumer<List<String>> consumer) {
+    public SpigotBookGUI(J plugin, Player player, ItemStack book, Consumer<List<String>> action) {
         this.player = player;
         this.bookSlot = player.getInventory().getHeldItemSlot();
-        this.consumer = consumer;
+        this.consumer = action;
         ItemMeta meta = book.getItemMeta();
-        meta.setLore(Collections.singletonList(LORE_IDENTIFIER));
+        List<String> lore = meta.getLore();
+        lore.add(LORE_IDENTIFIER);
+        meta.setLore(lore);
         book.setItemMeta(meta);
         player.getInventory().setItemInMainHand(book);
         Bukkit.getServer().getPluginManager().registerEvents(this, plugin);
@@ -94,7 +95,6 @@ public class SpigotBookGUI<J extends JavaPlugin> implements Listener {
         Player player = event.getPlayer();
         PlayerInventory inv = player.getInventory();
         if (isEditing(player, inv.getItem(bookSlot))) {
-            inv.setItem(bookSlot, null);
             remove();
         }
     }
