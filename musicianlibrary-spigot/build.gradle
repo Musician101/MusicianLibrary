@@ -1,5 +1,4 @@
 repositories {
-    mavenLocal()
     maven {
         name = 'spigotmc-repo'
         url = 'https://hub.spigotmc.org/nexus/content/groups/public/'
@@ -12,11 +11,14 @@ repositories {
         name = 'WesJD'
         url = 'http://nexus.wesjd.net/repository/thirdparty/'
     }
+    mavenLocal()
 }
 
 dependencies {
     compile project(':musicianlibrary-common')
-    compile 'org.spigotmc:spigot:1.12-R0.1-SNAPSHOT'
+    //We have the API for the javadocs
+    compile 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
+    compile 'org.spigotmc:spigot:1.12.2-R0.1-SNAPSHOT'
     compile 'net.wesjd:anvilgui:1.1.1-SNAPSHOT'
 }
 
