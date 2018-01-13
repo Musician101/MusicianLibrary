@@ -23,7 +23,7 @@ public class SpongeJumpToPage<C extends AbstractConfig, P extends AbstractSponge
                 return "Page cannot exceed " + maxPage;
             }
 
-            Task.builder().delayTicks(1L).execute(() -> biConsumer.accept(player, page)).submit(plugin);
+            Task.builder().delayTicks(1L).execute(() -> biConsumer.accept(player, page)).submit(plugin.getInstance().get());
             return null;
         });
     }

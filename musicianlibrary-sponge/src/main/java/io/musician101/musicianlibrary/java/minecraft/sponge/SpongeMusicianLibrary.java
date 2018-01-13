@@ -8,14 +8,15 @@ import io.musician101.musicianlibrary.java.minecraft.sponge.data.manipulator.imm
 import io.musician101.musicianlibrary.java.minecraft.sponge.data.manipulator.immutable.ImmutableUUIDData;
 import io.musician101.musicianlibrary.java.minecraft.sponge.data.manipulator.mutable.InventorySlotData;
 import io.musician101.musicianlibrary.java.minecraft.sponge.data.manipulator.mutable.UUIDData;
-import io.musician101.musicianlibrary.java.minecraft.sponge.gui.SpongeBookGUIManager;
 import io.musician101.musicianlibrary.java.minecraft.sponge.plugin.AbstractSpongePlugin;
+import java.util.Optional;
+import javax.annotation.Nonnull;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataRegistration;
 import org.spongepowered.api.data.manipulator.DataManipulator;
 import org.spongepowered.api.data.manipulator.DataManipulatorBuilder;
 import org.spongepowered.api.data.manipulator.ImmutableDataManipulator;
 import org.spongepowered.api.event.Listener;
-import org.spongepowered.api.event.game.state.GameConstructionEvent;
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
@@ -23,33 +24,20 @@ import org.spongepowered.api.plugin.PluginContainer;
 @Plugin(id = "sponge_musician_library", name = "Musician Library - Sponge", authors = {"Musician101"}, version = "3.0-SNAPSHOT", description = "A library used to house common classes across multiple projects.")
 public class SpongeMusicianLibrary extends AbstractSpongePlugin<AbstractConfig> {
 
-    private static SpongeMusicianLibrary instance;
-
     @Inject
     private PluginContainer pluginContainer;
 
-    private SpongeBookGUIManager spongeBookGUIManager;
-
-    public static SpongeMusicianLibrary instance() {
-        return instance;
+    public static Optional<SpongeMusicianLibrary> instance() {
+        return Sponge.getPluginManager().getPlugin("sponge_musician_library").flatMap(PluginContainer::getInstance).filter(SpongeMusicianLibrary.class::isInstance).map(SpongeMusicianLibrary.class::cast);
     }
 
+    @Nonnull
     public PluginContainer getPluginContainer() {
         return pluginContainer;
     }
 
-    public SpongeBookGUIManager getSpongeBookGUIManager() {
-        return spongeBookGUIManager;
-    }
-
-    @Listener
-    public void onConstruct(GameConstructionEvent event) {
-        instance = this;
-    }
-
     @Listener
     public void preInit(GamePreInitializationEvent event) {
-        spongeBookGUIManager = new SpongeBookGUIManager();
         registerData("InventorySlot", getId() + ":inventory_slot", InventorySlotData.class, ImmutableInventorySlotData.class, new InventorySlotDataBuilder());
         registerData("BookGUIData", getId() + ":book_gui", UUIDData.class, ImmutableUUIDData.class, new UUIDDataBuilder());
     }
