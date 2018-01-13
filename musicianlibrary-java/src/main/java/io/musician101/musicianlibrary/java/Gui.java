@@ -17,13 +17,11 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.TableModel;
 
-
 public class Gui {
 
     private Gui() {
 
     }
-
 
     public static class Button extends JButton {
 
@@ -46,7 +44,6 @@ public class Gui {
         }
     }
 
-
     public static class ComboBox<E> extends JComboBox<E> {
 
         public ComboBox(E[] items, int x, int y, int w, int h) {
@@ -62,7 +59,6 @@ public class Gui {
             items.forEach(this::addItem);
         }
     }
-
 
     public static class Label extends JLabel {
 

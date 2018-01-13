@@ -3,7 +3,6 @@ package io.musician101.musicianlibrary.java.minecraft.region;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public abstract class AbstractRegion<L> {
 
     private int maxX = 0;

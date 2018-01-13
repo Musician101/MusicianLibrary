@@ -13,12 +13,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class SpigotCommand<I extends JavaPlugin> {
 
     private final BiFunction<CommandSender, List<String>, Boolean> biFunction;
-    private final I plugin;
-    private final Map<String, SpigotCommand<I>> subCommands;
-    private final SpigotCommandPermissions permissions;
-    private final SpigotCommandUsage usage;
     private final String description;
     private final String name;
+    private final SpigotCommandPermissions permissions;
+    private final I plugin;
+    private final Map<String, SpigotCommand<I>> subCommands;
+    private final SpigotCommandUsage usage;
 
     SpigotCommand(I plugin, BiFunction<CommandSender, List<String>, Boolean> biFunction, Map<String, SpigotCommand<I>> subCommands, SpigotCommandPermissions permissions, SpigotCommandUsage usage, String description, String name) {
         this.plugin = plugin;
@@ -28,6 +28,10 @@ public class SpigotCommand<I extends JavaPlugin> {
         this.usage = usage;
         this.description = description;
         this.name = name;
+    }
+
+    public static <I extends JavaPlugin> SpigotCommandBuilder<I> builder() {
+        return new SpigotCommandBuilder<>();
     }
 
     private boolean execute(@Nonnull String arg, @Nonnull CommandSender sender, @Nonnull List<String> args) {
@@ -96,9 +100,5 @@ public class SpigotCommand<I extends JavaPlugin> {
         List<String> shiftedArgs = new ArrayList<>(args);
         shiftedArgs.remove(0);
         return shiftedArgs;
-    }
-
-    public static <I extends JavaPlugin> SpigotCommandBuilder<I> builder() {
-        return new SpigotCommandBuilder<>();
     }
 }

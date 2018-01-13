@@ -11,7 +11,6 @@ import io.musician101.musicianlibrary.java.minecraft.uuid.UUIDUtils.MinecraftPro
 import java.lang.reflect.Type;
 import java.util.UUID;
 
-
 public class MinecraftProfileTypeAdapter implements JsonDeserializer<MinecraftProfile>, JsonSerializer<MinecraftProfile> {
 
     Gson gson = new Gson();

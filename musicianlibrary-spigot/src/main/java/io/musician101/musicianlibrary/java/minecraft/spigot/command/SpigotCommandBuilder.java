@@ -13,11 +13,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class SpigotCommandBuilder<I extends JavaPlugin> {
 
     private BiFunction<CommandSender, List<String>, Boolean> biFunction = (sender, args) -> true;
-    private Map<String, SpigotCommand<I>> subCommands = new HashMap<>();
-    private SpigotCommandPermissions permissions;
-    private SpigotCommandUsage usage;
     private String description;
     private String name;
+    private SpigotCommandPermissions permissions;
+    private Map<String, SpigotCommand<I>> subCommands = new HashMap<>();
+    private SpigotCommandUsage usage;
 
     SpigotCommandBuilder() {
 

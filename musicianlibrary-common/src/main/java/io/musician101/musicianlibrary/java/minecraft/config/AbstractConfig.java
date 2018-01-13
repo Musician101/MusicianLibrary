@@ -2,7 +2,6 @@ package io.musician101.musicianlibrary.java.minecraft.config;
 
 import java.io.File;
 
-
 public abstract class AbstractConfig {
 
     protected final File configFile;
@@ -15,7 +14,6 @@ public abstract class AbstractConfig {
     public boolean isUpdateCheckEnabled() {
         return updateCheck;
     }
-
 
     public abstract void reload();
 }

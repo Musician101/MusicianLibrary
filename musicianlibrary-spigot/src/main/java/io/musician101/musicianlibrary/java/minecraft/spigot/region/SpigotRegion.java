@@ -8,7 +8,6 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 
-
 public class SpigotRegion extends AbstractRegion<Location> {
 
     private String worldName = "";

@@ -7,8 +7,8 @@ import org.bukkit.ChatColor;
 
 public class SpigotCommandArgument {
 
-    private final List<Syntax> syntaxList;
     private final String name;
+    private final List<Syntax> syntaxList;
 
     SpigotCommandArgument(String name, List<Syntax> syntaxList) {
         this.name = name;
