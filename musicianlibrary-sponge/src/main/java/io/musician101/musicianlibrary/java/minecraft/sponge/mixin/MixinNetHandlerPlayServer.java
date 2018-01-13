@@ -12,6 +12,7 @@ import java.util.List;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.Slot;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.network.NetHandlerPlayServer;
@@ -67,7 +68,12 @@ public abstract class MixinNetHandlerPlayServer implements INetHandlerPlayServer
     @Inject(method = "processCustomPayload", at = @At(value = "NEW", target = "net/minecraft/item/ItemStack", ordinal = 0), locals = LocalCapture.CAPTURE_FAILEXCEPTION, cancellable = true)
     public void onBookSign(CPacketCustomPayload packetIn, CallbackInfo ci, String channelName, PacketBuffer packetBuffer, net.minecraft.item.ItemStack itemStack, net.minecraft.item.ItemStack itemStack1) {
         Player spongePlayer = (Player) player;
-        NBTTagList pagesNBT = itemStack.getTagCompound().getTagList("pages", 8);
+        NBTTagCompound tag = itemStack.getTagCompound();
+        if (tag == null) {
+            tag = new NBTTagCompound();
+        }
+
+        NBTTagList pagesNBT = tag.getTagList("pages", 8);
         List<Text> pagesText = new ArrayList<>();
         for (int i = 0; i < pagesNBT.tagCount(); i++) {
             pagesText.add(Text.of(pagesNBT.getStringTagAt(i)));
@@ -110,6 +116,8 @@ public abstract class MixinNetHandlerPlayServer implements INetHandlerPlayServer
 
     private void updateInventory(EntityPlayerMP player, net.minecraft.item.ItemStack itemStack) {
         Slot slot = player.openContainer.getSlotFromInventory(player.inventory, player.inventory.currentItem);
-        sendPacket(new SPacketSetSlot(player.openContainer.windowId, slot.slotNumber, itemStack));
+        if (slot != null) {
+            sendPacket(new SPacketSetSlot(player.openContainer.windowId, slot.slotNumber, itemStack));
+        }
     }
 }
