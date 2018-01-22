@@ -8,9 +8,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class SpigotCommandPermissionsBuilder implements Builder<SpigotCommandPermissionsBuilder, SpigotCommandPermissions> {
 
     private boolean isPlayerOnly = false;
-    private String noPermission;
-    private String permissionNode;
-    private String playerOnly;
+    private String noPermission = "";
+    private String permissionNode = "";
+    private String playerOnly = "";
 
     SpigotCommandPermissionsBuilder() {
 

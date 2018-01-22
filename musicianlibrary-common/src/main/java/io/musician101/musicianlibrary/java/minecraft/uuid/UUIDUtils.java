@@ -2,28 +2,35 @@ package io.musician101.musicianlibrary.java.minecraft.uuid;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.StreamSupport;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class UUIDUtils {
+
+    private static final Gson GSON = new GsonBuilder().registerTypeAdapter(MinecraftProfile.class, new MinecraftProfileTypeAdapter()).create();
 
     private UUIDUtils() {
 
     }
 
+    @Nullable
     public static String getNameOf(UUID uuid) throws IOException {
         return getNames(Collections.singletonList(uuid)).get(uuid);
     }
 
+    @Nonnull
     public static Map<UUID, String> getNames(List<UUID> uuids) throws IOException {
         Map<UUID, String> map = new HashMap<>();
         for (UUID uuid : uuids) {
@@ -46,10 +53,12 @@ public class UUIDUtils {
         return map;
     }
 
+    @Nullable
     public static UUID getUUIDOf(String name) throws IOException {
         return getUUIDs(Collections.singletonList(name)).get(name.toLowerCase());
     }
 
+    @Nonnull
     public static Map<String, UUID> getUUIDs(List<String> names) throws IOException {
         Map<String, UUID> map = new HashMap<>();
         int requests = (int) Math.ceil(names.size() / 100D);
@@ -61,19 +70,13 @@ public class UUIDUtils {
             connection.setUseCaches(false);
             connection.setDoInput(true);
             connection.setDoOutput(true);
-            List objects = new Gson().fromJson(new InputStreamReader(connection.getInputStream()), List.class);
-            List<MinecraftProfile> profiles = new ArrayList<>();
-            for (Object object : objects) {
-                profiles.add(new GsonBuilder().registerTypeHierarchyAdapter(MinecraftProfile.class, new MinecraftProfileTypeAdapter()).create().fromJson(object.toString(), MinecraftProfile.class));
-            }
-
-            profiles.forEach(profile -> map.put(profile.getName(), profile.getUUID()));
+            StreamSupport.stream(new Gson().fromJson(new InputStreamReader(connection.getInputStream()), JsonArray.class).spliterator(), false).map(profile -> GSON.fromJson(profile, MinecraftProfile.class)).forEach(profile -> map.put(profile.getName(), profile.getUUID()));
         }
 
         return map;
     }
 
-    public static class MinecraftProfile {
+    static class MinecraftProfile {
 
         private final String name;
         private final UUID uuid;

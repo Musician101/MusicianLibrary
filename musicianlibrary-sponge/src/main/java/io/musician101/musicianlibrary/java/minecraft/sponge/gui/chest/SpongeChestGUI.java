@@ -82,6 +82,6 @@ public final class SpongeChestGUI extends AbstractChestGUI<Class<? extends Click
             buttons.forEach(button -> inventory.query(QueryOperationTypes.INVENTORY_PROPERTY.of(new SlotIndex(button.getSlot()))).first().set(button.getItemStack()));
             player.openInventory(inventory);
             Sponge.getEventManager().registerListeners(plugin, this);
-        }).delayTicks(1L).submit(this);
+        }).delayTicks(1L).submit(plugin);
     }
 }

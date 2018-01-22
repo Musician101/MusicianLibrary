@@ -18,7 +18,7 @@ public class SpigotCommandPermissions {
     }
 
     public static SpigotCommandPermissions blank() {
-        return builder().isPlayerOnly(false).permissionNode("").noPermissionMessage("").noPermissionMessage("").build();
+        return builder().build();
     }
 
     public static SpigotCommandPermissionsBuilder builder() {

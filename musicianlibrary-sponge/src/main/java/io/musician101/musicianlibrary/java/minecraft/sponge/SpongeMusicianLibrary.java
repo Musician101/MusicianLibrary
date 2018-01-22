@@ -42,7 +42,7 @@ public class SpongeMusicianLibrary extends AbstractSpongePlugin<AbstractConfig> 
         registerData("BookGUIData", getId() + ":book_gui", UUIDData.class, ImmutableUUIDData.class, new UUIDDataBuilder());
     }
 
-    private <D extends DataManipulator<D, M>, M extends ImmutableDataManipulator<M, D>, T extends DataManipulator<T, I>, I extends ImmutableDataManipulator<I, T>> void registerData(String dataName, String id, Class<D> manipulatorClass, Class<M> immutableDataClass, DataManipulatorBuilder<T, I> builder) {
-        DataRegistration.builder().dataClass(manipulatorClass).dataName(dataName).manipulatorId(id).immutableClass(immutableDataClass).buildAndRegister(pluginContainer);
+    private <D extends DataManipulator<D, M>, M extends ImmutableDataManipulator<M, D>> void registerData(String dataName, String id, Class<D> manipulatorClass, Class<M> immutableDataClass, DataManipulatorBuilder<D, M> builder) {
+        DataRegistration.builder().dataClass(manipulatorClass).dataName(dataName).manipulatorId(id).immutableClass(immutableDataClass).builder(builder).buildAndRegister(pluginContainer);
     }
 }

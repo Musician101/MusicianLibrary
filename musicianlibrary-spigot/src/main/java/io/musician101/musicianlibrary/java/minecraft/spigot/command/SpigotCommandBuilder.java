@@ -1,5 +1,6 @@
 package io.musician101.musicianlibrary.java.minecraft.spigot.command;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,18 @@ public class SpigotCommandBuilder<I extends JavaPlugin> {
     @Nonnull
     public SpigotCommandBuilder<I> addCommand(@Nonnull SpigotCommand<I> command) {
         subCommands.put(command.getName(), command);
+        return this;
+    }
+
+    @SafeVarargs
+    @Nonnull
+    public final SpigotCommandBuilder<I> addCommands(@Nonnull SpigotCommand<I>... commands) {
+        return addCommands(Arrays.asList(commands));
+    }
+
+    @Nonnull
+    public SpigotCommandBuilder<I> addCommands(@Nonnull List<SpigotCommand<I>> commands) {
+        commands.forEach(this::addCommand);
         return this;
     }
 

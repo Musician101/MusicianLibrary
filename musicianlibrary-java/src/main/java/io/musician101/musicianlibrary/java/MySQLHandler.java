@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 public class MySQLHandler {
 
@@ -42,6 +43,24 @@ public class MySQLHandler {
         Class.forName("com.mysql.jdbc.Drive");
         connection = DriverManager.getConnection("jdbc:mysql://" + hostname + ":" + port + "/" + database, user, password);
         return connection;
+    }
+
+    public void executeBatch(List<String> queries) throws ClassNotFoundException, SQLException {
+        Connection c;
+        if (checkConnection()) {
+            c = getConnection();
+        }
+        else {
+            c = openConnection();
+        }
+
+        Statement s = c.createStatement();
+        for (String query : queries) {
+            s.addBatch(query);
+        }
+        s.executeBatch();
+        s.close();
+        closeConnection();
     }
 
     public ResultSet querySQL(String query) throws ClassNotFoundException, SQLException {
