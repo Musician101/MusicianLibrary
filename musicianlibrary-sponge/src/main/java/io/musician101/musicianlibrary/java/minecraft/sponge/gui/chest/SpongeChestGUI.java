@@ -1,7 +1,9 @@
 package io.musician101.musicianlibrary.java.minecraft.sponge.gui.chest;
 
 import io.musician101.musicianlibrary.java.minecraft.gui.chest.ChestGUI;
+import io.musician101.musicianlibrary.java.minecraft.gui.chest.GUIButton;
 import io.musician101.musicianlibrary.java.minecraft.sponge.data.key.MLKeys;
+import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.spongepowered.api.Sponge;
@@ -25,8 +27,8 @@ import org.spongepowered.api.text.serializer.TextSerializers;
 
 public final class SpongeChestGUI extends ChestGUI<Class<? extends ClickInventoryEvent>, SpongeChestGUI, Inventory, PluginContainer, Player, ItemStack> {
 
-    public SpongeChestGUI(@Nonnull Player player, @Nonnull Text name, int size, int page, @Nullable SpongeChestGUI prevMenu, @Nonnull PluginContainer plugin, boolean manualOpen) {
-        super(parseInventory(name, size, plugin), player, page, prevMenu, plugin, manualOpen);
+    public SpongeChestGUI(@Nonnull Player player, @Nonnull Text name, int size, int page, @Nonnull List<GUIButton<Class<? extends ClickInventoryEvent>, SpongeChestGUI, Inventory, PluginContainer, Player, ItemStack>> buttons, @Nullable SpongeChestGUI prevMenu, @Nonnull PluginContainer plugin, boolean manualOpen) {
+        super(parseInventory(name, size, plugin), player, page, buttons, prevMenu, plugin, manualOpen);
     }
 
     public static SpongeChestGUIBuilder builder() {

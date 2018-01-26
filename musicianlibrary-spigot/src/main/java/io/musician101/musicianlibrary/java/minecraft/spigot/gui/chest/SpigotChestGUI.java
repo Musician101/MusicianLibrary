@@ -1,10 +1,13 @@
 package io.musician101.musicianlibrary.java.minecraft.spigot.gui.chest;
 
 import io.musician101.musicianlibrary.java.minecraft.gui.chest.ChestGUI;
+import io.musician101.musicianlibrary.java.minecraft.gui.chest.GUIButton;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -39,8 +42,8 @@ public final class SpigotChestGUI<J extends JavaPlugin> extends ChestGUI<ClickTy
         }
     }
 
-    SpigotChestGUI(Player player, String name, int size, int page, SpigotChestGUI<J> prevMenu, @Nonnull J plugin, boolean manualOpen) {
-        super(parseInventory(player, name, size), player, page, prevMenu, plugin, manualOpen);
+    SpigotChestGUI(@Nonnull Player player, @Nonnull String name, int size, int page, @Nonnull List<GUIButton<ClickType, SpigotChestGUI<J>, Inventory, J, Player, ItemStack>> buttons, @Nullable SpigotChestGUI<J> prevMenu, @Nonnull J plugin, boolean manualOpen) {
+        super(parseInventory(player, name, size), player, page, buttons, prevMenu, plugin, manualOpen);
     }
 
     public static <J extends JavaPlugin> SpigotChestGUIBuilder<J> builder() {

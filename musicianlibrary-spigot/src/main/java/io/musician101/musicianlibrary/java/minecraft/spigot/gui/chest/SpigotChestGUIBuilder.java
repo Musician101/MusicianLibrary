@@ -31,7 +31,7 @@ public class SpigotChestGUIBuilder<J extends JavaPlugin> extends ChestGUIBuilder
         checkNotNull(player, "Player cannot be null.");
         checkNotNull(plugin, "Plugin cannot be null.");
         checkArgument(size > 0 && size % 9 == 0, "Size must be greater than 0 and be a multiple of 9.");
-        return new SpigotChestGUI<>(player, name, size, page, prevGUI, plugin, manualOpen);
+        return new SpigotChestGUI<>(player, name, size, page, buttons, prevGUI, plugin, manualOpen);
     }
 
     @Nonnull
