@@ -1,35 +1,33 @@
 package io.musician101.musicianlibrary.java.minecraft.gui.chest;
 
+import io.musician101.musicianlibrary.java.minecraft.util.Builder;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public final class GUIButton<C, G, P, S> {
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
-    @Nullable
-    private final BiConsumer<G, P> action;
+public final class GUIButton<C, G extends ChestGUI<C, G, I, J, P, S>, I, J, P, S> {
+
     @Nonnull
-    private final C clickType;
+    private final Map<C, BiConsumer<G, P>> actions;
     @Nonnull
     private final S itemStack;
     private final int slot;
 
-    public GUIButton(int slot, @Nonnull C clickType, @Nonnull S itemStack, @Nullable BiConsumer<G, P> action) {
+    GUIButton(int slot, @Nonnull S itemStack, @Nonnull Map<C, BiConsumer<G, P>> actions) {
         this.slot = slot;
-        this.clickType = clickType;
         this.itemStack = itemStack;
-        this.action = action;
+        this.actions = actions;
     }
 
     @Nonnull
-    public Optional<BiConsumer<G, P>> getAction() {
-        return Optional.ofNullable(action);
-    }
-
-    @Nonnull
-    public final C getClickType() {
-        return clickType;
+    public Optional<BiConsumer<G, P>> getAction(C clickType) {
+        return Optional.ofNullable(actions.get(clickType));
     }
 
     @Nonnull
@@ -39,5 +37,69 @@ public final class GUIButton<C, G, P, S> {
 
     public final int getSlot() {
         return slot;
+    }
+
+    public static <C, G extends ChestGUI<C, G, I, J, P, S>, I, J, P, S> GUIButton<C, G, I, J, P, S> of(int slot, S icon) {
+        return GUIButton.<C, G, I, J, P, S>builder().slot(slot).icon(icon).build();
+    }
+
+    public static <C, G extends ChestGUI<C, G, I, J, P, S>, I, J, P, S> GUIButton<C, G, I, J, P, S> of(int slot, C clickType, S icon, BiConsumer<G, P> action) {
+        return GUIButton.<C, G, I, J, P, S>builder().slot(slot).icon(icon).addButton(clickType, action).build();
+    }
+
+    public static <C, G extends ChestGUI<C, G, I, J, P, S>, I, J, P, S> GUIButtonBuilder<C, G, I, J, P, S> builder() {
+        return new GUIButtonBuilder<>();
+    }
+
+    public static final class GUIButtonBuilder<C, G extends ChestGUI<C, G, I, J, P, S>, I, J, P, S> implements Builder<GUIButtonBuilder<C, G, I, J, P, S>, GUIButton<C, G, I, J, P, S>> {
+
+        private int slot;
+        private Map<C, BiConsumer<G, P>> actions = new HashMap<>();
+        private S itemStack;
+
+        private GUIButtonBuilder() {
+
+        }
+
+        @Nonnull
+        @Override
+        public GUIButton<C, G, I, J, P, S> build() {
+            checkNotNull(itemStack, "Button Icon can not be null.");
+            checkArgument(slot >= 0, "Slot must be grater than 0.");
+            return new GUIButton<>(slot, itemStack, actions);
+        }
+
+        @Nonnull
+        public GUIButtonBuilder<C, G, I, J, P, S> addButton(@Nonnull C clickType, @Nullable BiConsumer<G, P> action) {
+            actions.put(clickType, action);
+            return this;
+        }
+
+        @Nonnull
+        public GUIButtonBuilder<C, G, I, J, P, S> addButtons(@Nonnull Map<C, BiConsumer<G, P>> actions) {
+            this.actions = actions;
+            return this;
+        }
+
+        @Nonnull
+        public GUIButtonBuilder<C, G, I, J, P, S> icon(@Nonnull  S itemStack) {
+            this.itemStack = itemStack;
+            return this;
+        }
+
+        @Nonnull
+        public GUIButtonBuilder<C, G, I, J, P, S> slot(int slot) {
+            this.slot = slot;
+            return this;
+        }
+
+        @Nonnull
+        @Override
+        public GUIButtonBuilder<C, G, I, J, P, S> reset() {
+            itemStack = null;
+            slot = 0;
+            actions.clear();
+            return this;
+        }
     }
 }

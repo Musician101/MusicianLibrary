@@ -37,18 +37,18 @@ public class SpigotChestGUIBuilder<J extends JavaPlugin> extends ChestGUIBuilder
     @Nonnull
     @Override
     public SpigotChestGUIBuilder<J> setBackButton(int slot, @Nonnull ClickType clickType) {
-        return setButton(new GUIButton<>(slot, clickType, SpigotIconBuilder.builder(Material.BARRIER).name(ChatColor.RED + "Back").description("Close this GUI and go back", "to the previous GUI.").build(), (gui, player) -> gui.close()));
+        return setButton(GUIButton.of(slot, clickType, SpigotIconBuilder.builder(Material.BARRIER).name(ChatColor.RED + "Back").description("Close this GUI and go back", "to the previous GUI.").build(), (gui, player) -> gui.close()));
     }
 
     @Nonnull
     @Override
     public SpigotChestGUIBuilder<J> setJumpToPage(int slot, int maxPage, @Nonnull BiConsumer<Player, Integer> action) {
-        return setButton(new GUIButton<>(slot, ClickType.LEFT, SpigotIconBuilder.builder(Material.BOOK).name("Jump To Page").amount(page).build(), (gui, player) -> new SpigotJumpToPage<>(plugin, player, maxPage, action)));
+        return setButton(GUIButton.of(slot, ClickType.LEFT, SpigotIconBuilder.builder(Material.BOOK).name("Jump To Page").amount(page).build(), (gui, player) -> new SpigotJumpToPage<>(plugin, player, maxPage, action)));
     }
 
     @Nonnull
     @Override
     public SpigotChestGUIBuilder<J> setPageNavigation(int slot, @Nonnull String name, @Nonnull BiConsumer<SpigotChestGUI<J>, Player> action) {
-        return setButton(new GUIButton<>(slot, ClickType.LEFT, SpigotIconBuilder.of(Material.ARROW, name), action));
+        return setButton(GUIButton.of(slot, ClickType.LEFT, SpigotIconBuilder.of(Material.ARROW, name), action));
     }
 }

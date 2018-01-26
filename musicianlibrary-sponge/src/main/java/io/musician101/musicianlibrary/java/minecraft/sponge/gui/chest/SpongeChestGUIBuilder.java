@@ -38,18 +38,18 @@ public final class SpongeChestGUIBuilder extends ChestGUIBuilder<SpongeChestGUIB
     @Nonnull
     @Override
     public SpongeChestGUIBuilder setBackButton(int slot, @Nonnull Class<? extends ClickInventoryEvent> clickType) {
-        return setButton(new GUIButton<>(slot, clickType, SpongeIconBuilder.builder(ItemTypes.BARRIER).name(Text.builder("Back").color(TextColors.RED).build()).description(Text.of("Close this GUI and go back"), Text.of("to the previous GUI.")).build(), (gui, player) -> gui.close()));
+        return setButton(GUIButton.of(slot, clickType, SpongeIconBuilder.builder(ItemTypes.BARRIER).name(Text.builder("Back").color(TextColors.RED).build()).description(Text.of("Close this GUI and go back"), Text.of("to the previous GUI.")).build(), (gui, player) -> gui.close()));
     }
 
     @Nonnull
     @Override
     public SpongeChestGUIBuilder setJumpToPage(int slot, int maxPage, @Nonnull BiConsumer<Player, Integer> action) {
-        return setButton(new GUIButton<>(slot, ClickInventoryEvent.Primary.class, SpongeIconBuilder.builder(ItemTypes.BOOK).name(Text.of("Jump To Page")).amount(page).build(), (gui, player) -> new SpongeJumpToPage<>(plugin, player, maxPage, action)));
+        return setButton(GUIButton.of(slot, ClickInventoryEvent.Primary.class, SpongeIconBuilder.builder(ItemTypes.BOOK).name(Text.of("Jump To Page")).amount(page).build(), (gui, player) -> new SpongeJumpToPage<>(plugin, player, maxPage, action)));
     }
 
     @Nonnull
     @Override
     public SpongeChestGUIBuilder setPageNavigation(int slot, @Nonnull Text name, @Nonnull BiConsumer<SpongeChestGUI, Player> action) {
-        return setButton(new GUIButton<>(slot, ClickInventoryEvent.Primary.class, SpongeIconBuilder.of(ItemTypes.ARROW, name), action));
+        return setButton(GUIButton.of(slot, ClickInventoryEvent.Primary.class, SpongeIconBuilder.of(ItemTypes.ARROW, name), action));
     }
 }

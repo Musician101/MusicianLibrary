@@ -1,7 +1,6 @@
 package io.musician101.musicianlibrary.java.minecraft.spigot.gui.chest;
 
-import io.musician101.musicianlibrary.java.minecraft.gui.chest.AbstractChestGUI;
-import io.musician101.musicianlibrary.java.minecraft.gui.chest.GUIButton;
+import io.musician101.musicianlibrary.java.minecraft.gui.chest.ChestGUI;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -19,7 +18,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public final class SpigotChestGUI<J extends JavaPlugin> extends AbstractChestGUI<ClickType, SpigotChestGUI<J>, Inventory, J, Player, ItemStack> implements Listener {
+public final class SpigotChestGUI<J extends JavaPlugin> extends ChestGUI<ClickType, SpigotChestGUI<J>, Inventory, J, Player, ItemStack> implements Listener {
 
     private static final String SERVER_VERSION = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
     private static Field activeContainer;
@@ -66,7 +65,7 @@ public final class SpigotChestGUI<J extends JavaPlugin> extends AbstractChestGUI
     public final void onInventoryClick(InventoryClickEvent event) {
         if (event.getInventory().getName().equals(inventory.getName()) && event.getInventory().getHolder().equals(player)) {
             event.setCancelled(true);
-            buttons.stream().filter(button -> button.getSlot() == event.getRawSlot() && button.getClickType() == event.getClick()).findFirst().flatMap(GUIButton::getAction).ifPresent(consumer -> consumer.accept(this, player));
+            buttons.stream().filter(button -> button.getSlot() == event.getRawSlot()).findFirst().flatMap(button -> button.getAction(event.getClick())).ifPresent(consumer -> consumer.accept(this, player));
         }
     }
 

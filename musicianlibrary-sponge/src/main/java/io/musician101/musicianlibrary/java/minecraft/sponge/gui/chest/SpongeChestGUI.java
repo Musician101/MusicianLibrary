@@ -1,7 +1,6 @@
 package io.musician101.musicianlibrary.java.minecraft.sponge.gui.chest;
 
-import io.musician101.musicianlibrary.java.minecraft.gui.chest.AbstractChestGUI;
-import io.musician101.musicianlibrary.java.minecraft.gui.chest.GUIButton;
+import io.musician101.musicianlibrary.java.minecraft.gui.chest.ChestGUI;
 import io.musician101.musicianlibrary.java.minecraft.sponge.data.key.MLKeys;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -24,7 +23,7 @@ import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.serializer.TextSerializers;
 
-public final class SpongeChestGUI extends AbstractChestGUI<Class<? extends ClickInventoryEvent>, SpongeChestGUI, Inventory, PluginContainer, Player, ItemStack> {
+public final class SpongeChestGUI extends ChestGUI<Class<? extends ClickInventoryEvent>, SpongeChestGUI, Inventory, PluginContainer, Player, ItemStack> {
 
     public SpongeChestGUI(@Nonnull Player player, @Nonnull Text name, int size, int page, @Nullable SpongeChestGUI prevMenu, @Nonnull PluginContainer plugin, boolean manualOpen) {
         super(parseInventory(name, size, plugin), player, page, prevMenu, plugin, manualOpen);
@@ -64,7 +63,7 @@ public final class SpongeChestGUI extends AbstractChestGUI<Class<? extends Click
         if (isSameInventory(container, player)) {
             event.setCancelled(true);
             int slot = event.getCursorTransaction().getFinal().createStack().get(MLKeys.SLOT).orElse(-1);
-            buttons.stream().filter(button -> button.getSlot() == slot && button.getClickType() == event.getClass()).findFirst().flatMap(GUIButton::getAction).ifPresent(consumer -> consumer.accept(this, player));
+            buttons.stream().filter(button -> button.getSlot() == slot).findFirst().flatMap(button -> button.getAction(event.getClass())).ifPresent(consumer -> consumer.accept(this, player));
         }
     }
 
