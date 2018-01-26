@@ -23,11 +23,22 @@ public class SpongeIconBuilder extends AbstractIconBuilder<SpongeIconBuilder, It
         super(ItemStack.of(itemType, 1));
     }
 
-    public static SpongeIconBuilder builder(ItemType itemType) {
+    public SpongeIconBuilder(ItemStack itemStack) {
+        super(itemStack);
+    }
+
+    @Nonnull
+    public static SpongeIconBuilder builder(@Nonnull ItemStack itemStack) {
+        return new SpongeIconBuilder(itemStack);
+    }
+
+    @Nonnull
+    public static SpongeIconBuilder builder(@Nonnull ItemType itemType) {
         return new SpongeIconBuilder(itemType);
     }
 
-    public static ItemStack of(ItemType itemType, Text name) {
+    @Nonnull
+    public static ItemStack of(@Nonnull ItemType itemType, @Nonnull Text name) {
         return builder(itemType).name(name).build();
     }
 

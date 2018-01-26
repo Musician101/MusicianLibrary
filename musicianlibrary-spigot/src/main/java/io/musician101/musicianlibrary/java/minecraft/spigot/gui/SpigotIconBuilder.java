@@ -19,10 +19,21 @@ public final class SpigotIconBuilder extends AbstractIconBuilder<SpigotIconBuild
         super(new ItemStack(material));
     }
 
+    public SpigotIconBuilder(ItemStack itemStack) {
+        super(itemStack);
+    }
+
+    @Nonnull
+    public static SpigotIconBuilder builder(@Nonnull ItemStack itemStack) {
+        return new SpigotIconBuilder(itemStack);
+    }
+
+    @Nonnull
     public static SpigotIconBuilder builder(@Nonnull Material material) {
         return new SpigotIconBuilder(material);
     }
 
+    @Nonnull
     public static ItemStack of(@Nonnull Material material, @Nonnull String name) {
         return builder(material).name(name).build();
     }
