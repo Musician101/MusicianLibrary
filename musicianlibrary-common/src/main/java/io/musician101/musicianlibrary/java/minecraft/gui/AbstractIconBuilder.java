@@ -3,7 +3,6 @@ package io.musician101.musicianlibrary.java.minecraft.gui;
 import io.musician101.musicianlibrary.java.minecraft.util.Builder;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Supplier;
 import javax.annotation.Nonnull;
 
 public abstract class AbstractIconBuilder<B extends AbstractIconBuilder<B, I, P, T>, I, P, T> implements Builder<B, I> {
@@ -15,13 +14,12 @@ public abstract class AbstractIconBuilder<B extends AbstractIconBuilder<B, I, P,
     }
 
     @Nonnull
-    public abstract B addGlow();
+    public final B addGlow() {
+        return addGlow(true);
+    }
 
     @Nonnull
-    @SuppressWarnings("unchecked")
-    public final B addGlowIfConditionsMet(@Nonnull Supplier<Boolean> conditionSupplier) {
-        return conditionSupplier.get() ? addGlow() : (B) this;
-    }
+    public abstract B addGlow(boolean addGlow);
 
     @Nonnull
     public abstract B amount(int amount);

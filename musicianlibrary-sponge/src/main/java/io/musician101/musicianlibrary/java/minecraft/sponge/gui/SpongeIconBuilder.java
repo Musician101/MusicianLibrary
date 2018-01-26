@@ -33,15 +33,18 @@ public class SpongeIconBuilder extends AbstractIconBuilder<SpongeIconBuilder, It
 
     @Nonnull
     @Override
-    public SpongeIconBuilder addGlow() {
-        if (itemStack.getType() == ItemTypes.ENCHANTED_BOOK) {
-            itemStack.offer(Keys.STORED_ENCHANTMENTS, Collections.singletonList(Enchantment.of(EnchantmentTypes.UNBREAKING, 1)));
-        }
-        else {
-            itemStack.offer(Keys.ITEM_ENCHANTMENTS, Collections.singletonList(Enchantment.of(EnchantmentTypes.UNBREAKING, 1)));
+    public SpongeIconBuilder addGlow(boolean addGlow) {
+        if (addGlow) {
+            if (itemStack.getType() == ItemTypes.ENCHANTED_BOOK) {
+                itemStack.offer(Keys.STORED_ENCHANTMENTS, Collections.singletonList(Enchantment.of(EnchantmentTypes.UNBREAKING, 1)));
+            }
+            else {
+                itemStack.offer(Keys.ITEM_ENCHANTMENTS, Collections.singletonList(Enchantment.of(EnchantmentTypes.UNBREAKING, 1)));
+            }
+
+            itemStack.offer(Keys.HIDE_ENCHANTMENTS, true);
         }
 
-        itemStack.offer(Keys.HIDE_ENCHANTMENTS, true);
         return this;
     }
 

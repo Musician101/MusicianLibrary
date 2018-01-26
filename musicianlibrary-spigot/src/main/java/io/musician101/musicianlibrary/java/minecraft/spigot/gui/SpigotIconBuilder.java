@@ -29,19 +29,22 @@ public final class SpigotIconBuilder extends AbstractIconBuilder<SpigotIconBuild
 
     @Nonnull
     @Override
-    public SpigotIconBuilder addGlow() {
-        if (itemStack.getType() == Material.ENCHANTED_BOOK) {
-            EnchantmentStorageMeta meta = (EnchantmentStorageMeta) itemStack.getItemMeta();
-            meta.addStoredEnchant(Enchantment.DURABILITY, 1, true);
+    public SpigotIconBuilder addGlow(boolean addGlow) {
+        if (addGlow) {
+            if (itemStack.getType() == Material.ENCHANTED_BOOK) {
+                EnchantmentStorageMeta meta = (EnchantmentStorageMeta) itemStack.getItemMeta();
+                meta.addStoredEnchant(Enchantment.DURABILITY, 1, true);
+                itemStack.setItemMeta(meta);
+            }
+            else {
+                itemStack.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
+            }
+
+            ItemMeta meta = itemStack.getItemMeta();
+            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
             itemStack.setItemMeta(meta);
         }
-        else {
-            itemStack.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
-        }
 
-        ItemMeta meta = itemStack.getItemMeta();
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        itemStack.setItemMeta(meta);
         return this;
     }
 
