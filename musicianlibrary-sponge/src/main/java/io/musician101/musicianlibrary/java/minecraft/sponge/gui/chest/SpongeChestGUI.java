@@ -27,7 +27,7 @@ import org.spongepowered.api.text.serializer.TextSerializers;
 
 public final class SpongeChestGUI extends ChestGUI<Class<? extends ClickInventoryEvent>, SpongeChestGUI, Inventory, PluginContainer, Player, ItemStack> {
 
-    public SpongeChestGUI(@Nonnull Player player, @Nonnull Text name, int size, int page, @Nonnull List<GUIButton<Class<? extends ClickInventoryEvent>, SpongeChestGUI, Inventory, PluginContainer, Player, ItemStack>> buttons, @Nullable SpongeChestGUI prevMenu, @Nonnull PluginContainer plugin, boolean manualOpen) {
+    SpongeChestGUI(@Nonnull Player player, @Nonnull Text name, int size, int page, @Nonnull List<GUIButton<Class<? extends ClickInventoryEvent>, SpongeChestGUI, Inventory, PluginContainer, Player, ItemStack>> buttons, @Nullable SpongeChestGUI prevMenu, @Nonnull PluginContainer plugin, boolean manualOpen) {
         super(parseInventory(name, size, plugin), player, page, buttons, prevMenu, plugin, manualOpen);
     }
 
