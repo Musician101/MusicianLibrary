@@ -15,16 +15,16 @@ import org.spongepowered.api.entity.living.player.Player;
 
 public class SpongeAnvilGUI {
 
-    public SpongeAnvilGUI(@Nonnull Player player, @Nonnull BiFunction<EntityPlayer, String, String> biFunction) {
+    public SpongeAnvilGUI(@Nonnull Player player, @Nonnull BiFunction<Player, String, String> biFunction) {
         EntityPlayer entityPlayer = (EntityPlayer) player;
         entityPlayer.displayGui(new SSAnvil(entityPlayer, biFunction));
     }
 
     static class SSAnvil extends Anvil {
 
-        private final BiFunction<EntityPlayer, String, String> biFunction;
+        private final BiFunction<Player, String, String> biFunction;
 
-        private SSAnvil(EntityPlayer player, BiFunction<EntityPlayer, String, String> biFunction) {
+        private SSAnvil(EntityPlayer player, BiFunction<Player, String, String> biFunction) {
             super(player.getEntityWorld(), player.getPosition());
             this.biFunction = biFunction;
         }
@@ -38,9 +38,9 @@ public class SpongeAnvilGUI {
 
     static class SSContainerRepair extends ContainerRepair {
 
-        private final BiFunction<EntityPlayer, String, String> biFunction;
+        private final BiFunction<Player, String, String> biFunction;
 
-        private SSContainerRepair(InventoryPlayer inventoryPlayer, EntityPlayer player, BiFunction<EntityPlayer, String, String> biFunction) {
+        private SSContainerRepair(InventoryPlayer inventoryPlayer, EntityPlayer player, BiFunction<Player, String, String> biFunction) {
             super(inventoryPlayer, player.getEntityWorld(), player.getPosition(), player);
             this.biFunction = biFunction;
             net.minecraft.item.ItemStack itemStack = new net.minecraft.item.ItemStack(Items.PAPER);
@@ -65,7 +65,7 @@ public class SpongeAnvilGUI {
                 Slot slot = getSlot(2);
                 if (slot.getHasStack()) {
                     ItemStack itemStack = slot.getStack();
-                    String ret = biFunction.apply(player, itemStack.getDisplayName());
+                    String ret = biFunction.apply((Player) player, itemStack.getDisplayName());
                     if (ret != null) {
                         getSlot(0).getStack().setStackDisplayName(ret);
                     }
