@@ -38,8 +38,8 @@ public class SpongeMusicianLibrary extends AbstractSpongePlugin<AbstractConfig> 
 
     @Listener
     public void preInit(GamePreInitializationEvent event) {
-        registerData("InventorySlot", getId() + ":inventory_slot", InventorySlotData.class, ImmutableInventorySlotData.class, new InventorySlotDataBuilder());
-        registerData("BookGUIData", getId() + ":book_gui", UUIDData.class, ImmutableUUIDData.class, new UUIDDataBuilder());
+        registerData("InventorySlot", "inventory_slot", InventorySlotData.class, ImmutableInventorySlotData.class, new InventorySlotDataBuilder());
+        registerData("BookGUIData", "book_gui", UUIDData.class, ImmutableUUIDData.class, new UUIDDataBuilder());
     }
 
     private <D extends DataManipulator<D, M>, M extends ImmutableDataManipulator<M, D>> void registerData(String dataName, String id, Class<D> manipulatorClass, Class<M> immutableDataClass, DataManipulatorBuilder<D, M> builder) {
