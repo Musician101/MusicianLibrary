@@ -4,12 +4,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.function.BiConsumer;
-import java.util.function.Predicate;
+import java.util.function.BiPredicate;
 import java.util.stream.Stream;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
@@ -22,18 +23,23 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class SpigotBookGUI<J extends JavaPlugin> implements Listener {
+public class SpigotBookGUI implements Listener {
 
-    private static final String LORE_IDENTIFIER = "\\_o<";
-    private static final Predicate<ItemStack> BOOK_FILTER = itemStack -> {
+    private static final String IDENTIFIER = "\\_o<";
+    private static final String KEY = "book_gui_identifier";
+    private static final BiPredicate<JavaPlugin, ItemStack> BOOK_FILTER = (plugin, itemStack) -> {
         Material material = itemStack.getType();
         if (material == Material.WRITABLE_BOOK || material == Material.WRITTEN_BOOK) {
-            if (itemStack.hasItemMeta()) {
-                ItemMeta itemMeta = itemStack.getItemMeta();
-                if (itemMeta.hasLore()) {
-                    return itemMeta.getLore().contains(LORE_IDENTIFIER);
+            ItemMeta itemMeta = itemStack.getItemMeta();
+            if (itemMeta != null) {
+                PersistentDataContainer data = itemStack.getItemMeta().getPersistentDataContainer();
+                NamespacedKey key = new NamespacedKey(plugin, "book_gui_identifier");
+                if (data.has(key, PersistentDataType.STRING)) {
+                    return IDENTIFIER.equals(data.get(key, PersistentDataType.STRING));
                 }
             }
         }
@@ -43,6 +49,7 @@ public class SpigotBookGUI<J extends JavaPlugin> implements Listener {
     private final int bookSlot;
     private final BiConsumer<Player, List<String>> action;
     private final Player player;
+    private final JavaPlugin plugin;
 
     private static final String VERSION = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
     private static Method AS_NMS_COPY;
@@ -64,21 +71,19 @@ public class SpigotBookGUI<J extends JavaPlugin> implements Listener {
         }
     }
 
-    public SpigotBookGUI(@Nonnull J plugin, @Nonnull Player player, @Nonnull ItemStack book, @Nonnull BiConsumer<Player, List<String>> action) {
+    public SpigotBookGUI(@Nonnull JavaPlugin plugin, @Nonnull Player player, @Nonnull ItemStack book, @Nonnull BiConsumer<Player, List<String>> action) {
+        this.plugin = plugin;
         this.player = player;
         this.bookSlot = player.getInventory().getHeldItemSlot();
         this.action = action;
-        ItemMeta meta = book.getItemMeta();
-        List<String> lore = meta.getLore();
-        lore.add(LORE_IDENTIFIER);
-        meta.setLore(lore);
-        book.setItemMeta(meta);
+        PersistentDataContainer data = book.getItemMeta().getPersistentDataContainer();
+        data.set(new NamespacedKey(plugin, KEY), PersistentDataType.STRING, IDENTIFIER);
         player.getInventory().setItemInMainHand(book);
         Bukkit.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    public static boolean isEditing(@Nonnull Player player) {
-        return Stream.of(player.getInventory().getContents()).anyMatch(BOOK_FILTER);
+    public static boolean isEditing(@Nonnull JavaPlugin plugin, @Nonnull Player player) {
+        return Stream.of(player.getInventory().getContents()).anyMatch(itemStack -> BOOK_FILTER.test(plugin, itemStack));
     }
 
     @EventHandler
@@ -96,10 +101,12 @@ public class SpigotBookGUI<J extends JavaPlugin> implements Listener {
     @EventHandler
     public void editBook(PlayerEditBookEvent event) {
         BookMeta oldMeta = event.getPreviousBookMeta();
-        if (oldMeta.hasLore() && oldMeta.getLore().contains(LORE_IDENTIFIER)) {
+        PersistentDataContainer data = oldMeta.getPersistentDataContainer();
+        NamespacedKey key = new NamespacedKey(plugin, KEY);
+        if (data.has(key, PersistentDataType.STRING)) {
             ItemStack itemStack = new ItemStack(Material.WRITABLE_BOOK);
             BookMeta meta = event.getNewBookMeta();
-            meta.setLore(oldMeta.getLore());
+            meta.getPersistentDataContainer().set(key, PersistentDataType.STRING, data.get(key, PersistentDataType.STRING));
             itemStack.setItemMeta(meta);
             Player player = event.getPlayer();
             if (isEditing(player, itemStack)) {
@@ -110,7 +117,7 @@ public class SpigotBookGUI<J extends JavaPlugin> implements Listener {
     }
 
     private boolean isEditing(@Nonnull Player player, @Nullable ItemStack itemStack) {
-        return player.getUniqueId().equals(this.player.getUniqueId()) && itemStack != null && BOOK_FILTER.test(itemStack);
+        return player.getUniqueId().equals(this.player.getUniqueId()) && itemStack != null && BOOK_FILTER.test(plugin, itemStack);
     }
 
     @EventHandler
