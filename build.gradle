@@ -5,7 +5,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.2'
     }
 }
 
@@ -13,7 +13,6 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'maven'
     apply plugin: 'com.github.johnrengelman.shadow'
-    apply plugin: 'idea'
 
     group project.pluginGroup
     version project.pluginVersion
