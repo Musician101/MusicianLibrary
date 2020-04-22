@@ -16,7 +16,7 @@ import org.spongepowered.api.data.value.mutable.Value;
 public class UUIDData extends AbstractSingleData<UUID, UUIDData, ImmutableUUIDData> {
 
     public UUIDData(@Nonnull UUID uuid) {
-        super(uuid, MLKeys.UUID);
+        super(MLKeys.UUID, uuid);
     }
 
     @Nonnull
@@ -55,11 +55,5 @@ public class UUIDData extends AbstractSingleData<UUID, UUIDData, ImmutableUUIDDa
     @Override
     protected Value<UUID> getValueGetter() {
         return Sponge.getRegistry().getValueFactory().createValue((Key<Value<UUID>>) usedKey, getValue());
-    }
-
-    @Nonnull
-    @Override
-    public DataContainer toContainer() {
-        return super.toContainer().set(MLKeys.UUID, getValue());
     }
 }

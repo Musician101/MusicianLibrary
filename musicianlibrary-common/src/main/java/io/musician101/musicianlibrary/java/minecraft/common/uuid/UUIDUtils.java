@@ -1,4 +1,4 @@
-package io.musician101.musicianlibrary.java.minecraft.uuid;
+package io.musician101.musicianlibrary.java.minecraft.common.uuid;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

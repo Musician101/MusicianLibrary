@@ -1,6 +1,6 @@
 package io.musician101.musicianlibrary.java.minecraft.sponge.plugin;
 
-import io.musician101.musicianlibrary.java.minecraft.config.AbstractConfig;
+import io.musician101.musicianlibrary.java.minecraft.common.config.AbstractConfig;
 import javax.annotation.Nonnull;
 import org.slf4j.Logger;
 import org.spongepowered.api.plugin.PluginContainer;

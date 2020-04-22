@@ -1,6 +1,6 @@
 package io.musician101.musicianlibrary.java.minecraft.sponge.region;
 
-import io.musician101.musicianlibrary.java.minecraft.region.AbstractRegion;
+import io.musician101.musicianlibrary.java.minecraft.common.region.AbstractRegion;
 import java.util.Map;
 import ninja.leaping.configurate.ConfigurationNode;
 import org.spongepowered.api.Sponge;
@@ -9,7 +9,7 @@ import org.spongepowered.api.world.World;
 
 public class SpongeRegion extends AbstractRegion<Location<World>> {
 
-    private String worldName = "";
+    private String worldName;
 
     private SpongeRegion(Location<World> location) {
         this(location, location);

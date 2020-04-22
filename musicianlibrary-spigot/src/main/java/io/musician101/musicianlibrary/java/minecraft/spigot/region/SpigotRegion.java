@@ -1,6 +1,6 @@
 package io.musician101.musicianlibrary.java.minecraft.spigot.region;
 
-import io.musician101.musicianlibrary.java.minecraft.region.AbstractRegion;
+import io.musician101.musicianlibrary.java.minecraft.common.region.AbstractRegion;
 import java.util.Map;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
@@ -10,7 +10,7 @@ import org.bukkit.WorldCreator;
 
 public class SpigotRegion extends AbstractRegion<Location> {
 
-    private String worldName = "";
+    private String worldName;
 
     private SpigotRegion(Location location) {
         this(location, location);

@@ -1,11 +1,11 @@
-package io.musician101.musicianlibrary.java.minecraft.gui;
+package io.musician101.musicianlibrary.java.minecraft.common.gui;
 
-import io.musician101.musicianlibrary.java.minecraft.util.Builder;
+import io.musician101.musicianlibrary.java.minecraft.common.util.Builder;
 import java.util.Arrays;
 import java.util.List;
 import javax.annotation.Nonnull;
 
-public abstract class AbstractIconBuilder<B extends AbstractIconBuilder<B, I, P, T>, I, P, T> implements Builder<B, I> {
+public abstract class AbstractIconBuilder<B extends AbstractIconBuilder, I, P, T> implements Builder<B, I> {
 
     protected I itemStack;
 

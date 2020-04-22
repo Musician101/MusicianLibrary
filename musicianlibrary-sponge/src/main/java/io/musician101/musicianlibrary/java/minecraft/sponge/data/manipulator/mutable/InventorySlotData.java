@@ -14,8 +14,8 @@ import org.spongepowered.api.data.value.mutable.Value;
 
 public class InventorySlotData extends AbstractSingleData<Integer, InventorySlotData, ImmutableInventorySlotData> {
 
-    public InventorySlotData(Integer value) {
-        super(value, MLKeys.SLOT);
+    public InventorySlotData(int value) {
+        super(MLKeys.SLOT, value);
     }
 
     @Nonnull
@@ -54,11 +54,5 @@ public class InventorySlotData extends AbstractSingleData<Integer, InventorySlot
     @Override
     protected Value<Integer> getValueGetter() {
         return Sponge.getRegistry().getValueFactory().createValue((Key<Value<Integer>>) usedKey, getValue());
-    }
-
-    @Nonnull
-    @Override
-    public DataContainer toContainer() {
-        return super.toContainer().set(usedKey, getValue());
     }
 }

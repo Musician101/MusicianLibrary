@@ -1,11 +1,8 @@
-package io.musician101.musicianlibrary.java.minecraft.sponge.gui.chest;
+package io.musician101.musicianlibrary.java.minecraft.sponge.gui;
 
-import io.musician101.musicianlibrary.java.minecraft.gui.chest.ChestGUI;
-import io.musician101.musicianlibrary.java.minecraft.gui.chest.GUIButton;
+import io.musician101.musicianlibrary.java.minecraft.common.gui.ChestGUI;
 import io.musician101.musicianlibrary.java.minecraft.sponge.data.key.MLKeys;
-import java.util.List;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
@@ -18,41 +15,29 @@ import org.spongepowered.api.item.inventory.InventoryArchetype;
 import org.spongepowered.api.item.inventory.InventoryArchetypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.item.inventory.property.InventoryCapacity;
+import org.spongepowered.api.item.inventory.property.InventoryTitle;
 import org.spongepowered.api.item.inventory.property.SlotIndex;
 import org.spongepowered.api.item.inventory.query.QueryOperationTypes;
+import org.spongepowered.api.item.inventory.type.OrderedInventory;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.serializer.TextSerializers;
 
-public final class SpongeChestGUI extends ChestGUI<Class<? extends ClickInventoryEvent>, SpongeChestGUI, Inventory, PluginContainer, Player, ItemStack> {
+public abstract class SpongeChestGUI extends ChestGUI<Class<? extends ClickInventoryEvent>, Inventory, PluginContainer, Player, ItemStack, Text, Container, ClickInventoryEvent, Close> {
 
-    SpongeChestGUI(@Nonnull Player player, @Nonnull Text name, int size, int page, @Nonnull List<GUIButton<Class<? extends ClickInventoryEvent>, SpongeChestGUI, Inventory, PluginContainer, Player, ItemStack>> buttons, @Nullable SpongeChestGUI prevMenu, @Nonnull PluginContainer plugin, boolean manualOpen) {
-        super(parseInventory(name, size, plugin), player, page, buttons, prevMenu, plugin, manualOpen);
-    }
-
-    public static SpongeChestGUIBuilder builder() {
-        return new SpongeChestGUIBuilder();
+    protected SpongeChestGUI(@Nonnull Player player, @Nonnull Text name, int size, @Nonnull PluginContainer plugin, boolean manualOpen) {
+        super(parseInventory(name, size, plugin), name, player, plugin, manualOpen);
     }
 
     private static Inventory parseInventory(@Nonnull Text name, int size, @Nonnull PluginContainer plugin) {
-        InventoryArchetype.Builder builder = InventoryArchetype.builder().property(new InventoryCapacity(size)).title(Text.of(name));
+        InventoryArchetype.Builder builder = InventoryArchetype.builder().property(InventoryCapacity.of(size)).title(Text.of(name));
         for (int i = 0; i < size; i++) {
-            builder.with(InventoryArchetype.builder().from(InventoryArchetypes.SLOT).property(new SlotIndex(i)).build("minecraft:slot" + i, "Slot"));
+            builder.with(InventoryArchetype.builder().from(InventoryArchetypes.SLOT).property(SlotIndex.of(i)).build("minecraft:slot" + i, "Slot"));
         }
 
         String plainName = TextSerializers.PLAIN.serialize(name);
         return Inventory.builder().of(builder.build(plugin.getId() + ":" + plainName.replace("\\s", "_").toLowerCase(), plainName)).build(plugin);
-    }
-
-    @Override
-    public final void close() {
-        if (prevGUI == null) {
-            player.closeInventory();
-        }
-        else {
-            prevGUI.open();
-        }
     }
 
     private boolean isSameInventory(@Nonnull Inventory inventory, @Nonnull Player player) {
@@ -65,22 +50,44 @@ public final class SpongeChestGUI extends ChestGUI<Class<? extends ClickInventor
         if (isSameInventory(container, player)) {
             event.setCancelled(true);
             int slot = event.getCursorTransaction().getFinal().createStack().get(MLKeys.SLOT).orElse(-1);
-            buttons.stream().filter(button -> button.getSlot() == slot).findFirst().flatMap(button -> button.getAction(event.getClass())).ifPresent(consumer -> consumer.accept(this, player));
+            buttons.stream().filter(button -> button.getSlot() == slot).findFirst().flatMap(button -> button.getAction(event.getClass())).ifPresent(consumer -> consumer.accept(player));
         }
     }
 
     @Listener
     public final void onInventoryClose(Close event, @First Player player) {
-        if (event.getTargetInventory().getName().equals(inventory.getName()) && event.getTargetInventory().getViewers().contains(player)) {
+        if (event.getTargetInventory().getName().equals(inventory.getName()) && event.getTargetInventory().getViewers().stream().map(Player::getUniqueId).anyMatch(uuid -> uuid.equals(player.getUniqueId()))) {
             Sponge.getEventManager().unregisterListeners(this);
         }
+    }
+
+    @Override
+    protected boolean isCorrectInventory(@Nonnull Container inventories) {
+        return inventories.getInventoryProperty(InventoryTitle.class).filter(inventoryTitle -> {
+            Text title = inventoryTitle.getValue();
+            if (title == null) {
+                return false;
+            }
+
+            return title.equals(name) && inventories.getViewers().stream().anyMatch(p -> p.getUniqueId().equals(player.getUniqueId()));
+        }).isPresent();
+    }
+
+    @Override
+    protected void addItem(int slot, @Nonnull ItemStack itemStack) {
+        inventory.<OrderedInventory>query(QueryOperationTypes.INVENTORY_TYPE.of(OrderedInventory.class)).getSlot(new SlotIndex(slot)).ifPresent(slotIndex -> slotIndex.set(itemStack));
+    }
+
+    @Override
+    protected void removeItem(int slot) {
+        inventory.<OrderedInventory>query(QueryOperationTypes.INVENTORY_TYPE.of(OrderedInventory.class)).getSlot(new SlotIndex(slot)).ifPresent(slotIndex -> slotIndex.set(ItemStack.empty()));
     }
 
     @Override
     public void open() {
         Task.builder().execute(() -> {
             inventory.clear();
-            buttons.forEach(button -> inventory.query(QueryOperationTypes.INVENTORY_PROPERTY.of(new SlotIndex(button.getSlot()))).first().set(button.getItemStack()));
+            buttons.forEach(button -> inventory.query(QueryOperationTypes.INVENTORY_PROPERTY.of(SlotIndex.of(button.getSlot()))).set(button.getItemStack()));
             player.openInventory(inventory);
             Sponge.getEventManager().registerListeners(plugin, this);
         }).delayTicks(1L).submit(plugin);

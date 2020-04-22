@@ -1,7 +1,7 @@
 package io.musician101.musicianlibrary.java.minecraft.sponge;
 
 import com.google.inject.Inject;
-import io.musician101.musicianlibrary.java.minecraft.config.AbstractConfig;
+import io.musician101.musicianlibrary.java.minecraft.common.config.AbstractConfig;
 import io.musician101.musicianlibrary.java.minecraft.sponge.data.manipulator.builder.InventorySlotDataBuilder;
 import io.musician101.musicianlibrary.java.minecraft.sponge.data.manipulator.builder.UUIDDataBuilder;
 import io.musician101.musicianlibrary.java.minecraft.sponge.data.manipulator.immutable.ImmutableInventorySlotData;
@@ -43,6 +43,6 @@ public class SpongeMusicianLibrary extends AbstractSpongePlugin<AbstractConfig> 
     }
 
     private <D extends DataManipulator<D, M>, M extends ImmutableDataManipulator<M, D>> void registerData(String dataName, String id, Class<D> manipulatorClass, Class<M> immutableDataClass, DataManipulatorBuilder<D, M> builder) {
-        DataRegistration.builder().dataClass(manipulatorClass).dataName(dataName).manipulatorId(id).immutableClass(immutableDataClass).builder(builder).buildAndRegister(pluginContainer);
+        DataRegistration.builder().dataClass(manipulatorClass).name(dataName).id(id).immutableClass(immutableDataClass).builder(builder).build();
     }
 }

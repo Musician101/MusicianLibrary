@@ -8,8 +8,8 @@ import org.spongepowered.api.util.TypeTokens;
 
 public final class MLKeys {
 
-    public static final Key<Value<Integer>> SLOT = Key.builder().type(TypeTokens.INTEGER_VALUE_TOKEN).query(DataQuery.of("Slot")).id("slot").name("Slot").build();
-    public static final Key<Value<UUID>> UUID = Key.builder().type(TypeTokens.UUID_VALUE_TOKEN).query(DataQuery.of("UUID")).id("uuid").name("UUID").build();
+    public static final Key<Value<Integer>> SLOT = Key.builder().type(TypeTokens.INTEGER_VALUE_TOKEN).query(DataQuery.of("Slot")).name("Slot").id("sponge_musician_library:slot").build();
+    public static final Key<Value<UUID>> UUID = Key.builder().type(TypeTokens.UUID_VALUE_TOKEN).query(DataQuery.of("UUID")).name("UUID").id("sponge_musician_library:uuid").build();
 
     private MLKeys() {
 

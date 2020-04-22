@@ -1,12 +1,13 @@
 package io.musician101.musicianlibrary.java.minecraft.spigot.gui;
 
-import io.musician101.musicianlibrary.java.minecraft.gui.AbstractIconBuilder;
+import io.musician101.musicianlibrary.java.minecraft.common.gui.AbstractIconBuilder;
 import java.util.List;
 import javax.annotation.Nonnull;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -77,7 +78,9 @@ public final class SpigotIconBuilder extends AbstractIconBuilder<SpigotIconBuild
     @Nonnull
     @Override
     public SpigotIconBuilder durability(int durability) {
-        itemStack.setDurability((short) durability);
+        ItemMeta meta = itemStack.getItemMeta();
+        ((Damageable) meta).setDamage(durability);
+        itemStack.setItemMeta(meta);
         return this;
     }
 

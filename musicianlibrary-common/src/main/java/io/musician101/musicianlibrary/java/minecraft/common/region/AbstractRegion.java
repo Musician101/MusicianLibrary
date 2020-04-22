@@ -1,16 +1,16 @@
-package io.musician101.musicianlibrary.java.minecraft.region;
+package io.musician101.musicianlibrary.java.minecraft.common.region;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class AbstractRegion<L> {
 
-    private int maxX;
-    private int maxY;
-    private int maxZ;
-    private int minX;
-    private int minY;
-    private int minZ;
+    private final int maxX;
+    private final int maxY;
+    private final int maxZ;
+    private final int minX;
+    private final int minY;
+    private final int minZ;
 
     protected AbstractRegion(int minX, int maxX, int minY, int maxY, int minZ, int maxZ) {
         this.minX = minX;

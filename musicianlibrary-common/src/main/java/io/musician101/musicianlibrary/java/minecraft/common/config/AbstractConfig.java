@@ -1,4 +1,4 @@
-package io.musician101.musicianlibrary.java.minecraft.config;
+package io.musician101.musicianlibrary.java.minecraft.common.config;
 
 import java.io.File;
 

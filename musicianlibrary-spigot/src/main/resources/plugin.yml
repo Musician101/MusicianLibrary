@@ -4,3 +4,4 @@ version: @version@
 description: Change from creative and survival
 authors: [Musician101]
 maintainer: Musician101
+api-version: '1.15'

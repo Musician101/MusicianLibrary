@@ -7,19 +7,16 @@ repositories {
         name = 'sonatype'
         url = 'https://oss.sonatype.org/content/groups/public/'
     }
-    maven {
-        name = 'WesJD'
-        url = 'http://nexus.wesjd.net/repository/thirdparty/'
-    }
     mavenLocal()
 }
+
+def spigotVersion = "1.15.2-R0.1-SNAPSHOT"
 
 dependencies {
     compile project(':musicianlibrary-common')
     //We have the API for the javadocs
-    compile 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
-    compile 'org.spigotmc:spigot:1.12.2-R0.1-SNAPSHOT'
-    compile 'net.wesjd:anvilgui:1.1.1-SNAPSHOT'
+    compile 'org.spigotmc:spigot-api:' + spigotVersion
+    compile 'org.spigotmc:spigot:' + spigotVersion
 }
 
 processResources {
@@ -31,6 +28,5 @@ processResources {
 shadowJar {
     dependencies {
         include(dependency(':musicianlibrary-common'))
-        include(dependency(':anilgui:1.1.1-SNAPSHOT'))
     }
 }

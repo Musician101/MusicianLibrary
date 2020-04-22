@@ -1,4 +1,4 @@
-package io.musician101.musicianlibrary.java.minecraft.util;
+package io.musician101.musicianlibrary.java.minecraft.common.util;
 
 import javax.annotation.Nonnull;
 

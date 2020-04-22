@@ -1,6 +1,6 @@
 package io.musician101.musicianlibrary.java.minecraft.sponge.gui;
 
-import io.musician101.musicianlibrary.java.minecraft.gui.AbstractIconBuilder;
+import io.musician101.musicianlibrary.java.minecraft.common.gui.AbstractIconBuilder;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.Nonnull;
@@ -102,8 +102,14 @@ public class SpongeIconBuilder extends AbstractIconBuilder<SpongeIconBuilder, It
     }
 
     @Nonnull
-    public <T extends CatalogType> ItemStack type(ItemStack itemStack, Key<Value<T>> key, T type) {
+    public <T extends CatalogType> SpongeIconBuilder type(Key<Value<T>> key, T type) {
         itemStack.offer(key, type);
-        return itemStack;
+        return this;
+    }
+
+    @Nonnull
+    public <T> SpongeIconBuilder offer(Key<Value<T>> key, T value) {
+        itemStack.offer(key, value);
+        return this;
     }
 }

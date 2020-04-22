@@ -1,7 +1,7 @@
 package io.musician101.musicianlibrary.java.minecraft.spigot.command;
 
 import io.musician101.musicianlibrary.java.minecraft.spigot.command.SpigotCommandArgument.Syntax;
-import io.musician101.musicianlibrary.java.minecraft.util.Builder;
+import io.musician101.musicianlibrary.java.minecraft.common.util.Builder;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Nonnull;
