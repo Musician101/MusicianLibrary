@@ -2,11 +2,8 @@ package io.musician101.musicianlibrary.java.minecraft.sponge;
 
 import com.google.inject.Inject;
 import io.musician101.musicianlibrary.java.minecraft.common.config.AbstractConfig;
-import io.musician101.musicianlibrary.java.minecraft.sponge.data.manipulator.builder.InventorySlotDataBuilder;
 import io.musician101.musicianlibrary.java.minecraft.sponge.data.manipulator.builder.UUIDDataBuilder;
-import io.musician101.musicianlibrary.java.minecraft.sponge.data.manipulator.immutable.ImmutableInventorySlotData;
 import io.musician101.musicianlibrary.java.minecraft.sponge.data.manipulator.immutable.ImmutableUUIDData;
-import io.musician101.musicianlibrary.java.minecraft.sponge.data.manipulator.mutable.InventorySlotData;
 import io.musician101.musicianlibrary.java.minecraft.sponge.data.manipulator.mutable.UUIDData;
 import io.musician101.musicianlibrary.java.minecraft.sponge.plugin.AbstractSpongePlugin;
 import java.util.Optional;
@@ -38,7 +35,6 @@ public class SpongeMusicianLibrary extends AbstractSpongePlugin<AbstractConfig> 
 
     @Listener
     public void preInit(GamePreInitializationEvent event) {
-        registerData("InventorySlot", "inventory_slot", InventorySlotData.class, ImmutableInventorySlotData.class, new InventorySlotDataBuilder());
         registerData("BookGUIData", "book_gui", UUIDData.class, ImmutableUUIDData.class, new UUIDDataBuilder());
     }
 
