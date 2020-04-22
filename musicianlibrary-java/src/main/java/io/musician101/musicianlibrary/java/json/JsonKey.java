@@ -1,19 +1,26 @@
 package io.musician101.musicianlibrary.java.json;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface JsonKey {
-
-    @Nullable
-    Class<?> typeAdapter();
+public class JsonKey<V> {
 
     @Nonnull
-    String key();
+    private final String key;
+    @Nonnull
+    private final V defaultValue;
+
+    public JsonKey(@Nonnull String key, @Nonnull V defaultValue) {
+        this.key = key;
+        this.defaultValue = defaultValue;
+    }
+
+    @Nonnull
+    public V getDefaultValue() {
+        return defaultValue;
+    }
+
+    @Nonnull
+    public String getKey() {
+        return key;
+    }
 }
