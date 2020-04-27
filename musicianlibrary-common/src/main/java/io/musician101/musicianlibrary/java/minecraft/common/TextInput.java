@@ -15,7 +15,7 @@ public abstract class TextInput<P> {
         this.player = player;
     }
 
-    protected abstract void process(P player, String message);
-
     protected abstract void cancel();
+
+    protected abstract void process(P player, String message);
 }

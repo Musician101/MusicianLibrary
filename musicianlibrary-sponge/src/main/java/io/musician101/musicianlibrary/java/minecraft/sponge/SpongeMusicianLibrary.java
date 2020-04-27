@@ -10,9 +10,6 @@ import java.util.Optional;
 import javax.annotation.Nonnull;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataRegistration;
-import org.spongepowered.api.data.manipulator.DataManipulator;
-import org.spongepowered.api.data.manipulator.DataManipulatorBuilder;
-import org.spongepowered.api.data.manipulator.ImmutableDataManipulator;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.plugin.Plugin;
@@ -35,10 +32,6 @@ public class SpongeMusicianLibrary extends AbstractSpongePlugin<AbstractConfig> 
 
     @Listener
     public void preInit(GamePreInitializationEvent event) {
-        registerData("BookGUIData", "book_gui", UUIDData.class, ImmutableUUIDData.class, new UUIDDataBuilder());
-    }
-
-    private <D extends DataManipulator<D, M>, M extends ImmutableDataManipulator<M, D>> void registerData(String dataName, String id, Class<D> manipulatorClass, Class<M> immutableDataClass, DataManipulatorBuilder<D, M> builder) {
-        DataRegistration.builder().dataClass(manipulatorClass).name(dataName).id(id).immutableClass(immutableDataClass).builder(builder).build();
+        DataRegistration.builder().name("BookGUIData").id("book_gui").dataClass(UUIDData.class).immutableClass(ImmutableUUIDData.class).builder(new UUIDDataBuilder()).build();
     }
 }

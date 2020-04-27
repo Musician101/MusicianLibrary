@@ -2,8 +2,9 @@ package io.musician101.musicianlibrary.java.minecraft.common.region;
 
 import java.util.HashMap;
 import java.util.Map;
+import javax.annotation.Nonnull;
 
-public abstract class AbstractRegion<L> {
+public abstract class AbstractRegion<V, W> {
 
     private final int maxX;
     private final int maxY;
@@ -11,8 +12,11 @@ public abstract class AbstractRegion<L> {
     private final int minX;
     private final int minY;
     private final int minZ;
+    @Nonnull
+    private final W world;
 
-    protected AbstractRegion(int minX, int maxX, int minY, int maxY, int minZ, int maxZ) {
+    protected AbstractRegion(@Nonnull W world, int minX, int maxX, int minY, int maxY, int minZ, int maxZ) {
+        this.world = world;
         this.minX = minX;
         this.maxX = maxX;
         this.minY = minY;
@@ -45,16 +49,21 @@ public abstract class AbstractRegion<L> {
         return minZ;
     }
 
-    public abstract boolean isInRegion(L location);
+    @Nonnull
+    public W getWorld() {
+        return world;
+    }
+
+    public abstract boolean isInRegion(V position, W world);
 
     public Map<String, Object> serialize() {
         Map<String, Object> map = new HashMap<>();
-        map.put("minX", minX);
-        map.put("maxX", maxX);
-        map.put("minY", minY);
-        map.put("maxY", maxY);
-        map.put("minZ", minZ);
-        map.put("maxZ", maxZ);
+        map.put("min_x", minX);
+        map.put("max_x", maxX);
+        map.put("min_y", minY);
+        map.put("max_y", maxY);
+        map.put("min_z", minZ);
+        map.put("max_z", maxZ);
         return map;
     }
 }

@@ -8,6 +8,7 @@ import org.spongepowered.api.util.TypeTokens;
 
 public final class MLKeys {
 
+    @SuppressWarnings("UnstableApiUsage")
     public static final Key<Value<UUID>> UUID = Key.builder().type(TypeTokens.UUID_VALUE_TOKEN).query(DataQuery.of("UUID")).name("UUID").id("sponge_musician_library:uuid").build();
 
     private MLKeys() {

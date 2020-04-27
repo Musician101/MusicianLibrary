@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import javax.annotation.Nonnull;
 
-public abstract class AbstractIconBuilder<B extends AbstractIconBuilder, I, P, T> implements Builder<B, I> {
+public abstract class AbstractIconBuilder<B extends AbstractIconBuilder<?, ?, ?, ?>, I, P, T> implements Builder<B, I> {
 
     protected I itemStack;
 

@@ -30,7 +30,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class SpigotBookGUI implements Listener {
 
     private static final String IDENTIFIER = "\\_o<";
-    private static final String KEY = "book_gui_identifier";
     private static final BiPredicate<JavaPlugin, ItemStack> BOOK_FILTER = (plugin, itemStack) -> {
         Material material = itemStack.getType();
         if (material == Material.WRITABLE_BOOK || material == Material.WRITTEN_BOOK) {
@@ -46,16 +45,12 @@ public class SpigotBookGUI implements Listener {
 
         return false;
     };
-    private final int bookSlot;
-    private final BiConsumer<Player, List<String>> action;
-    private final Player player;
-    private final JavaPlugin plugin;
-
+    private static final String KEY = "book_gui_identifier";
     private static final String VERSION = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
     private static Method AS_NMS_COPY;
     private static Method GET_HANDLE;
-    private static Method OPEN_BOOK;
     private static Object MAIN_HAND;
+    private static Method OPEN_BOOK;
 
     static {
         try {
@@ -71,6 +66,11 @@ public class SpigotBookGUI implements Listener {
         }
     }
 
+    private final BiConsumer<Player, List<String>> action;
+    private final int bookSlot;
+    private final Player player;
+    private final JavaPlugin plugin;
+
     public SpigotBookGUI(@Nonnull JavaPlugin plugin, @Nonnull Player player, @Nonnull ItemStack book, @Nonnull BiConsumer<Player, List<String>> action) {
         this.plugin = plugin;
         this.player = player;
@@ -84,6 +84,23 @@ public class SpigotBookGUI implements Listener {
 
     public static boolean isEditing(@Nonnull JavaPlugin plugin, @Nonnull Player player) {
         return Stream.of(player.getInventory().getContents()).anyMatch(itemStack -> BOOK_FILTER.test(plugin, itemStack));
+    }
+
+    public static void openWrittenBook(@Nonnull Player player, @Nonnull ItemStack book) {
+        if (book.getType() != Material.WRITABLE_BOOK) {
+            return;
+        }
+
+        ItemStack old = player.getInventory().getItemInMainHand();
+        player.getInventory().setItemInMainHand(book);
+        try {
+            OPEN_BOOK.invoke(GET_HANDLE.invoke(player), AS_NMS_COPY.invoke(null, book), MAIN_HAND);
+        }
+        catch (IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
+        player.getInventory().setItemInMainHand(old);
     }
 
     @EventHandler
@@ -132,22 +149,5 @@ public class SpigotBookGUI implements Listener {
     private void remove() {
         player.getInventory().setItem(bookSlot, null);
         HandlerList.unregisterAll(this);
-    }
-
-    public static void openWrittenBook(@Nonnull Player player, @Nonnull ItemStack book) {
-        if (book.getType() != Material.WRITABLE_BOOK) {
-            return;
-        }
-
-        ItemStack old = player.getInventory().getItemInMainHand();
-        player.getInventory().setItemInMainHand(book);
-        try {
-            OPEN_BOOK.invoke(GET_HANDLE.invoke(player), AS_NMS_COPY.invoke(null, book), MAIN_HAND);
-        }
-        catch (IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
-
-        player.getInventory().setItemInMainHand(old);
     }
 }

@@ -13,20 +13,20 @@ repositories {
 def spigotVersion = "1.15.2-R0.1-SNAPSHOT"
 
 dependencies {
-    compile project(':musicianlibrary-common')
+    shade project(':musicianlibrary-common')
     //We have the API for the javadocs
-    compile 'org.spigotmc:spigot-api:' + spigotVersion
-    compile 'org.spigotmc:spigot:' + spigotVersion
+    compile "org.spigotmc:spigot-api:${spigotVersion}"
+    compile "org.spigotmc:spigot:${spigotVersion}"
 }
+
+import org.apache.tools.ant.filters.ReplaceTokens
 
 processResources {
     from(sourceSets.main.resources.srcDirs) {
-        expand 'version': project.version
+        filter ReplaceTokens, tokens: ["version": version]
     }
 }
 
 shadowJar {
-    dependencies {
-        include(dependency(':musicianlibrary-common'))
-    }
+    configurations = [project.configurations.shade]
 }

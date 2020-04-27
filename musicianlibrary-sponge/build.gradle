@@ -38,7 +38,7 @@ minecraft {
 }
 
 dependencies {
-    compile project(':musicianlibrary-common')
+    shade project(':musicianlibrary-common')
     compile 'org.spongepowered:spongeapi:7.2.0'
     compile('org.spongepowered:mixin:0.7.3-SNAPSHOT') {
         exclude module: 'launchwrapper'
@@ -60,7 +60,5 @@ jar {
 }
 
 shadowJar {
-    dependencies {
-        include(dependency(':musicianlibrary-common'))
-    }
+    configurations = [project.configurations.shade]
 }

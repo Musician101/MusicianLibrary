@@ -88,6 +88,12 @@ public class SpongeIconBuilder extends AbstractIconBuilder<SpongeIconBuilder, It
     }
 
     @Nonnull
+    public <T> SpongeIconBuilder offer(Key<Value<T>> key, T value) {
+        itemStack.offer(key, value);
+        return this;
+    }
+
+    @Nonnull
     @Override
     public SpongeIconBuilder potionEffect(@Nonnull PotionEffectType potionType) {
         itemStack.offer(Keys.POTION_EFFECTS, Collections.singletonList(PotionEffect.of(potionType, 1, 1)));
@@ -104,12 +110,6 @@ public class SpongeIconBuilder extends AbstractIconBuilder<SpongeIconBuilder, It
     @Nonnull
     public <T extends CatalogType> SpongeIconBuilder type(Key<Value<T>> key, T type) {
         itemStack.offer(key, type);
-        return this;
-    }
-
-    @Nonnull
-    public <T> SpongeIconBuilder offer(Key<Value<T>> key, T value) {
-        itemStack.offer(key, value);
         return this;
     }
 }

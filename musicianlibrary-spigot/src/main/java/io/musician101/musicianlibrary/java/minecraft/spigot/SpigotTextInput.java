@@ -22,6 +22,11 @@ public abstract class SpigotTextInput extends TextInput<Player> implements Liste
         return PLAYERS.contains(player.getUniqueId());
     }
 
+    public void cancel() {
+        HandlerList.unregisterAll(this);
+        PLAYERS.remove(player.getUniqueId());
+    }
+
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
@@ -38,10 +43,5 @@ public abstract class SpigotTextInput extends TextInput<Player> implements Liste
         if (player.getUniqueId().equals(this.player.getUniqueId())) {
             cancel();
         }
-    }
-
-    public void cancel() {
-        HandlerList.unregisterAll(this);
-        PLAYERS.remove(player.getUniqueId());
     }
 }

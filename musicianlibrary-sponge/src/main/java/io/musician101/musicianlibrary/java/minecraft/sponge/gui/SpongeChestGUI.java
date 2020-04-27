@@ -33,6 +33,23 @@ public abstract class SpongeChestGUI extends ChestGUI<Class<? extends ClickInven
         return Inventory.builder().of(builder.build(plugin.getId() + ":" + plainName.replace("\\s", "_").toLowerCase(), plainName)).build(plugin.getInstance().orElseThrow(() -> new IllegalStateException(plugin.getId() + " is not enabled!")));
     }
 
+    @Override
+    protected void addItem(int slot, @Nonnull ItemStack itemStack) {
+        inventory.query(QueryOperationTypes.INVENTORY_PROPERTY.of(new SlotIndex(slot))).set(itemStack);
+    }
+
+    @Override
+    protected boolean isCorrectInventory(@Nonnull Container inventories) {
+        return inventories.getInventoryProperty(InventoryTitle.class).filter(inventoryTitle -> {
+            Text title = inventoryTitle.getValue();
+            if (title == null) {
+                return false;
+            }
+
+            return title.equals(name) && inventories.getViewers().stream().anyMatch(p -> p.getUniqueId().equals(player.getUniqueId()));
+        }).isPresent();
+    }
+
     private boolean isSameInventory(@Nonnull Inventory inventory, @Nonnull Player player) {
         return inventory.getName().equals(this.inventory.getName()) && player.getUniqueId().equals(this.player.getUniqueId());
     }
@@ -54,28 +71,6 @@ public abstract class SpongeChestGUI extends ChestGUI<Class<? extends ClickInven
     }
 
     @Override
-    protected boolean isCorrectInventory(@Nonnull Container inventories) {
-        return inventories.getInventoryProperty(InventoryTitle.class).filter(inventoryTitle -> {
-            Text title = inventoryTitle.getValue();
-            if (title == null) {
-                return false;
-            }
-
-            return title.equals(name) && inventories.getViewers().stream().anyMatch(p -> p.getUniqueId().equals(player.getUniqueId()));
-        }).isPresent();
-    }
-
-    @Override
-    protected void addItem(int slot, @Nonnull ItemStack itemStack) {
-        inventory.query(QueryOperationTypes.INVENTORY_PROPERTY.of(new SlotIndex(slot))).set(itemStack);
-    }
-
-    @Override
-    protected void removeItem(int slot) {
-        inventory.query(QueryOperationTypes.INVENTORY_PROPERTY.of(new SlotIndex(slot))).set(ItemStack.empty());
-    }
-
-    @Override
     public void open() {
         Task.builder().execute(() -> {
             inventory.clear();
@@ -83,5 +78,10 @@ public abstract class SpongeChestGUI extends ChestGUI<Class<? extends ClickInven
             player.openInventory(inventory);
             Sponge.getEventManager().registerListeners(plugin, this);
         }).delayTicks(1L).submit(plugin);
+    }
+
+    @Override
+    protected void removeItem(int slot) {
+        inventory.query(QueryOperationTypes.INVENTORY_PROPERTY.of(new SlotIndex(slot))).set(ItemStack.empty());
     }
 }

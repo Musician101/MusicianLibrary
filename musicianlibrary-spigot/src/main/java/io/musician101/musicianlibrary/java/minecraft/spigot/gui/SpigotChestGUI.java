@@ -21,7 +21,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 public abstract class SpigotChestGUI<J extends JavaPlugin> extends ChestGUI<ClickType, Inventory, J, Player, ItemStack, String, InventoryView, InventoryClickEvent, InventoryCloseEvent> implements Listener {
 
     @Nonnull
-    protected Consumer<InventoryDragEvent> extraDragHandler = event -> {};
+    protected Consumer<InventoryDragEvent> extraDragHandler = event -> {
+    };
 
     protected SpigotChestGUI(@Nonnull Player player, @Nonnull String name, int size, @Nonnull J plugin, boolean manualOpen) {
         super(parseInventory(player, name, size), name, player, plugin, manualOpen);
@@ -32,18 +33,13 @@ public abstract class SpigotChestGUI<J extends JavaPlugin> extends ChestGUI<Clic
     }
 
     @Override
-    protected boolean isCorrectInventory(@Nonnull InventoryView inventoryView) {
-        return inventoryView.getTitle().equals(name) && inventoryView.getPlayer().getUniqueId().equals(player.getUniqueId());
-    }
-
-    @Override
     protected void addItem(int slot, @Nonnull ItemStack itemStack) {
         inventory.setItem(slot, itemStack);
     }
 
     @Override
-    protected void removeItem(int slot) {
-        inventory.setItem(slot, null);
+    protected boolean isCorrectInventory(@Nonnull InventoryView inventoryView) {
+        return inventoryView.getTitle().equals(name) && inventoryView.getPlayer().getUniqueId().equals(player.getUniqueId());
     }
 
     @EventHandler
@@ -87,5 +83,10 @@ public abstract class SpigotChestGUI<J extends JavaPlugin> extends ChestGUI<Clic
             player.openInventory(inventory);
             Bukkit.getPluginManager().registerEvents(this, plugin);
         });
+    }
+
+    @Override
+    protected void removeItem(int slot) {
+        inventory.setItem(slot, null);
     }
 }

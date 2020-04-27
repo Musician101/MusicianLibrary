@@ -25,6 +25,12 @@ public abstract class SpongeTextInput extends TextInput<Player> {
         return PLAYERS.contains(player.getUniqueId());
     }
 
+    @Override
+    protected void cancel() {
+        Sponge.getEventManager().unregisterListeners(this);
+        PLAYERS.remove(player.getUniqueId());
+    }
+
     @Listener
     public final void onPlayerChat(MessageChannelEvent.Chat event, @First Player player) {
         if (player.getUniqueId().equals(this.player.getUniqueId())) {
@@ -40,11 +46,5 @@ public abstract class SpongeTextInput extends TextInput<Player> {
         if (player.getUniqueId().equals(this.player.getUniqueId())) {
             cancel();
         }
-    }
-
-    @Override
-    protected void cancel() {
-        Sponge.getEventManager().unregisterListeners(this);
-        PLAYERS.remove(player.getUniqueId());
     }
 }

@@ -14,15 +14,17 @@ public abstract class ChestGUI<ClickType, Inventory, Plugin, Player, ItemStack, 
     @Nonnull
     protected final Inventory inventory;
     @Nonnull
-    protected final Player player;
-    @Nonnull
     protected final Name name;
+    @Nonnull
+    protected final Player player;
     @Nonnull
     protected final Plugin plugin;
     @Nonnull
-    protected Consumer<InventoryClick> extraClickHandler = event -> {};
+    protected Consumer<InventoryClick> extraClickHandler = event -> {
+    };
     @Nonnull
-    protected Consumer<InventoryClose> extraCloseHandler = event -> {};
+    protected Consumer<InventoryClose> extraCloseHandler = event -> {
+    };
 
     protected ChestGUI(@Nonnull Inventory inventory, @Nonnull Name name, @Nonnull Player player, @Nonnull Plugin plugin, boolean manualOpen) {
         this.inventory = inventory;
@@ -34,7 +36,18 @@ public abstract class ChestGUI<ClickType, Inventory, Plugin, Player, ItemStack, 
         }
     }
 
+    protected abstract void addItem(int slot, @Nonnull ItemStack itemStack);
+
     protected abstract boolean isCorrectInventory(@Nonnull InventoryView inventoryView);
+
+    public abstract void open();
+
+    public final void removeButton(int slot) {
+        buttons.removeIf(g -> g.getSlot() == slot);
+        removeItem(slot);
+    }
+
+    protected abstract void removeItem(int slot);
 
     public final void setButton(int slot, @Nonnull ItemStack itemStack) {
         setButton(slot, itemStack, ImmutableMap.of());
@@ -45,15 +58,4 @@ public abstract class ChestGUI<ClickType, Inventory, Plugin, Player, ItemStack, 
         buttons.add(new GUIButton<>(slot, itemStack, actions));
         addItem(slot, itemStack);
     }
-
-    protected abstract void addItem(int slot, @Nonnull ItemStack itemStack);
-
-    public final void removeButton(int slot) {
-        buttons.removeIf(g -> g.getSlot() == slot);
-        removeItem(slot);
-    }
-
-    protected abstract void removeItem(int slot);
-
-    public abstract void open();
 }
