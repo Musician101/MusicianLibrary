@@ -5,9 +5,9 @@ import javax.annotation.Nonnull;
 public class JsonKey<V> {
 
     @Nonnull
-    private final String key;
-    @Nonnull
     private final V defaultValue;
+    @Nonnull
+    private final String key;
 
     public JsonKey(@Nonnull String key, @Nonnull V defaultValue) {
         this.key = key;

@@ -37,7 +37,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 /**
- * @deprecated nonfunctional atm due to mixins not working properly
+ * @deprecated nonfunctional atm due to mixins not working properly for me
  */
 @Deprecated
 @Mixin(value = ServerPlayNetHandler.class, priority = 1001)

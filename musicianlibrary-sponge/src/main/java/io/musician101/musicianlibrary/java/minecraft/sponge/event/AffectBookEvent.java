@@ -10,7 +10,7 @@ import org.spongepowered.api.event.impl.AbstractEvent;
 import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 
 /**
- * @deprecated nonfunctional atm due to mixins not working properly
+ * @deprecated nonfunctional atm due to mixins not working properly for me
  */
 @Deprecated
 public class AffectBookEvent extends AbstractEvent implements Cancellable {
@@ -56,7 +56,7 @@ public class AffectBookEvent extends AbstractEvent implements Cancellable {
     }
 
     /**
-     * @deprecated nonfunctional atm due to mixins not working properly
+     * @deprecated nonfunctional atm due to mixins not working properly for me
      */
     @Deprecated
     public static class EditBookEvent extends AffectBookEvent {
@@ -67,7 +67,7 @@ public class AffectBookEvent extends AbstractEvent implements Cancellable {
     }
 
     /**
-     * @deprecated nonfunctional atm due to mixins not working properly
+     * @deprecated nonfunctional atm due to mixins not working properly for me
      */
     @Deprecated
     public static class SignBookEvent extends AffectBookEvent {

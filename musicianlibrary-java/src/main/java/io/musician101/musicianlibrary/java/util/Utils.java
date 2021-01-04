@@ -41,6 +41,13 @@ public class Utils {
         return true;
     }
 
+    public static Collector<JsonElement, JsonArray, JsonArray> jsonArrayCollector() {
+        return Collector.of(JsonArray::new, JsonArray::add, (left, right) -> {
+            left.addAll(right);
+            return left;
+        });
+    }
+
     public static <T> Collector<T, List<T>, T> singletonCollector() {
         return Collector.of(ArrayList::new, List::add, (left, right) -> {
             left.addAll(right);
@@ -51,13 +58,6 @@ public class Utils {
             }
 
             return list.get(0);
-        });
-    }
-
-    public static Collector<JsonElement, JsonArray, JsonArray> jsonArrayCollector() {
-        return Collector.of(JsonArray::new, JsonArray::add, (left, right) -> {
-            left.addAll(right);
-            return left;
         });
     }
 }

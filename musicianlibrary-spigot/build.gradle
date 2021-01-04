@@ -1,21 +1,16 @@
-repositories {
-    maven {
-        name = 'spigotmc-repo'
-        url = 'https://hub.spigotmc.org/nexus/content/groups/public/'
-    }
-    maven {
-        name = 'sonatype'
-        url = 'https://oss.sonatype.org/content/groups/public/'
-    }
-    mavenLocal()
+plugins {
+    id 'com.gitlab.firestar99.spigotgradle.plugin' version "1.6"
+    id 'com.gitlab.firestar99.spigotgradle.server' version "1.6"
 }
 
-def spigotVersion = "1.16.4-R0.1-SNAPSHOT"
+spigot {
+    version '1.16.4'
+}
+
 dependencies {
     compile project(':musicianlibrary-common')
-    //We have the API for the javadocs
-    compileOnly "org.spigotmc:spigot-api:${spigotVersion}"
-    compileOnly "org.spigotmc:spigot:${spigotVersion}"
+    //Needed for NMS
+    compile files('server/spigot.jar')
 }
 
 processResources {

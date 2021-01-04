@@ -35,16 +35,6 @@ public class MySQLHandler {
         }
     }
 
-    public Connection getConnection() {
-        return connection;
-    }
-
-    private Connection openConnection() throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.jdbc.Drive");
-        connection = DriverManager.getConnection("jdbc:mysql://" + hostname + ":" + port + "/" + database, user, password);
-        return connection;
-    }
-
     public void executeBatch(List<String> queries) throws ClassNotFoundException, SQLException {
         Connection c;
         if (checkConnection()) {
@@ -61,6 +51,16 @@ public class MySQLHandler {
         s.executeBatch();
         s.close();
         closeConnection();
+    }
+
+    public Connection getConnection() {
+        return connection;
+    }
+
+    private Connection openConnection() throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.jdbc.Drive");
+        connection = DriverManager.getConnection("jdbc:mysql://" + hostname + ":" + port + "/" + database, user, password);
+        return connection;
     }
 
     public ResultSet querySQL(String query) throws ClassNotFoundException, SQLException {
