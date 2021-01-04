@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 import javax.annotation.Nonnull;
 
-public abstract class ChestGUI<ClickType, Inventory, Plugin, Player, ItemStack, Name, InventoryView, InventoryClick, InventoryClose> {
+public abstract class ChestGUI<ClickType, Inventory, Plugin, Player, ItemStack, Name, InventoryView, InventoryClose> {
 
     @Nonnull
     protected final List<GUIButton<ClickType, Player, ItemStack>> buttons = new ArrayList<>();
@@ -19,9 +19,6 @@ public abstract class ChestGUI<ClickType, Inventory, Plugin, Player, ItemStack, 
     protected final Player player;
     @Nonnull
     protected final Plugin plugin;
-    @Nonnull
-    protected Consumer<InventoryClick> extraClickHandler = event -> {
-    };
     @Nonnull
     protected Consumer<InventoryClose> extraCloseHandler = event -> {
     };

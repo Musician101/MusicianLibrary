@@ -1,86 +1,95 @@
 package io.musician101.musicianlibrary.java.minecraft.sponge.gui;
 
-import io.musician101.musicianlibrary.java.minecraft.sponge.data.manipulator.mutable.UUIDData;
+import io.leangen.geantyref.TypeToken;
 import io.musician101.musicianlibrary.java.minecraft.sponge.event.AffectBookEvent;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 import java.util.function.BiConsumer;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+import javax.annotation.Nonnull;
+import net.kyori.adventure.text.Component;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.data.DataRegistration;
+import org.spongepowered.api.data.Key;
+import org.spongepowered.api.data.Keys;
 import org.spongepowered.api.data.Transaction;
-import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.data.value.Value;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.living.player.server.ServerPlayer;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.filter.Getter;
 import org.spongepowered.api.event.filter.cause.First;
-import org.spongepowered.api.event.item.inventory.ClickInventoryEvent;
-import org.spongepowered.api.event.network.ClientConnectionEvent;
-import org.spongepowered.api.item.ItemType;
-import org.spongepowered.api.item.ItemTypes;
+import org.spongepowered.api.event.item.inventory.container.ClickContainerEvent;
+import org.spongepowered.api.event.lifecycle.RegisterDataEvent;
+import org.spongepowered.api.event.network.ServerSideConnectionEvent;
 import org.spongepowered.api.item.inventory.Inventory;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 import org.spongepowered.api.item.inventory.entity.Hotbar;
-import org.spongepowered.api.item.inventory.property.SlotIndex;
-import org.spongepowered.api.item.inventory.query.QueryOperationTypes;
-import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.serializer.TextSerializers;
+import org.spongepowered.plugin.PluginContainer;
 
+/**
+ * @deprecated nonfunctional atm due to mixins not working properly
+ */
+@Deprecated
 public class SpongeBookGUI {
 
-    private static final String LORE_IDENTIFIER = "\\_o<";
-    private static final Predicate<ItemStack> BOOK_FILTER = itemStack -> {
-        ItemType itemType = itemStack.getType();
-        return (itemType == ItemTypes.WRITABLE_BOOK || itemType == ItemTypes.WRITTEN_BOOK) && itemStack.get(Keys.ITEM_LORE).map(lore -> lore.stream().map(TextSerializers.PLAIN::serialize).collect(Collectors.toList())).filter(lore -> lore.contains(LORE_IDENTIFIER)).isPresent();
+    private static Key<Value<UUID>> getBookUUIDKey(@Nonnull PluginContainer plugin) {
+        return Key.of(plugin, "uuid", new TypeToken<Value<UUID>>() {});
+    }
 
-    };
-    private final BiConsumer<Player, List<Text>> action;
+    public static void init(@Nonnull PluginContainer plugin, @Nonnull RegisterDataEvent event) {
+        event.register(DataRegistration.of(getBookUUIDKey(plugin), ItemStack.class));
+    }
+
+    @Nonnull
+    private final BiConsumer<Player, List<Component>> action;
     private final int bookSlot;
+    @Nonnull
     private final Player player;
+    @Nonnull
+    private final PluginContainer plugin;
 
-    public SpongeBookGUI(Object plugin, Player player, ItemStack book, BiConsumer<Player, List<Text>> action) {
+    public SpongeBookGUI(@Nonnull PluginContainer plugin, @Nonnull Player player, @Nonnull ItemStack book, @Nonnull BiConsumer<Player, List<Component>> action) {
+        this.plugin = plugin;
         this.player = player;
-        Hotbar hotbar = player.getInventory().query(QueryOperationTypes.TYPE.of(Hotbar.class));
+        Hotbar hotbar = player.getInventory().getHotbar();
         this.bookSlot = hotbar.getSelectedSlotIndex();
         this.action = action;
-        List<Text> lore = book.get(Keys.ITEM_LORE).orElse(Collections.singletonList(Text.of(LORE_IDENTIFIER)));
-        book.offer(Keys.ITEM_LORE, lore);
-        hotbar.set(SlotIndex.of(bookSlot), book);
+        book.offer(getBookUUIDKey(plugin), player.getUniqueId());
+        hotbar.set(bookSlot, book);
         Sponge.getEventManager().registerListeners(plugin, this);
     }
 
-    public static boolean isEditing(Player player) {
-        return StreamSupport.stream(player.getInventory().slots().spliterator(), false).map(Inventory::peek).filter(Optional::isPresent).map(Optional::get).anyMatch(BOOK_FILTER);
+    public static boolean isEditing(@Nonnull PluginContainer plugin, @Nonnull Player player) {
+        return player.getInventory().slots().stream().map(Inventory::peek).anyMatch(itemStack -> itemStack.get(getBookUUIDKey(plugin)).filter(uuid -> uuid.equals(player.getUniqueId())).isPresent());
     }
 
     @Listener
-    public void clickBook(ClickInventoryEvent event, @Getter("getCursorTransaction") Transaction<ItemStackSnapshot> transaction, @First Player player) {
-        event.setCancelled(isEditing(player) && transaction.getFinal().createStack().get(UUIDData.class).isPresent());
+    public void clickBook(ClickContainerEvent event, @Getter("getCursorTransaction") Transaction<ItemStackSnapshot> transaction, @First ServerPlayer player) {
+        event.setCancelled(isEditing(plugin, player) && transaction.getFinal().createStack().get(getBookUUIDKey(plugin)).isPresent());
     }
 
     @Listener
-    public void editBook(AffectBookEvent event, @Getter("getTransaction") Transaction<ItemStackSnapshot> transaction, @Getter("getTargetEntity") Player player) {
+    public void editBook(AffectBookEvent event, @Getter("getTransaction") Transaction<ItemStackSnapshot> transaction, @Getter("getPlayer") ServerPlayer player) {
         ItemStack finalStack = transaction.getFinal().createStack();
-        if (finalStack.get(UUIDData.class).isPresent()) {
-            if (isEditing(player)) {
-                action.accept(player, finalStack.get(Keys.BOOK_PAGES).orElse(Collections.emptyList()));
+        if (finalStack.get(getBookUUIDKey(plugin)).isPresent()) {
+            if (isEditing(plugin, player)) {
+                action.accept(player, finalStack.get(Keys.PAGES).orElse(Collections.emptyList()));
                 remove();
             }
         }
     }
 
     @Listener
-    public void playerQuit(ClientConnectionEvent.Disconnect event, @First Player player) {
-        if (isEditing(player)) {
+    public void playerQuit(ServerSideConnectionEvent.Disconnect event, @First Player player) {
+        if (isEditing(plugin, player)) {
             remove();
         }
     }
 
     private void remove() {
-        player.getInventory().<Hotbar>query(QueryOperationTypes.TYPE.of(Hotbar.class)).set(SlotIndex.of(bookSlot), ItemStack.empty());
+        player.getInventory().getHotbar().set(bookSlot, ItemStack.empty());
         Sponge.getEventManager().unregisterListeners(this);
     }
 }

@@ -10,23 +10,22 @@ repositories {
     mavenLocal()
 }
 
-def spigotVersion = "1.15.2-R0.1-SNAPSHOT"
-
+def spigotVersion = "1.16.4-R0.1-SNAPSHOT"
 dependencies {
-    shade project(':musicianlibrary-common')
+    compile project(':musicianlibrary-common')
     //We have the API for the javadocs
-    compile "org.spigotmc:spigot-api:${spigotVersion}"
-    compile "org.spigotmc:spigot:${spigotVersion}"
+    compileOnly "org.spigotmc:spigot-api:${spigotVersion}"
+    compileOnly "org.spigotmc:spigot:${spigotVersion}"
 }
-
-import org.apache.tools.ant.filters.ReplaceTokens
 
 processResources {
     from(sourceSets.main.resources.srcDirs) {
-        filter ReplaceTokens, tokens: ["version": version]
+        expand 'version': version
     }
 }
 
 shadowJar {
-    configurations = [project.configurations.shade]
+    dependencies {
+        include(project(":musicianlibrary-common"))
+    }
 }

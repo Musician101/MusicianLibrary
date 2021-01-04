@@ -1,9 +1,10 @@
 package io.musician101.musicianlibrary.java.minecraft.sponge.plugin;
 
 import io.musician101.musicianlibrary.java.minecraft.common.config.AbstractConfig;
+import java.util.Optional;
 import javax.annotation.Nonnull;
-import org.slf4j.Logger;
-import org.spongepowered.api.plugin.PluginContainer;
+import org.apache.logging.log4j.Logger;
+import org.spongepowered.plugin.PluginContainer;
 
 public abstract class AbstractSpongePlugin<C extends AbstractConfig> {
 
@@ -16,7 +17,7 @@ public abstract class AbstractSpongePlugin<C extends AbstractConfig> {
 
     @Nonnull
     public String getId() {
-        return getPluginContainer().getId();
+        return getPluginContainer().getMetadata().getId();
     }
 
     @Nonnull
@@ -25,8 +26,8 @@ public abstract class AbstractSpongePlugin<C extends AbstractConfig> {
     }
 
     @Nonnull
-    public String getName() {
-        return getPluginContainer().getName();
+    public Optional<String> getName() {
+        return getPluginContainer().getMetadata().getName();
     }
 
     @Nonnull

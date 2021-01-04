@@ -4,10 +4,10 @@ import io.musician101.musicianlibrary.java.minecraft.common.gui.AbstractIconBuil
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.Nonnull;
-import org.spongepowered.api.CatalogType;
-import org.spongepowered.api.data.key.Key;
-import org.spongepowered.api.data.key.Keys;
-import org.spongepowered.api.data.value.mutable.Value;
+import net.kyori.adventure.text.Component;
+import org.spongepowered.api.data.Key;
+import org.spongepowered.api.data.Keys;
+import org.spongepowered.api.data.value.Value;
 import org.spongepowered.api.effect.potion.PotionEffect;
 import org.spongepowered.api.effect.potion.PotionEffectType;
 import org.spongepowered.api.item.ItemType;
@@ -15,9 +15,9 @@ import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.enchantment.Enchantment;
 import org.spongepowered.api.item.enchantment.EnchantmentTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
-import org.spongepowered.api.text.Text;
 
-public class SpongeIconBuilder extends AbstractIconBuilder<SpongeIconBuilder, ItemStack, PotionEffectType, Text> {
+
+public class SpongeIconBuilder extends AbstractIconBuilder<SpongeIconBuilder, ItemStack, PotionEffectType, Component> {
 
     private SpongeIconBuilder(ItemType itemType) {
         super(ItemStack.of(itemType, 1));
@@ -38,7 +38,7 @@ public class SpongeIconBuilder extends AbstractIconBuilder<SpongeIconBuilder, It
     }
 
     @Nonnull
-    public static ItemStack of(@Nonnull ItemType itemType, @Nonnull Text name) {
+    public static ItemStack of(@Nonnull ItemType itemType, @Nonnull Component name) {
         return builder(itemType).name(name).build();
     }
 
@@ -46,11 +46,11 @@ public class SpongeIconBuilder extends AbstractIconBuilder<SpongeIconBuilder, It
     @Override
     public SpongeIconBuilder addGlow(boolean addGlow) {
         if (addGlow) {
-            if (itemStack.getType() == ItemTypes.ENCHANTED_BOOK) {
+            if (itemStack.getType() == ItemTypes.ENCHANTED_BOOK.get()) {
                 itemStack.offer(Keys.STORED_ENCHANTMENTS, Collections.singletonList(Enchantment.of(EnchantmentTypes.UNBREAKING, 1)));
             }
             else {
-                itemStack.offer(Keys.ITEM_ENCHANTMENTS, Collections.singletonList(Enchantment.of(EnchantmentTypes.UNBREAKING, 1)));
+                itemStack.offer(Keys.APPLIED_ENCHANTMENTS, Collections.singletonList(Enchantment.of(EnchantmentTypes.UNBREAKING, 1)));
             }
 
             itemStack.offer(Keys.HIDE_ENCHANTMENTS, true);
@@ -68,8 +68,8 @@ public class SpongeIconBuilder extends AbstractIconBuilder<SpongeIconBuilder, It
 
     @Nonnull
     @Override
-    public SpongeIconBuilder description(@Nonnull List<Text> description) {
-        itemStack.offer(Keys.ITEM_LORE, description);
+    public SpongeIconBuilder description(@Nonnull List<Component> description) {
+        itemStack.offer(Keys.LORE, description);
         return this;
     }
 
@@ -82,7 +82,7 @@ public class SpongeIconBuilder extends AbstractIconBuilder<SpongeIconBuilder, It
 
     @Nonnull
     @Override
-    public SpongeIconBuilder name(@Nonnull Text name) {
+    public SpongeIconBuilder name(@Nonnull Component name) {
         itemStack.offer(Keys.DISPLAY_NAME, name);
         return this;
     }
@@ -104,12 +104,6 @@ public class SpongeIconBuilder extends AbstractIconBuilder<SpongeIconBuilder, It
     @Override
     public SpongeIconBuilder reset() {
         itemStack = ItemStack.of(itemStack.getType(), 1);
-        return this;
-    }
-
-    @Nonnull
-    public <T extends CatalogType> SpongeIconBuilder type(Key<Value<T>> key, T type) {
-        itemStack.offer(key, type);
         return this;
     }
 }

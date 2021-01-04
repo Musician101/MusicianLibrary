@@ -1,62 +1,51 @@
 buildscript {
     repositories {
         mavenCentral()
-        jcenter()
-        maven {
-            name = 'gradle-plugins'
-            url = 'https://plugins.gradle.org/m2'
-        }
-        maven {
-            name = 'sponge'
-            url = 'https://repo.spongepowered.org/maven'
-        }
         maven {
             name = 'forge'
-            url = 'http://files.minecraftforge.net/maven'
+            url = "https://files.minecraftforge.net/maven"
         }
+
+        maven {
+            name = 'new sponge'
+            url = "https://repo-new.spongepowered.org/repository/maven-public"
+        }
+        gradlePluginPortal()
     }
 
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-        classpath 'org.spongepowered:spongegradle:0.8.2-SNAPSHOT'
-        classpath 'org.spongepowered:mixingradle:0.4-SNAPSHOT'
-        classpath 'gradle.plugin.net.minecrell:vanillagradle:2.2-6'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:3+'
+        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
     }
 }
 
-apply plugin: 'net.minecrell.vanillagradle.server'
+apply plugin: 'java'
+apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
-apply plugin: 'org.spongepowered.plugin'
-
-deobfMcMCP { failOnAtError = false }
-deobfMcSRG { failOnAtError = false }
 
 minecraft {
-    version = "1.12.2"
-    mappings = "stable_39"
-    makeObfSourceJar = false
+    mappings channel: 'snapshot', version: '20201028-1.16.3'
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name 'sponge'
+        url 'https://repo-new.spongepowered.org/repository/maven-public/'
+    }
 }
 
 dependencies {
     shade project(':musicianlibrary-common')
-    compile 'org.spongepowered:spongeapi:7.2.0'
-    compile('org.spongepowered:mixin:0.7.3-SNAPSHOT') {
-        exclude module: 'launchwrapper'
-    }
+    minecraft 'net.minecraftforge:forge:1.16.4-35.1.0'
+    compile 'org.spongepowered:spongeapi:8+'
+    annotationProcessor 'org.spongepowered:mixin:0.8.2:processor'
 }
 
 sourceSets {
     main {
         ext.refMap = "mixins.sponge_musician_library.refmap.json"
     }
-}
-
-jar {
-    manifest.attributes(
-            "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
-            "MixinConfigs": "mixins.sponge_musician_library.json",
-            "FMLCorePluginContainsFMLMod": "true"
-    )
 }
 
 shadowJar {

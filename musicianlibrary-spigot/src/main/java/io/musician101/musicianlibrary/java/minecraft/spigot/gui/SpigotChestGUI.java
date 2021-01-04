@@ -18,10 +18,13 @@ import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public abstract class SpigotChestGUI<J extends JavaPlugin> extends ChestGUI<ClickType, Inventory, J, Player, ItemStack, String, InventoryView, InventoryClickEvent, InventoryCloseEvent> implements Listener {
+public abstract class SpigotChestGUI<J extends JavaPlugin> extends ChestGUI<ClickType, Inventory, J, Player, ItemStack, String, InventoryView, InventoryCloseEvent> implements Listener {
 
     @Nonnull
     protected Consumer<InventoryDragEvent> extraDragHandler = event -> {
+    };
+    @Nonnull
+    protected Consumer<InventoryClickEvent> extraClickHandler = event -> {
     };
 
     protected SpigotChestGUI(@Nonnull Player player, @Nonnull String name, int size, @Nonnull J plugin, boolean manualOpen) {

@@ -3,20 +3,27 @@ package io.musician101.musicianlibrary.java.minecraft.sponge.event;
 import javax.annotation.Nonnull;
 import org.spongepowered.api.data.Transaction;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.living.player.server.ServerPlayer;
 import org.spongepowered.api.event.Cancellable;
-import org.spongepowered.api.event.cause.Cause;
-import org.spongepowered.api.event.entity.living.humanoid.player.TargetPlayerEvent;
+import org.spongepowered.api.event.Cause;
 import org.spongepowered.api.event.impl.AbstractEvent;
 import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 
-public class AffectBookEvent extends AbstractEvent implements TargetPlayerEvent, Cancellable {
+/**
+ * @deprecated nonfunctional atm due to mixins not working properly
+ */
+@Deprecated
+public class AffectBookEvent extends AbstractEvent implements Cancellable {
 
+    @Nonnull
     private final Cause cause;
+    @Nonnull
     private final Player player;
+    @Nonnull
     private final Transaction<ItemStackSnapshot> transaction;
     private boolean cancelled = false;
 
-    public AffectBookEvent(Player player, Transaction<ItemStackSnapshot> transaction, Cause cause) {
+    public AffectBookEvent(@Nonnull ServerPlayer player, @Nonnull Transaction<ItemStackSnapshot> transaction, @Nonnull Cause cause) {
         this.player = player;
         this.transaction = transaction;
         this.cause = cause;
@@ -29,8 +36,7 @@ public class AffectBookEvent extends AbstractEvent implements TargetPlayerEvent,
     }
 
     @Nonnull
-    @Override
-    public Player getTargetEntity() {
+    public Player getPlayer() {
         return player;
     }
 
@@ -49,16 +55,24 @@ public class AffectBookEvent extends AbstractEvent implements TargetPlayerEvent,
         this.cancelled = cancel;
     }
 
+    /**
+     * @deprecated nonfunctional atm due to mixins not working properly
+     */
+    @Deprecated
     public static class EditBookEvent extends AffectBookEvent {
 
-        public EditBookEvent(Player player, Transaction<ItemStackSnapshot> transaction, Cause cause) {
+        public EditBookEvent(@Nonnull ServerPlayer player, @Nonnull Transaction<ItemStackSnapshot> transaction, @Nonnull Cause cause) {
             super(player, transaction, cause);
         }
     }
 
+    /**
+     * @deprecated nonfunctional atm due to mixins not working properly
+     */
+    @Deprecated
     public static class SignBookEvent extends AffectBookEvent {
 
-        public SignBookEvent(Player player, Transaction<ItemStackSnapshot> transaction, Cause cause) {
+        public SignBookEvent(@Nonnull ServerPlayer player, @Nonnull Transaction<ItemStackSnapshot> transaction, @Nonnull Cause cause) {
             super(player, transaction, cause);
         }
     }
