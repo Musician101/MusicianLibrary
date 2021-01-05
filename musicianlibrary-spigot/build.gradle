@@ -1,16 +1,18 @@
-plugins {
-    id 'com.gitlab.firestar99.spigotgradle.plugin' version "1.6"
-    id 'com.gitlab.firestar99.spigotgradle.server' version "1.6"
+repositories {
+    maven {
+        name = 'spigotmc-repo'
+        url = 'https://hub.spigotmc.org/nexus/content/groups/public/'
+    }
+    //Needed for NMS
+    mavenLocal()
 }
 
-spigot {
-    version '1.16.4'
-}
-
+def spigotVersion = "1.16.4-R0.1-SNAPSHOT"
 dependencies {
     compile project(':musicianlibrary-common')
-    //Needed for NMS
-    compile files('server/spigot.jar')
+    //We have the API for the javadocs
+    compileOnly "org.spigotmc:spigot-api:${spigotVersion}"
+    compileOnly "org.spigotmc:spigot:${spigotVersion}"
 }
 
 processResources {
