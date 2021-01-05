@@ -1,6 +1,7 @@
 subprojects {
     apply plugin: 'java'
-    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
+    apply from: project.parent.rootDir.path + '/github.properties'
 
     group project.pluginGroup
     version project.pluginVersion
@@ -12,4 +13,24 @@ subprojects {
         mavenCentral()
         jcenter()
     }
+
+    publishing {
+        repositories {
+            maven {
+                name = 'GitHubPackages'
+                url = 'https://maven.pkg.github.com/Musician101/MusicianLibrary'
+                credentials {
+                    username = project.ext.user == null ? "" : project.ext.user
+                    password = project.ext.token == null ? "" : project.ext.token
+                }
+            }
+        }
+
+        publications {
+            gpr(MavenPublication) {
+                from components.java
+            }
+        }
+    }
 }
+
