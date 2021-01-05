@@ -11,18 +11,6 @@ def spigotVersion = "1.16.4-R0.1-SNAPSHOT"
 dependencies {
     compile project(':musicianlibrary-common')
     //We have the API for the javadocs
-    compileOnly "org.spigotmc:spigot-api:${spigotVersion}"
-    compileOnly "org.spigotmc:spigot:${spigotVersion}"
-}
-
-processResources {
-    from(sourceSets.main.resources.srcDirs) {
-        expand 'version': version
-    }
-}
-
-shadowJar {
-    dependencies {
-        include(project(":musicianlibrary-common"))
-    }
+    compile "org.spigotmc:spigot-api:${spigotVersion}"
+    compile "org.spigotmc:spigot:${spigotVersion}"
 }

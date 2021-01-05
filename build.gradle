@@ -1,18 +1,6 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        jcenter()
-    }
-
-    dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.4'
-    }
-}
-
 subprojects {
     apply plugin: 'java'
     apply plugin: 'maven'
-    apply plugin: 'com.github.johnrengelman.shadow'
 
     group project.pluginGroup
     version project.pluginVersion
@@ -23,14 +11,5 @@ subprojects {
     repositories {
         mavenCentral()
         jcenter()
-    }
-
-    configurations {
-        shade
-        compile.extendsFrom shade
-    }
-
-    build {
-        dependsOn shadowJar
     }
 }

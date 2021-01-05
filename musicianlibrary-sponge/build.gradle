@@ -28,7 +28,6 @@ minecraft {
 }
 
 repositories {
-    mavenCentral()
     maven {
         name 'sponge'
         url 'https://repo-new.spongepowered.org/repository/maven-public/'
@@ -36,7 +35,7 @@ repositories {
 }
 
 dependencies {
-    shade project(':musicianlibrary-common')
+    compile project(':musicianlibrary-common')
     minecraft 'net.minecraftforge:forge:1.16.4-35.1.0'
     compile 'org.spongepowered:spongeapi:8+'
     annotationProcessor 'org.spongepowered:mixin:0.8.2:processor'
@@ -46,8 +45,4 @@ sourceSets {
     main {
         ext.refMap = "mixins.sponge_musician_library.refmap.json"
     }
-}
-
-shadowJar {
-    configurations = [project.configurations.shade]
 }
