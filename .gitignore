@@ -1,5 +1,11 @@
+/build/
 /.gradle/
 /.idea/
-/musicianlibrary-spigot/server/
-/musicianlibrary-sponge/.gradle/
-/github.properties
+/spigot/server/
+/sponge/.gradle/
+/java/build/
+/common/build/
+/forge/build/
+/spigot/build/
+/sponge/build/
+*.iml

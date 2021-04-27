@@ -1,0 +1,9 @@
+dependencies {
+    compile 'com.google.guava:guava:21.0'
+    compile 'com.google.code.findbugs:jsr305:3.0.1'
+    def configurateVersion = '4.0.0'
+    compile "org.spongepowered:configurate-gson:${configurateVersion}"
+    compile "org.spongepowered:configurate-hocon:${configurateVersion}"
+    compile "org.spongepowered:configurate-yaml:${configurateVersion}"
+    compile 'org.mongodb:mongodb-driver-sync:4.2.3'
+}

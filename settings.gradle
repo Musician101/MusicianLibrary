@@ -1,3 +1,13 @@
+pluginManagement {
+    repositories {
+        maven {
+            name 'sponge'
+            url 'https://repo.spongepowered.org/repository/maven-public/'
+        }
+    }
+}
+
 rootProject.name = 'MusicianLibrary'
 
-include 'musicianlibrary-common', 'musicianlibrary-java', 'musicianlibrary-spigot', 'musicianlibrary-sponge'
+include 'common', 'java', 'spigot', 'sponge'
+
