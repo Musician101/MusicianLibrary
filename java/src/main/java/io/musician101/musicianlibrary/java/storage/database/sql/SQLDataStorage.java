@@ -6,22 +6,17 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import javax.annotation.Nonnull;
 
 public abstract class SQLDataStorage<V> extends DatabaseStorage<V> {
 
     @Nonnull
-    protected final Function<Statement, List<V>> deserializer;
-    @Nonnull
-    protected final Function<List<V>, List<String>> serializer;
+    private final SQLStatementSerializable<V> serializable;
 
-    public SQLDataStorage(@Nonnull Map<String, String> options, @Nonnull Function<Statement, List<V>> deserializer, @Nonnull Function<List<V>, List<String>> serializer) {
+    public SQLDataStorage(@Nonnull Map<String, String> options, @Nonnull SQLStatementSerializable<V> serializable) {
         super(options);
-        this.deserializer = deserializer;
-        this.serializer = serializer;
+        this.serializable = serializable;
     }
 
     @Nonnull
@@ -30,7 +25,7 @@ public abstract class SQLDataStorage<V> extends DatabaseStorage<V> {
         try {
             Connection connection = openConnection();
             Statement statement = connection.createStatement();
-            data.addAll(deserializer.apply(statement));
+            data.addAll(serializable.fromStatement(statement));
             statement.close();
             connection.close();
             return Collections.emptyMap();
@@ -50,16 +45,7 @@ public abstract class SQLDataStorage<V> extends DatabaseStorage<V> {
         try {
             Connection connection = openConnection();
             Statement statement = connection.createStatement();
-            List<String> queries = serializer.apply(data);
-            queries.forEach(s -> {
-                try {
-                    statement.addBatch(s);
-                }
-                catch (SQLException e) {
-                    errors.put(s, e);
-                }
-            });
-
+            serializable.toStatement(statement, data);
             statement.executeBatch();
             statement.close();
             connection.close();
