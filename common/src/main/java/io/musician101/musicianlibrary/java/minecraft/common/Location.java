@@ -11,7 +11,8 @@ import org.spongepowered.configurate.serialize.TypeSerializer;
 
 public class Location {
 
-    private String worldName;
+    @Nonnull
+    private final String worldName;
     private final double x;
     private final double y;
     private final double z;
