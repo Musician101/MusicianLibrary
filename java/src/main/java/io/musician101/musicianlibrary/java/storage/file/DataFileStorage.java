@@ -11,12 +11,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.spongepowered.configurate.BasicConfigurationNode;
+import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.loader.ConfigurationLoader;
 import org.spongepowered.configurate.serialize.TypeSerializerCollection;
 
 public abstract class DataFileStorage<V> extends DataStorage<File, V> {
 
-    @Nullable
+    @Nonnull
     protected final TypeSerializerCollection typeSerializerCollection;
     @Nonnull
     protected final String extension;
@@ -27,12 +29,9 @@ public abstract class DataFileStorage<V> extends DataStorage<File, V> {
     @Nonnull
     protected final TypeToken<V> typeToken;
 
-    protected DataFileStorage(@Nonnull File storageDir, @Nonnull ConfigurateLoader loader, @Nonnull String extension, @Nonnull TypeToken<V> typeToken) {
-        this(storageDir, loader, extension, typeToken, null);
-    }
-
-    protected DataFileStorage(@Nonnull File storageDir, @Nonnull ConfigurateLoader loader, @Nonnull String extension, @Nonnull TypeToken<V> typeToken, @Nullable TypeSerializerCollection typeSerializerCollection) {
+    protected DataFileStorage(@Nonnull File storageDir, @Nonnull ConfigurateLoader loader, @Nonnull String extension, @Nonnull TypeToken<V> typeToken, @Nonnull TypeSerializerCollection typeSerializerCollection) {
         this.storageDir = storageDir;
+        storageDir.mkdirs();
         this.loader = loader;
         this.extension = extension;
         this.typeToken = typeToken;
@@ -70,7 +69,15 @@ public abstract class DataFileStorage<V> extends DataStorage<File, V> {
         data.forEach(entry -> {
             Path path = getPath(entry);
             try {
-                loader.loader(path, typeSerializerCollection).loadToReference().referenceTo(typeToken).setAndSave(entry);
+                ConfigurationLoader<? extends ConfigurationNode> loader = this.loader.loader(path, typeSerializerCollection);
+                if (path.toFile().exists()) {
+                    loader.loadToReference().referenceTo(typeToken).setAndSave(entry);
+                }
+                else {
+                    ConfigurationNode node = BasicConfigurationNode.root();
+                    typeSerializerCollection.get(typeToken).serialize(typeToken.getType(), entry, node);
+                    loader.save(node);
+                }
             }
             catch (IOException e) {
                 errors.put(path.toFile(), e);

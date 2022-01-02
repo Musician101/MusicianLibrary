@@ -7,10 +7,22 @@ repositories {
     mavenLocal()
 }
 
-def spigotVersion = "1.16.5-R0.1-SNAPSHOT"
+def spigot_1_18 = "1.18.1-R0.1-SNAPSHOT"
 dependencies {
-    compile project(':common')
+    api project(':common')
     //We have the API for the javadocs
-    compile "org.spigotmc:spigot-api:${spigotVersion}"
-    compile "org.spigotmc:spigot:${spigotVersion}"
+    api "org.spigotmc:spigot-api:${spigot_1_18}"
+    api "org.spigotmc:spigot:${spigot_1_18}"
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'io.musician101.musicianlibrary'
+            artifactId = 'spigot'
+            version = project.version
+
+            from components.java
+        }
+    }
 }

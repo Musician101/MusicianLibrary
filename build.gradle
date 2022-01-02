@@ -1,17 +1,18 @@
 plugins {
     id 'java'
-    id 'org.spongepowered.plugin' version '0.9.0' apply false
-    id 'org.spongepowered.gradle.vanilla' version '0.2-SNAPSHOT' apply false
+    id 'java-library'
+    id 'org.spongepowered.gradle.plugin' version '1.1.1' apply false
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(8)
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 subprojects {
     apply plugin: 'java'
-    apply plugin: 'maven'
+    apply plugin: 'java-library'
+    apply plugin: 'maven-publish'
 
-    group project.pluginGroup
-    version project.pluginVersion
+    group 'io.musician101.musicianlibrary'
+    version '4.2'
 
     repositories {
         mavenCentral()

@@ -17,7 +17,7 @@ public class SpongeRegion extends AbstractRegion<Vector3i, ServerWorld> {
     }
 
     private SpongeRegion(Vector3i position, Vector3i position2, ServerWorld world) {
-        super(world, Math.min(position.getX(), position2.getX()), Math.min(position.getY(), position2.getY()), Math.min(position.getZ(), position2.getZ()), Math.max(position.getX(), position2.getX()), Math.max(position.getY(), position2.getY()), Math.max(position.getZ(), position2.getZ()));
+        super(world, Math.min(position.x(), position2.x()), Math.min(position.y(), position2.y()), Math.min(position.z(), position2.z()), Math.max(position.x(), position2.x()), Math.max(position.y(), position2.y()), Math.max(position.z(), position2.z()));
     }
 
     public SpongeRegion(ConfigurationNode node) {
@@ -47,12 +47,12 @@ public class SpongeRegion extends AbstractRegion<Vector3i, ServerWorld> {
             throw new IllegalArgumentException("World name not set.");
         }
 
-        return Sponge.server().worldManager().world(ResourceKey.resolve(worldName)).orElseThrow(() -> new IllegalArgumentException(node.toString() + " does not exist."));
+        return Sponge.server().worldManager().world(ResourceKey.resolve(worldName)).orElseThrow(() -> new IllegalArgumentException(node + " does not exist."));
     }
 
     @Override
     public boolean isInRegion(Vector3i position, ServerWorld world) {
-        return world.uniqueId().equals(getWorld().uniqueId()) && position.getX() > getMinX() && position.getX() < getMaxX() && position.getY() > getMinY() && position.getY() < getMaxY() && position.getZ() > getMinZ() && position.getZ() < getMaxZ();
+        return world.uniqueId().equals(getWorld().uniqueId()) && position.x() > getMinX() && position.x() < getMaxX() && position.y() > getMinY() && position.y() < getMaxY() && position.z() > getMinZ() && position.z() < getMaxZ();
     }
 
     @Override

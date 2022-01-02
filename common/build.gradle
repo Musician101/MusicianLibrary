@@ -1,3 +1,15 @@
 dependencies {
-    compile project(':java')
+    api project(':java')
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'io.musician101.musicianlibrary'
+            artifactId = 'common'
+            version = project.version
+
+            from components.java
+        }
+    }
 }

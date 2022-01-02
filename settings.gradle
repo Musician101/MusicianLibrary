@@ -10,4 +10,3 @@ pluginManagement {
 rootProject.name = 'MusicianLibrary'
 
 include 'common', 'java', 'spigot', 'sponge'
-

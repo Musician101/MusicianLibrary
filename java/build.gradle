@@ -1,9 +1,21 @@
 dependencies {
-    compile 'com.google.guava:guava:21.0'
-    compile 'com.google.code.findbugs:jsr305:3.0.1'
-    def configurateVersion = '4.0.0'
-    compile "org.spongepowered:configurate-gson:${configurateVersion}"
-    compile "org.spongepowered:configurate-hocon:${configurateVersion}"
-    compile "org.spongepowered:configurate-yaml:${configurateVersion}"
-    compile 'org.mongodb:mongodb-driver-sync:4.2.3'
+    api 'com.google.guava:guava:31.0.1-jre'
+    api 'com.google.code.findbugs:jsr305:3.0.2'
+    def configurateVersion = '4.1.2'
+    api "org.spongepowered:configurate-gson:${configurateVersion}"
+    api "org.spongepowered:configurate-hocon:${configurateVersion}"
+    api "org.spongepowered:configurate-yaml:${configurateVersion}"
+    api 'org.mongodb:mongodb-driver-sync:4.4.0'
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'io.musician101.musicianlibrary'
+            artifactId = 'java'
+            version = project.version
+
+            from components.java
+        }
+    }
 }

@@ -48,20 +48,14 @@ public abstract class SpongeChestGUI extends ChestGUI<ClickType<?>, ViewableInve
     }
 
     private static ContainerType getContainerType(int rows) {
-        switch (rows) {
-            case 1:
-                return ContainerTypes.GENERIC_9X1.get();
-            case 2:
-                return ContainerTypes.GENERIC_9X2.get();
-            case 3:
-                return ContainerTypes.GENERIC_9X3.get();
-            case 4:
-                return ContainerTypes.GENERIC_9X4.get();
-            case 5:
-                return ContainerTypes.GENERIC_9X5.get();
-            default:
-                return ContainerTypes.GENERIC_9X6.get();
-        }
+        return switch (rows) {
+            case 1 -> ContainerTypes.GENERIC_9X1.get();
+            case 2 -> ContainerTypes.GENERIC_9X2.get();
+            case 3 -> ContainerTypes.GENERIC_9X3.get();
+            case 4 -> ContainerTypes.GENERIC_9X4.get();
+            case 5 -> ContainerTypes.GENERIC_9X5.get();
+            default -> ContainerTypes.GENERIC_9X6.get();
+        };
     }
 
     private static ViewableInventory parseInventory(ServerPlayer player, int size) {

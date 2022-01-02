@@ -1,32 +1,19 @@
 plugins {
-    id 'java-library'
-    id 'org.spongepowered.plugin'
-    id 'org.spongepowered.gradle.vanilla'
-}
-
-minecraft {
-    version('1.16.5')
-    runs {
-        client()
-        server()
-    }
+    id 'org.spongepowered.gradle.plugin'
 }
 
 repositories {
+    mavenCentral()
     maven {
         name 'sponge'
         url 'https://repo.spongepowered.org/repository/maven-public/'
     }
 }
 
-dependencies {
-    compile project(':common')
-    compile 'org.spongepowered:spongeapi:8+'
-    compile 'org.spongepowered:mixin:0.8.2'
-    annotationProcessor 'org.spongepowered:mixin:0.8.2:processor'
+sponge {
+    apiVersion("9.0.0")
 }
 
-jar.manifest.attributes(
-        TweakClass: "org.spongepowered.asm.launch.MixinTweaker",
-        MixinConfigs: "mixins.sponge_musician_library.json"
-)
+dependencies {
+    api project(':common')
+}

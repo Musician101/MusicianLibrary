@@ -16,12 +16,16 @@ public class Location {
     private final double x;
     private final double y;
     private final double z;
+    private final float pitch;
+    private final float yaw;
 
-    public Location(@Nonnull String worldName, double x, double y, double z) {
+    public Location(@Nonnull String worldName, double x, double y, double z, float pitch, float yaw) {
         this.worldName = worldName;
         this.x = x;
         this.y = y;
         this.z = z;
+        this.pitch = pitch;
+        this.yaw = yaw;
     }
 
     @Nonnull
@@ -41,6 +45,14 @@ public class Location {
         return z;
     }
 
+    public float getPitch() {
+        return pitch;
+    }
+
+    public float getYaw() {
+        return yaw;
+    }
+
     public static final class Serializer implements MongoSerializable<Location>, TypeSerializer<Location> {
 
         @Override
@@ -53,7 +65,9 @@ public class Location {
             double x = node.node("x").getDouble();
             double y = node.node("y").getDouble();
             double z = node.node("z").getDouble();
-            return new Location(worldName, x, y, z);
+            float pitch = node.node("pitch").getFloat();
+            float yaw = node.node("yaw").getFloat();
+            return new Location(worldName, x, y, z, pitch, yaw);
         }
 
         @Override
@@ -70,7 +84,9 @@ public class Location {
             double x = document.getDouble("x");
             double y = document.getDouble("y");
             double z = document.getDouble("z");
-            return new Location(worldName, x, y, z);
+            float pitch = document.getDouble("pitch").floatValue();
+            float yaw = document.getDouble("yaw").floatValue();
+            return new Location(worldName, x, y, z, pitch, yaw);
         }
 
         @Override
@@ -80,6 +96,8 @@ public class Location {
             document.put("x", src.x);
             document.put("y", src.y);
             document.put("z", src.z);
+            document.put("pitch", src.pitch);
+            document.put("yaw", src.yaw);
             return document;
         }
 
@@ -93,6 +111,8 @@ public class Location {
             node.node("x").set(obj.x);
             node.node("y").set(obj.y);
             node.node("z").set(obj.z);
+            node.node("pitch").set(obj.pitch);
+            node.node("yaw").set(obj.yaw);
         }
     }
 }

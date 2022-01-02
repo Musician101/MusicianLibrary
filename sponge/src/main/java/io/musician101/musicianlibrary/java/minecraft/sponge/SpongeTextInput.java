@@ -7,7 +7,7 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.serializer.plain.PlainComponentSerializer;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.server.ServerPlayer;
 import org.spongepowered.api.event.Listener;
@@ -43,7 +43,7 @@ public abstract class SpongeTextInput extends TextInput<ServerPlayer> {
     public final void onPlayerChat(PlayerChatEvent event, @First ServerPlayer player) {
         if (player.uniqueId().equals(this.player.uniqueId())) {
             event.setCancelled(true);
-            process(player, PlainComponentSerializer.plain().serialize(event.originalMessage()));
+            process(player, PlainTextComponentSerializer.plainText().serialize(event.originalMessage()));
             cancel();
         }
     }

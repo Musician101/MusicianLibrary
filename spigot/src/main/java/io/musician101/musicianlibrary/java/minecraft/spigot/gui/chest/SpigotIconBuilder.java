@@ -72,6 +72,7 @@ public final class SpigotIconBuilder extends AbstractIconBuilder<SpigotIconBuild
     public SpigotIconBuilder description(@Nonnull List<String> description) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setLore(description);
+        itemStack.setItemMeta(itemMeta);
         return this;
     }
 

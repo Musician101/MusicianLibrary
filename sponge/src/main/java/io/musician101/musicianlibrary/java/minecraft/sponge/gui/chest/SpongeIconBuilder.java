@@ -16,6 +16,7 @@ import org.spongepowered.api.item.enchantment.Enchantment;
 import org.spongepowered.api.item.enchantment.EnchantmentTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.registry.DefaultedRegistryReference;
+import org.spongepowered.api.util.Ticks;
 
 public class SpongeIconBuilder extends AbstractIconBuilder<SpongeIconBuilder, ItemStack, PotionEffectType, Component> {
 
@@ -102,7 +103,7 @@ public class SpongeIconBuilder extends AbstractIconBuilder<SpongeIconBuilder, It
     @Nonnull
     @Override
     public SpongeIconBuilder potionEffect(@Nonnull PotionEffectType potionType) {
-        itemStack.offer(Keys.POTION_EFFECTS, Collections.singletonList(PotionEffect.of(potionType, 1, 1)));
+        itemStack.offer(Keys.POTION_EFFECTS, Collections.singletonList(PotionEffect.of(potionType, 1, Ticks.of(1))));
         return this;
     }
 
